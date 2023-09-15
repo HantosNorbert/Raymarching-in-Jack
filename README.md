@@ -67,11 +67,11 @@ In order to write a raytracing/raymarching program, I marked the following key s
 
 Since debugging and overall developing a software in Jack can be quite difficult, I created the program in phases in different programming languages.
 
-The first version was created in Shadertoy, an online tool for creating vertex shader applications in webGL. It is so fast you can create [raytraced animations](https://www.shadertoy.com/view/dtSyDz)!
+The first version was created with Shadertoy, an online tool for creating vertex shader applications in webGL. It is so fast you can create [raytraced animations](https://www.shadertoy.com/view/dtSyDz)!
 
 ![grayscale](media/grayscale.png)
 
-*The grayscale prototype image created on Shadertoy*
+*The grayscale prototype image created with Shadertoy*
 
 The second version was a quick Python implementation of the very same Shadertoy program. It does the same, except it goes pixel-by-pixel on the CPU, so the render time is much slower (around 10s on my computer), but still quick enough for developing purposes.
 
@@ -232,7 +232,9 @@ Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have s
 
 [Here](https://iquilezles.org/articles/distfunctions/) you can see a lot of $\text{SDFs}$ and how to manipulate them. For my project, I selected a simple $\text{SDF}$ that is basically the union of a plane, a sphere and a torus. But it can be modified easily to create something different!
 
-TODO: mySDF image created in ShaderToy
+![my SDF](media/mySDF.png)
+
+*My 3D SDF visualized. Darker pixels means bigger distance from the camera*
 
 *My signed distance function visualized. Each pixel shows the distance value to the closest surface point.*
 
