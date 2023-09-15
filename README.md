@@ -136,7 +136,7 @@ Note that in our case of the mantissa the bit worth $\frac{1}{2}$ is on the 4th 
 
 ### Few extra notes on `Float316`
 
-- The number positive and negative zeros are special cases, and represented as `0, 0, 0` and `1, 0, 0`, respectfully.
+- The real numbers $+0$ and $-1$ are special cases, and represented as `0, 0, 0` and `1, 0, 0`, respectfully.
 - Other special cases such are infinities, NaNs and subnormal numbers are not supported in `Float316`. We don't need them (but one can extend the class if they want to).
 - Storing a single bit sign as a 16 bit integer is quite wasteful in terms of memory, but it simplifies later calculations a lot - and for our case, that is more important than keeping the memory usage low.
 - In Jack, we actually never have to decipher what floating point number we store in `Float316`. We don't have to print them, we just have to apply certain operations to them, and decide which encodes a bigger number, which one is negative, and so on. And we have to able to hard-code a few constants. For example, the number $1.0$ is represented as `0, 127, 8192`.
