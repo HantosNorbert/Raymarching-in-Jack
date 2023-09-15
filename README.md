@@ -134,7 +134,7 @@ Or in decimal from:
 
 Note that in our case of the mantissa the bit worth $\frac{1}{2}$ is on the 4th place, the bit worth $\frac{1}{4}$ is the 5th, and so on. Going the other direction, the 3rd bit can be interpreted as $1$, the 2nd bit as $2$, and the 1st bit as $4$.
 
-Few extra notes:
+### Few extra notes on `Float316`
 
 - The number positive and negative zeros are special cases, and represented as `0, 0, 0` and `1, 0, 0`, respectfully.
 - Other special cases such are infinities, NaNs and subnormal numbers are not supported in `Float316`. We don't need them (but one can extend the class if they want to).
