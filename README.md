@@ -69,7 +69,7 @@ Since debugging and overall developing a software in Jack can be quite difficult
 
 The first version was created in Shadertoy, an online tool for creating vertex shader applications in webGL. It is so fast you can create raytraced animations!
 
-https://www.shadertoy.com/view/dtSyDz
+<iframe width="640" height="360" frameborder="0" src="https://www.shadertoy.com/embed/dtSyDz?gui=true&t=10&paused=true&muted=false" allowfullscreen></iframe>
 
 The second version was a quick Python implementation of the very same Shadertoy program. It does the same, except it goes pixel-by-pixel on the CPU, so the render time is much slower (around 10s on my computer), but still quick enough for developing purposes.
 
