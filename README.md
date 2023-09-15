@@ -86,7 +86,7 @@ There are basically two ways to represent real numbers: in fixed point notation,
 
 The sign is a single bit: $s=0$ means the number is positive, $s=1$ means it's negative.
 
-The exponent can be interpreted as an unsigned integer - and to avoid negative numbers, they add a constant of $127$ to it. So, while `01111100` is $e = 124$ in decimal, it actually means an exponent of $-3$.
+The exponent can be interpreted as an unsigned integer - and to avoid negative numbers, they add a constant of $127$ to it. So, while `01111100` is $124$ in decimal, it actually means an exponent of $e = -3$.
 
 The mantissa includes 23 fraction bits to the right of the binary point and an implicit leading bit. The first bit indicates whenever we have $\frac{1}{2}$, the second bit is for $\frac{1}{4}$, then $\frac{1}{8}$, $\frac{1}{16}$, and so on. A mantissa of `010110...` can be interpreted as $m = \frac{1}{4} + \frac{1}{16} + \frac{1}{32} + \dots$
 
@@ -94,7 +94,7 @@ An IEEE 754 bitstring encodes the following real number:
 
 $$(-1)^{s} \cdot (1+m) \cdot 2^e$$
 
-In the example image above, $s=1$, $e=124$, $m=\frac{1}{4} = 0.25$, so the number is $(1+0.25) \cdot 2^{124-127} = 1.25 \cdot 2^{-3} = 0.15625$.
+In the example image above, $s=1$, $e=3$ (stored as 124 in binary), $m=\frac{1}{4} = 0.25$, so the number is $(1+0.25) \cdot 2^{124-127} = 1.25 \cdot 2^{-3} = 0.15625$.
 
 Just to make sure you understand IEEE 754 numbers, let's see another example! Take this bitstring of 32 bits:
 
