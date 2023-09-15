@@ -30,23 +30,23 @@ Though a simple raymarcher/raytracer can be done in a few dozens lines of code i
 
 TODO this
 
-1. Donwload the essential materials from [From Nand to Tetris](https://www.nand2tetris.org/software)
-2. Using the provided JackCompiler, compile the TODO folder containg the .jack files (it will generate .vm files for each .jack file).
+1. Donwload the essential materials from [https://www.nand2tetris.org/software](https://www.nand2tetris.org/software).
+2. Using the provided JackCompiler, compile the TODO folder of this project (for each .jack file it will generate the corresponding .vm file).
 3. Using the provided VMEmulator, load the folder containing the .vm files.
 4. Don't forget to set the "Animation" to "No animate", and slide the speed marker to "Fast".
-5. Wait for about 10 hours for the image to appear. :-) Or use the Python files to generate the same (or roughtly the same) result much faster.
+5. Wait about 10 hours for the image to appear. :-) Or use the Python files to generate the same (or roughtly the same) result in seconds.
 
 ## Challenges in Jack/Hack
 
-Since you create the entire hardware, the compiler, and the operating system on your own under the guidence of the nand2tetris course, understandably, there are a lot of simplifications on the underlying architecture and functionality. So **creating the Jack language** is easier, but **creating an application in Jack** is more difficult due to the same limitations.
+Since you create the entire hardware, the compiler, and the operating system on your own under the guidence of the nand2tetris course, understandably, there are a lot of simplifications on the underlying architecture and functionality. **Creating the Jack language** is easier, but **creating an application in Jack** is more difficult due to the same limitations.
 
 In terms of creating a raymarching/raytracing software, these are the biggest challanges:
 
 - **Integer-only arithmetic.** The only supported types are `int`, `char`, `boolean`, and references to strings, arrays, and custom objects. Furthermore, between integers the only operands are addition, subtraction, negation, bitwise `not`, bitwise `and`, and bitwise `or`.
 - **No bit shifts.** There is no direct way to bit-shift the content of a register to left or right.
-- **Hack is a [16 bit machine](https://en.wikipedia.org/wiki/16-bit_computing)** in every sense. Every register is a 16 bit register. Integers are signed integers, so we only have a range of numbers between -32,768 and 32,767.
-- **No overflow/underflow detection.** This does not seem to be an issue at first, but restricts us at some parts as we will see later on.
-- **Binary screen.** Every pixel is either completely black or completely white, nothing in between. Not just we have no colors, we don't even have grayscale!
+- **Hack is a [16-bit machine](https://en.wikipedia.org/wiki/16-bit_computing)** in every sense. Every register is a 16-bit register. Integers are signed integers, so we only have a range of numbers between $-32,768$ and $32,767$.
+- **No overflow/underflow detection.**
+- **Binary screen.** Every pixel is either completely black or completely white. We don't even have grayscale!
 
 However, Jack has a few features that comes in handy, such as class/object definition; references to objects; static (class level), field (object level) and local variables; function calls; branching and looping; and a few more. Integer multiplication, integer division and integer square root are supported by the operating system and implemented on software side.
 
