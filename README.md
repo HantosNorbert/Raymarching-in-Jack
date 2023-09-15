@@ -94,7 +94,7 @@ An IEEE 754 bitstring encodes the following real number:
 
 $$(-1)^{s} \cdot (1+m) \cdot 2^e$$
 
-In the example image above, $s=1$, $e=3$ (stored as 124 in binary), $m=\frac{1}{4} = 0.25$, so the number is $(1+0.25) \cdot 2^{124-127} = 1.25 \cdot 2^{-3} = 0.15625$.
+In the example image above, $s=1$, $e=3$ (stored as $124$ in binary), $m=\frac{1}{4} = 0.25$, so the number is $(1+0.25) \cdot 2^{-3} = 0.15625$.
 
 Just to make sure you understand IEEE 754 numbers, let's see another example! Take this bitstring of 32 bits:
 
