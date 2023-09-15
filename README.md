@@ -1,5 +1,7 @@
 # Raymarching in Jack Language
 
+![Final result](media/final_result.png)
+
 ## Table of contents
 
 TODO
