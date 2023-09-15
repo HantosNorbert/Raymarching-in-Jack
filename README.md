@@ -158,43 +158,55 @@ For our raymarcher, we need the following functions on `Float316` numbers:
 
 For more details on these individual functions, see [Appendix A](media/AppendixA.md).
 
-TODO
-
 ## Vector Arithmetic
 
-We need vectors of 3 float components to represent coordinates and directions. This is quite easy, so I just list all the required functions we need (you can read about them [on this wiki page](https://en.wikipedia.org/wiki/Euclidean_vector#Basic_properties)).
+We need vectors of 3 float components to represent coordinates and directions. This is quite easy, so I just list all the required functions we need (you can read about them on [this wiki page](https://en.wikipedia.org/wiki/Euclidean_vector#Basic_properties)).
 
 
-Let ${\bf v} = (x, y, z)$ denote a vector, and $c$ scalar.
+Let ${\bf v} = (x, y, z)$ denote a vector, and $c$ a scalar.
 
 ### Addition
+
 ${\bf v_1} + {\bf v_2} = (x_1 + x_2, ~ y_1 + y_2, ~ z_1 + z_2)$
 
 ### Substraction
+
 ${\bf v_1} - {\bf v_2} = (x_1 - x_2, ~ y_1 - y_2, ~ z_1 - z_2)$
 
 ### Scalar multiplication
-Changes the length of the vector while keeping its direction.
+
+Changes the length of the vector while the direction remains.
+
 $c \cdot {\bf v} = (cx, ~ cy, ~ cz)$
 
 ### Length
+
 Gives us the length of a vector.
+
 $||{\bf v}|| = \sqrt{x^2 + y^2 + z^2}$
 
 ### Normalization
-Changes the length of the vector to $1$ while keeping its direction. The usual way is to divide the vector components by the length of the vector:
+
+Changes the length of the vector to $1$ while the direction remains. The usual way is to divide the vector components by the length of the vector:
+
 $N({\bf v}) = \large(\frac{x}{||{\bf v}||}, ~ \frac{y}{||{\bf v}||}, ~ \frac{z}{||{\bf v}||} \large)$
 
 But we actually use the inverse square root here:
+
 $S = \text{invSqrt}(x^2 + y^2 + z^2)$
+
 $N({\bf v}) = (xS, ~ yS, ~ zS)$
 
 ### Dot product
-It gives ||${\bf v_1}|| \cdot ||{\bf v_2}|| \cdot \theta$, where $\theta$ is the cosine of the angle between the two vectors. If the vectors are already normalized, the dot product is a simple way to measure angles!
+
+It gives $||{\bf v_1}|| \cdot ||{\bf v_2}|| \cdot \theta$, where $\theta$ is the cosine of the angle between the two vectors. If the vectors are already normalized, the dot product is a simple way to measure angles!
+
 ${\bf v_1} \cdot {\bf v_2} = x_1 x_2 + y_1 y_2 + z_1 z_2$
 
 ### Cross product
+
 It gives a new vector that is perpendicular to the other two.
+
 ${\bf v_1} \times {\bf v_2} = (y_1 z_2 - y_2 z_1, ~ z_1 x_2 - z_2 x_1, ~ x_1 y_2 - x_2 y_1)$
 
 ## Signed Distance Function
