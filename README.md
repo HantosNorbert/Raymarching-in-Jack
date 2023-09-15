@@ -82,7 +82,9 @@ There are basically two ways to represent real numbers: in fixed point notation,
 
 [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) is one of the best known representation of such numbers. It uses 32 bits to encode 3 parts: a sign (1 bit), a mantissa (8 bits), and an exponent (23 bits) in this order.
 
+
 ![IEEE 754](media/ieee754.svg)
+
 
 The sign is a single bit: $s=0$ means the number is positive, $s=1$ means it's negative.
 
@@ -221,7 +223,7 @@ Here is a 2D example of a signed distance function, where every pixel shows the 
 
 *A circle with signed distances. Source: https://shaderfun.com/*
 
-As you can see, different scenes have different $\text{SDF}$s. If want cubes instead of spheres, we have to change the $\text{SDF}$ accordingly.
+As you can imagine, different scenes have different $\text{SDFs}$. If want cubes instead of spheres, we have to change the $\text{SDF}$ accordingly.
 
 Luckily, $\text{SDF}$s are very flexible. A lot of basic geometric shapes have simple $\text{SDF}$s. $\text{SDF}$s can be combined, distorted, or altered in some way that they can create cool effects: duplicate objects without increasing the complexity, create rippled surface effects, rotate and scale objects, blending objects together in a continuous way, creating holes, and so on.
 
