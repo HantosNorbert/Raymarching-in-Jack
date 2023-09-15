@@ -246,12 +246,11 @@ In order to calculate the light intensity at a specific surface point, we need t
 
 *A surface showing many surface normals at various surface points. Source: Wikipedia*
 
-
 To quote from the [Wikipedia article](https://en.wikipedia.org/wiki/Normal_(geometry)): "If a surface $S$ is given implicitly as the set of points $(x, y, z)$ satisfying $F(x, y, z) = 0$, then a normal at a point $(x, y, z)$ on the surface is given by the gradient ${\bf n} = \nabla F(x, y, z)$".
 
 How lucky of us - an $\text{SDF}$ is indeed such a function!
 
-You can read more about the calculation of surface normals from $\text{SDF}$s [here](https://iquilezles.org/articles/normalsSDF/). The basic idea is to use the $\text{SDF}$ values near a surface point with slight changes in the $(x, y, z)$ coordinates to determine the gradient, and hence after a vector normalization, the normal vector.
+You can read more about the calculation of surface normals from $\text{SDFs}$ [here](https://iquilezles.org/articles/normalsSDF/). The basic idea is to use the $\text{SDF}$ values near a surface point with slight changes in the $(x, y, z)$ coordinates to determine the gradient, and hence after a vector normalization, the normal vector.
 
 I used the tetrahedron technique to calculate the surface normals. It calls the $\text{SDF}$ four times for a single surface normal. I also tried the classic technique that calls the $\text{SDF}$ three times but results biased normals. I found the latter about 10% faster, but visually I was not satisfied with the result.
 
