@@ -44,7 +44,7 @@ In terms of creating a raymarching/raytracing software, these are the biggest ch
 
 - **Integer-only arithmetic.** The only supported types are `int`, `char`, `boolean`, and references to strings, arrays, and custom objects. Furthermore, between integers the only operands are addition, subtraction, negation, bitwise `not`, bitwise `and`, and bitwise `or`.
 - **No bit shifts.** There is no direct way to bit-shift the content of a register to left or right.
-- **Hack is a [16-bit machine](https://en.wikipedia.org/wiki/16-bit_computing)** in every sense. Every register is a 16-bit register. Integers are signed integers, so we only have a range of numbers between $-32,768$ and $32,767$.
+- **Hack is a [16-bit machine](https://en.wikipedia.org/wiki/16-bit_computing)** in every sense. Every register is a 16-bit register. Integers are signed integers, so we only have a range of numbers between $-32{,}768$ and $32{,}767$.
 - **No overflow/underflow detection.**
 - **Binary screen.** Every pixel is either completely black or completely white. We don't even have grayscale!
 
