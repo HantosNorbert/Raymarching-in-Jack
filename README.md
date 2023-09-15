@@ -69,6 +69,9 @@ Since debugging and overall developing a software in Jack can be quite difficult
 
 The first version was created in Shadertoy, an online tool for creating vertex shader applications in webGL. It is so fast you can create [raytraced animations](https://www.shadertoy.com/view/dtSyDz)!
 
+![grayscale](media/grayscale.png)
+
+*The grayscale prototype image created on Shadertoy*
 
 The second version was a quick Python implementation of the very same Shadertoy program. It does the same, except it goes pixel-by-pixel on the CPU, so the render time is much slower (around 10s on my computer), but still quick enough for developing purposes.
 
@@ -223,11 +226,11 @@ Here is a 2D example of a signed distance function, where every pixel shows the 
 
 *A circle with signed distances. Source: https://shaderfun.com/*
 
-As you can imagine, different scenes have different $\text{SDFs}$. If want cubes instead of spheres, we have to change the $\text{SDF}$ accordingly.
+As you can imagine, different scenes have different $\text{SDFs}$. If you want cubes instead of spheres, we have to change the $\text{SDF}$ accordingly.
 
-Luckily, $\text{SDF}$s are very flexible. A lot of basic geometric shapes have simple $\text{SDF}$s. $\text{SDF}$s can be combined, distorted, or altered in some way that they can create cool effects: duplicate objects without increasing the complexity, create rippled surface effects, rotate and scale objects, blending objects together in a continuous way, creating holes, and so on.
+Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have simple $\text{SDFs}$. $\text{SDFs}$ can be combined, distorted, or altered in some way that they can create cool effects: duplicate objects without increasing the complexity, create rippled surface effects, rotate and scale objects, blending objects together in a continuous way, creating holes, and so on.
 
-[Here](https://iquilezles.org/articles/distfunctions/) you can see a lot of $\text{SDF}$ and how to manipulate them. For my project, I selected a simple $\text{SDF}$ that is basically the union of a plane, a sphere and a torus. But it can be modified easily to create something different!
+[Here](https://iquilezles.org/articles/distfunctions/) you can see a lot of $\text{SDFs}$ and how to manipulate them. For my project, I selected a simple $\text{SDF}$ that is basically the union of a plane, a sphere and a torus. But it can be modified easily to create something different!
 
 TODO: mySDF image created in ShaderToy
 
