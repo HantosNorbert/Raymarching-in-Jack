@@ -258,7 +258,9 @@ I used the tetrahedron technique to calculate the surface normals. It calls the 
 
 The [Phong Reflection Model](https://en.wikipedia.org/wiki/Phong_reflection_model) is an empirical model to create realistic looking (but still locally computed) lights. It contains three components: ambient, which represents the light scattered across all the scene; diffuse reflection of rough surfaces; and specular reflection, which acts like the mirror-like reflection of the light sources on the surface.
 
-![Phong Reflection Model](https://upload.wikimedia.org/wikipedia/commons/6/6b/Phong_components_version_4.png =600x)
+![Phong Reflection Model](media/phong.png)
+
+*The Phong Reflection Model. Source: Wikipedia*
 
 All of the components can be computed at a given $P$ surface point fairly easily if the surface normal and a few other parameters are known.
 
@@ -276,8 +278,7 @@ ${\bf R} = 2({\bf L} \cdot {\bf N}) {\bf N} - {\bf L}$
 
 At every step, the result of the dot product clamped between $0.0$ and $1.0$.
 
-![Reflection model](https://upload.wikimedia.org/wikipedia/commons/0/01/Blinn_Vectors.svg =500x)
-*The main components to calculate the light intensity at a particular suface point. ${\bf H}$ can be ignored in our case. Source: Wikipedia*
+https://upload.wikimedia.org/wikipedia/commons/a/a8/Normal_vectors_on_a_curved_surface.svg
 
 In the Jack implementation, many variables are merged into a single constant, such as $k_a i_a$.
 
