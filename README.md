@@ -205,7 +205,7 @@ ${\bf v_1} \cdot {\bf v_2} = x_1 x_2 + y_1 y_2 + z_1 z_2$
 
 ### Cross product
 
-It gives a new vector that is perpendicular to the other two.
+It gives a new vector that is perpendicular to the other two (with respect to a right-handed coordinate system):
 
 ${\bf v_1} \times {\bf v_2} = (y_1 z_2 - y_2 z_1, ~ z_1 x_2 - z_2 x_1, ~ x_1 y_2 - x_2 y_1)$
 
