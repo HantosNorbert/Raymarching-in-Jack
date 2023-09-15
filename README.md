@@ -26,7 +26,15 @@ Though a simple raymarcher/raytracer can be done in a few dozens lines of code i
 
 [^1]: It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already decided I wanted to do my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but **knowing it is possible** kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
 
-If you just want to run the application on your own, skip to the end of this writing. Otherwise, let's get into the details of what and how the task was done.
+### How to run the application
+
+TODO this
+
+1. Donwload the essential materials from [From Nand to Tetris](https://www.nand2tetris.org/software)
+2. Using the provided JackCompiler, compile the TODO folder containg the .jack files (it will generate .vm files for each .jack file).
+3. Using the provided VMEmulator, load the folder containing the .vm files.
+4. Don't forget to set the "Animation" to "No animate", and slide the speed marker to "Fast".
+5. Wait for about 10 hours for the image to appear. :-) Or use the Python files to generate the same (or roughtly the same) result much faster.
 
 ## Challenges in Jack/Hack
 
