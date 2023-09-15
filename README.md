@@ -284,13 +284,14 @@ In the Jack implementation, many variables are merged into a single constant, su
 
 ## Raymarching
 
-[Raymarching](https://en.wikipedia.org/wiki/Ray_marching) (also known as sphere tracing, or sphere-assisted ray marching) are actually super simple! Let's say we have a ray origin $R_o$, usually the camera, and a ray direction $R_d$, pointing towards a pixel on the virtual screen in front of the camera. What we want to know is where is the closest surface point $P$ in that direction.
+[Raymarching](https://en.wikipedia.org/wiki/Ray_marching) (also known as sphere tracing, or sphere-assisted ray marching) is actually super simple! Let's say we have a ray origin $R_o$, usually the camera, and a ray direction $R_d$, pointing towards a pixel on the virtual screen in front of the camera. What we want to know is where is the closest surface point $P$ in that direction.
 
-We can start from $P = R_o$, and gradually ask the $\text{SDF}$ what is the distance. If the distance is some positive number $d$, we know that we can change $P$ to $P + d R_d$ - which means we move along the given direction $d$ amount of distance. We won't miss anything, since according to the $\text{SDF}$, no surface point is closer than $d$. We might even arrive at a surface point! But if not, we can ask the $\text{SDF}$ again, and iteratively we move $P$ further and further on the line - until we either a) hit a surface point, b) reached a certain cumulative distance where we are sure there are no more objects (we passed everything), or c) we iterated the process long enough and don't want to waste more computations.
+We can start from $P = R_o$, and gradually ask the $\text{SDF}$ what is the distance. If the distance is some positive number $d$, we know that we can change $P$ to $P + d R_d$ - which means we move along the given direction by $d$ amount. We won't miss anything, since according to the $\text{SDF}$, no surface point can be closer than $d$. We might even arrive at a surface point! But if not, we can ask the $\text{SDF}$ again, and iteratively we move $P$ further and further on the line - until we either a) hit a surface point, b) reach a certain cumulative distance where we are sure there are no more objects (we passed everything), or c) we iterate the process long enough and don't want to waste more computations.
 
 The following image illustrates this process. Each circle has a radius of $\text{SDF}(P)$ at a specific point $P$, showing us that the closest surface point is (somewhere) on that circle. So we can march forward $\text{SDF}(P)$ amount to the next point $P$, where we ask the $\text{SDF}$ again. In 7 steps we reached a surface point.
 
-![raymarching](https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Visualization_of_SDF_ray_marching_algorithm.png/1920px-Visualization_of_SDF_ray_marching_algorithm.png)
+![raymarching](media/raymarching.png)
+
 *This explains the name "sphere tracing". Source: Wikipedia*
 
 Raymarching can also be used to detect whenever a surface point is in the shadow of an object. We use the same algorithm again, but this time the ray origin is the surface point $P$ itself, and the direction is the light source. If we reach the light source before we hit another surface point, we are in the light. Otherwise, we hit something - $P$ must be in the shadow of that object!
