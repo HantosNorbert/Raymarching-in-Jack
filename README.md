@@ -60,8 +60,8 @@ In order to write a raytracing/raymarching program, I marked the following key s
 2. **Implement the necessary float functions.** Addition, substraction, multiplication, division, square root, inverse square root, and a few more.
 3. **Implement a vector type of 3 elements** and some related functions: addition, dot product, cross product, etc.
 4. **Design a signed distance function.** This encodes our scene with the objects (floor, sphere, torus), but also helps with the surface normal calculations.
-5. **Create the actual raymarcher** to detect which object our light ray hit at what point. After all the above this is surprisingly easy.
-6. **Use the Phong reflection model,** to calculate the ambient, diffuse and specular components of the object - this is the color (or rather, shade) of our pixel!
+5. **Create the actual raymarcher** to detect which object our light ray hit at what point.
+6. **Use the Phong reflection model** to calculate the ambient, diffuse and specular components of the object - this is the color (or rather, shade) of our pixel!
 7. **Cast a shadow ray** using the same raymarching algorithm to determine if the pixel is in a shadow of another object.
 8. **Use dithering** to determine whenever the final pixel is black or white. I used [ordered dithering](https://en.wikipedia.org/wiki/Ordered_dithering) for its simplicity but still elegant look.
 
@@ -69,7 +69,7 @@ Since debugging and overall developing a software in Jack can be quite difficult
 
 The first version was created in Shadertoy, an online tool for creating vertex shader applications in webGL. It is so fast you can create raytraced animations!
 
-TODO 1: grayscale, TODO 2: animation
+https://www.shadertoy.com/view/dtSyDz
 
 The second version was a quick Python implementation of the very same Shadertoy program. It does the same, except it goes pixel-by-pixel on the CPU, so the render time is much slower (around 10s on my computer), but still quick enough for developing purposes.
 
