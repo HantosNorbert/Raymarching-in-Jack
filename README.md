@@ -278,7 +278,7 @@ ${\bf R} = 2({\bf L} \cdot {\bf N}) {\bf N} - {\bf L}$
 
 At every step, the result of the dot product clamped between $0.0$ and $1.0$.
 
-https://upload.wikimedia.org/wikipedia/commons/a/a8/Normal_vectors_on_a_curved_surface.svg
+![reflection model](media/reflections.png)
 
 In the Jack implementation, many variables are merged into a single constant, such as $k_a i_a$.
 
