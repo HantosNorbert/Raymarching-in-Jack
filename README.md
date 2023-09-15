@@ -138,12 +138,10 @@ Note that in our case of the mantissa the bit worth $\frac{1}{2}$ is on the 4th 
 
 - The real numbers $+0$ and $-1$ are special cases, and represented as `0, 0, 0` and `1, 0, 0`, respectfully.
 - Other special cases such are infinities, NaNs and subnormal numbers are not supported in `Float316`. We don't need them (but one can extend the class if they want to).
-- Storing a single bit sign as a 16 bit integer is quite wasteful in terms of memory, but it simplifies later calculations a lot - and for our case, that is more important than keeping the memory usage low.
-- In Jack, we actually never have to decipher what floating point number we store in `Float316`. We don't have to print them, we just have to apply certain operations to them, and decide which encodes a bigger number, which one is negative, and so on. And we have to able to hard-code a few constants. For example, the number $1.0$ is represented as `0, 127, 8192`.
-- Just like in IEEE 754, integers within a certain range can be represented exactly. So, while $0.1$ is not actually $0.1$ as we've seen before, it is true that $124.0$ is always exactly $124.0$ (if you are curious: `0, 133, 15872` in `Float316`).
+- Storing a single bit sign as a 16-bit integer is quite wasteful in terms of memory, but it simplifies later calculations a lot - and for our case, that is more important than keeping the memory usage low.
+- In Jack, we actually never have to decipher what floating point number we store in `Float316`. We don't have to print them, we just have to apply certain operations to them, and decide which encodes a bigger number, which one is negative, and so on. Though we have to able to hard-code a few constants. For example, the number $1.0$ is represented as `0, 127, 8192`.
+- Just like in IEEE 754, integers within a certain range can be represented exactly. So, while $0.1$ is not actually $0.1$ as we've seen before, it is true that $124.0$ is always exactly $124.0$ (if you are curious, `0, 133, 15872` in `Float316`).
 - The mantissa actually stores 13 bits instead of 23 comparing to IEEE 754. We lose some precision, but we are still quite good enough! In `Float316`, the next real number after $1.0$ is $1.0001220703125$.
-
-From this point of the article, when I write a number with a decimal point, that is the real value of the representation of a `Float316` number. When I write three integers, those are the values actually stored in `Float316`. Saying "this function returns with $1.0$" and "this function returns with `0, 127, 8192`" means the same.
 
 For our raymarcher, we need the following functions on `Float316` numbers:
 
@@ -158,7 +156,7 @@ For our raymarcher, we need the following functions on `Float316` numbers:
 - Square root function
 - Inverse square root function
 
-For more details on these individual functions, go to here.
+For more details on these individual functions, see [Appendix A]().
 
 TODO
 
