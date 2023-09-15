@@ -22,10 +22,6 @@ Though the focus of the lectures of Part 2 is building the compiler and a simpli
 
 *A raytraced image with different lighting effects. Source: Wikipedia*
 
-![raytrace diagram](media/raytracing_diagram.png)
-
-*Raytracing illustrated. Source: Wikipedia*
-
 Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible![^1]
 
 [^1]: It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already decided I wanted to do my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but **knowing it is possible** kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
@@ -289,6 +285,10 @@ In the Jack implementation, many variables are merged into a single constant, su
 ## Raymarching
 
 [Raymarching](https://en.wikipedia.org/wiki/Ray_marching) (also known as sphere tracing, or sphere-assisted ray marching) is actually super simple! Let's say we have a ray origin $R_o$, usually the camera, and a ray direction $R_d$, pointing towards a pixel on the virtual screen in front of the camera. What we want to know is where is the closest surface point $P$ in that direction.
+
+![raytrace diagram](media/raytracing_diagram.png)
+
+*Raytracing illustrated. Source: Wikipedia*
 
 We can start from $P = R_o$, and gradually ask the $\text{SDF}$ what is the distance. If the distance is some positive number $d$, we know that we can change $P$ to $P + d R_d$ - which means we move along the given direction by $d$ amount. We won't miss anything, since according to the $\text{SDF}$, no surface point can be closer than $d$. We might even arrive at a surface point! But if not, we can ask the $\text{SDF}$ again, and iteratively we move $P$ further and further on the line - until we either a) hit a surface point, b) reach a certain cumulative distance where we are sure there are no more objects (we passed everything), or c) we iterate the process long enough and don't want to waste more computations.
 
