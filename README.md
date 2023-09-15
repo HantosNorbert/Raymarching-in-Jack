@@ -19,6 +19,7 @@ Though the focus of the lectures of Part 2 is building the compiler and a simpli
 [Raymarching](https://en.wikipedia.org/wiki/Ray_marching) is a class of 3D rendering methods. It fells into the cathegory of [raytracing](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)), a family of such methods where light rays are virtually traced through a scene to determine the color of a pixel on the screen. With raytracing you can create cool looking images with different effects such as reflections, shadows, transparency, depth of field, etc. While it is not the only technique, it is essential in many areas of computer graphics and animation.
 
 ![Raytrace example](media/Recursive_raytrace_of_a_sphere.png)
+
 *A raytraced image with different lighting effects. Source: Wikipedia*
 
 Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible!
