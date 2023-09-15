@@ -22,9 +22,9 @@ Though the focus of the lectures of Part 2 is building the compiler and a simpli
 
 *A raytraced image with different lighting effects. Source: Wikipedia*
 
-Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible!
+Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible![^1]
 
-It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already decided I wanted to do my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but **knowing it is possible** kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
+[^1]: It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already decided I wanted to do my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but **knowing it is possible** kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
 
 If you just want to run the application on your own, skip to the end of this writing. Otherwise, let's get into the details of what and how the task was done.
 
