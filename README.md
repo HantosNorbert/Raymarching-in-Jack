@@ -116,9 +116,9 @@ The problem is that certain operations such as multiplication requires twice as 
 
 As we will see later, we need overflow detection, and we also have to store the "hidden 1" of IEEE 754 (the explicit bit), because we don't want to use the extra computation to deal with it constantly. We want our number to represent $m \cdot 2^e$, not $(1+m) \cdot 2^e$. So, in our implementation of the float type, the mantissa bit string always begins with `001`, and the rest of the 13 bits are the actual values we care about. We handle the exponent and the sign the same was as IEEE 754 does, but again, we store them as separate integers.
 
-Hence the birth of the `Float316` type (I chose the subfix 316, because it requires "three 16 bit integers").
+Hence the birth of the `Float316` type (I chose the subfix `316`, because it requires "three 16-bit integers").
 
-Let's say we want to represent the number -25.75. You can use this [handy tool](https://www.h-schmidt.net/FloatConverter/IEEE754.html) to see what is the IEEE 754 representation of that number:
+Let's say we want to represent the number $-25.75$. You can use this [handy tool](https://www.h-schmidt.net/FloatConverter/IEEE754.html) to see what is the IEEE 754 representation of that number:
 
 `1 | 10000011 | 10011100000000000000000`
 
