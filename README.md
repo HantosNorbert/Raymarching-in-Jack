@@ -82,7 +82,7 @@ There are basically two ways to represent real numbers: in fixed point notation,
 
 [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) is one of the best known representation of such numbers. It uses 32 bits to encode 3 parts: a sign (1 bit), a mantissa (8 bits), and an exponent (23 bits) in this order.
 
-![float](https://upload.wikimedia.org/wikipedia/commons/d/d2/Float_example.svg)
+![IEEE 754](media/ieee754.svg)
 
 The sign is a single bit: $s=0$ means the number is positive, $s=1$ means it's negative.
 
