@@ -108,9 +108,7 @@ With these settings, $s=1$, $e=130 - 127 = 3$, and $m = \frac{1}{2} + \frac{1}{8
 
 This allows us to represent a wide range of numbers, from very small to quite large ones. Keep in mind that there are infinitely many real numbers even between $0$ and $1$, so we cannot represent all of them exactly. For example, $0.1$ is actually $0.100000001490116119384765625$ if we decode the bits (which are by the way `0 | 01111011 | 10011001100110011001101`). But for our case (and for many other real world applications), this is good enough!
 
-![Mediocrates](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJtBKQvR7pueDRBsZDhcBdGdIHC9vm8Dpfwx8BOa0IgxYnhHs7OJjMGRivv7KOLojewhQ&usqp=CAU)
-
-TODO: saved image
+![Mediocrates]media/mediocrates.png)
 
 IEEE 754 is a good idea for Jack, but it requires 32 bits. We only have 16. There is a so called [Half-precision floating-point format](https://en.wikipedia.org/wiki/Half-precision_floating-point_format), which uses the same idea, but with 16 bits: a sign (1 bit), an exponent (5 bits), and a mantissa (10 bits). We lose some precision, but it can be still good for us, right?
 
