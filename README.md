@@ -118,11 +118,11 @@ As we will see later, we need overflow detection, and we also have to store the 
 
 Hence the birth of the `Float316` type (I chose the subfix `316`, because it requires "three 16-bit integers").
 
-Let's say we want to represent the number $-25.75$. You can use this [handy tool](https://www.h-schmidt.net/FloatConverter/IEEE754.html) to see what is the IEEE 754 representation of that number:
+Let's say we want to represent the number $-25.75$. You can use this [handy tool](https://www.h-schmidt.net/FloatConverter/IEEE754.html) to see what the IEEE 754 representation is of that number:
 
 `1 | 10000011 | 10011100000000000000000`
 
-In `Float316`, the sign and and the exponent work the same. For the mantissa, we left-pad the it with `001` (two overflow-detector bits and the "hidden 1"), and keep the first 16 bits.
+In `Float316`, we keep the sign as `1` and the exponent as `10000011`. For the mantissa, we left-pad the it with `001` (two overflow-detector bits and the "hidden 1"), and keep the first 16 bits.
 
 Our `Float316` representation of $-25.75$:
 
