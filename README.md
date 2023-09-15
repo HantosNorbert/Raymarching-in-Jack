@@ -50,18 +50,18 @@ In terms of creating a raymarching/raytracing software, these are the biggest ch
 
 However, Jack has a few features that comes in handy, such as class/object definition; references to objects; static (class level), field (object level) and local variables; function calls; branching and looping; and a few more. Integer multiplication, integer division and integer square root are supported by the operating system and implemented on software side.
 
-The screen of the Hack machine (and thus what is supported by the provided operating system) is 256 $\times$ 512. While the resolution is acceptable, we have no way to use colors or even grayscale images. But there is a solution called [dither](https://en.wikipedia.org/wiki/Dither) which allows us to mimic a grayscale image using only binary colors.
+The screen of the Hack machine (and thus what is supported by the provided operating system) is $256 \times 512$. While the resolution is acceptable, we have no way to use colors or even grayscale images. But there is a solution called [dither](https://en.wikipedia.org/wiki/Dither) which allows us to mimic a grayscale image using only binary colors.
 
-## Key Implementation Features
+## Key Implementation Steps
 
 In order to write a raytracing/raymarching program, I marked the following key steps:
 
-1. **(Re)invent the float data type.** My solution is based on the [IEEE Standard for Floating-Point Arithmetic](https://en.wikipedia.org/wiki/IEEE_754), but differs at some points, since IEEE 754 uses 32 bits, and I only have 16.
+1. **(Re)invent the float data type.** My solution is based on the [IEEE Standard for Floating-Point Arithmetic](https://en.wikipedia.org/wiki/IEEE_754), but differs slightly, since IEEE 754 uses 32 bits, and I only have 16.
 2. **Implement the necessary float functions.** Addition, substraction, multiplication, division, square root, inverse square root, and a few more.
 3. **Implement a vector type of 3 elements** and some related functions: addition, dot product, cross product, etc.
-4. **Design a [signed distance function](https://en.wikipedia.org/wiki/Signed_distance_function).** This encodes our scene with the objects (floor, sphere, torus), but also helps with the surface normal calculations.
+4. **Design a signed distance function.** This encodes our scene with the objects (floor, sphere, torus), but also helps with the surface normal calculations.
 5. **Create the actual raymarcher** to detect which object our light ray hit at what point. After all the above this is surprisingly easy.
-6. **Use the [Phong reflection model](https://en.wikipedia.org/wiki/Phong_reflection_model),** to calculate the ambient, diffuse and specular components of the object - this is the color (or rather, shade) of our pixel!
+6. **Use the Phong reflection model,** to calculate the ambient, diffuse and specular components of the object - this is the color (or rather, shade) of our pixel!
 7. **Cast a shadow ray** using the same raymarching algorithm to determine if the pixel is in a shadow of another object.
 8. **Use dithering** to determine whenever the final pixel is black or white. I used [ordered dithering](https://en.wikipedia.org/wiki/Ordered_dithering) for its simplicity but still elegant look.
 
