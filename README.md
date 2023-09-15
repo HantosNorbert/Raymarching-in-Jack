@@ -16,7 +16,13 @@ The online course [From Nand to Tetris](https://www.nand2tetris.org/) is an exce
 
 Though the focus of the lectures of Part 2 is building the compiler and a simplified operating system, one of the homework assignments they give you is to develop an application of your choice in Jack. This is the result of my efforts to build a raymarcher.
 
-[Raymarching](https://en.wikipedia.org/wiki/Ray_marching) is a class of 3D rendering methods. It fells into the cathegory of [raytracing](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)), a family of such methods where light rays are virtually traced through a scene to determine the color of a pixel on the screen. With raytracing you can create cool looking images with different effects such as reflections, shadows, transparency, depth of field, etc. While it is not the only technique, it is essential in many areas of computer graphics and animation.
+[Raymarching](https://en.wikipedia.org/wiki/Ray_marching) is a class of 3D rendering methods. It fells into the cathegory of [raytracing](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)), a family of such methods where light rays are virtually traced through a scene to determine the color of a pixel on the screen.
+
+![raytrace diagram](media/raytracing_diagram.png)
+
+*Raytracing illustrated. Source: Wikipedia*
+
+With raytracing you can create cool looking images with different effects such as reflections, shadows, transparency, depth of field, etc. While it is not the only technique, it is essential in many areas of computer graphics and animation.
 
 ![Raytrace example](media/Recursive_raytrace_of_a_sphere.png)
 
@@ -285,10 +291,6 @@ In the Jack implementation, many variables are merged into a single constant, su
 ## Raymarching
 
 [Raymarching](https://en.wikipedia.org/wiki/Ray_marching) (also known as sphere tracing, or sphere-assisted ray marching) is actually super simple! Let's say we have a ray origin $R_o$, usually the camera, and a ray direction $R_d$, pointing towards a pixel on the virtual screen in front of the camera. What we want to know is where is the closest surface point $P$ in that direction.
-
-![raytrace diagram](media/raytracing_diagram.png)
-
-*Raytracing illustrated. Source: Wikipedia*
 
 We can start from $P = R_o$, and gradually ask the $\text{SDF}$ what is the distance. If the distance is some positive number $d$, we know that we can change $P$ to $P + d R_d$ - which means we move along the given direction by $d$ amount. We won't miss anything, since according to the $\text{SDF}$, no surface point can be closer than $d$. We might even arrive at a surface point! But if not, we can ask the $\text{SDF}$ again, and iteratively we move $P$ further and further on the line - until we either a) hit a surface point, b) reach a certain cumulative distance where we are sure there are no more objects (we passed everything), or c) we iterate the process long enough and don't want to waste more computations.
 
