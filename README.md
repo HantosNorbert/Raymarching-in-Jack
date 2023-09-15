@@ -213,11 +213,13 @@ ${\bf v_1} \times {\bf v_2} = (y_1 z_2 - y_2 z_1, ~ z_1 x_2 - z_2 x_1, ~ x_1 y_2
 
 Raymarching is an iterative technique to determine the intersection point of a light ray and and an object surface. To aid the raymarching algorithm, we can use $\text{SDFs}$ - signed distance functions.
 
-The SDF value of a 3D point $P = (x, y, z)$ is simply the distance of $P$ and the closest object surface. So, if $\text{SDF}(P) = 0$, it means that that particular $P$ point is on a surface. If the $\text{SDF}$ is some positive number, that means the point is outside of the object. If the value is negative, the point is inside of the object. The $\text{SDF}$ value itself does not give us any directions - we don't know *where* is the closest surface point, only *how far* it is from the given $P$ point.
+The $\text{SDF}$ value of a 3D point $P = (x, y, z)$ is simply the distance of $P$ and the closest object surface. So, if $\text{SDF}(P) = 0$, it means that that particular $P$ point is on a surface. If the $\text{SDF}$ is some positive number, that means the point is outside of the object. If the value is negative, the point is inside of the object. The $\text{SDF}$ value itself does not give us any directions - we don't know *where* is the closest surface point, only *how far* it is from the given $P$ point.
 
 Here is a 2D example of a signed distance function, where every pixel shows the $\text{SDF}$ value of its center.
 
-![2D SDF example](https://shaderfun.files.wordpress.com/2018/03/circlewithdistances.png =500x)
+![2D SDF example](media/circlewithdistances.png)
+
+*A circle with signed distances. Source: https://shaderfun.com/*
 
 As you can see, different scenes have different $\text{SDF}$s. If want cubes instead of spheres, we have to change the $\text{SDF}$ accordingly.
 
