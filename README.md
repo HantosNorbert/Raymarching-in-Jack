@@ -1,6 +1,5 @@
 # Raymarching in Jack Language
 
-global TODO: all Float316 is `Float316`
 global TODO: how to load and run the program(s)
 TODO: Appendixes?
 
@@ -34,13 +33,27 @@ Though a simple raymarcher/raytracer can be done in a few dozens lines of code i
 
 ### How to run the application
 
-TODO this
+#### The Jack code
 
 1. Donwload the essential materials from [https://www.nand2tetris.org/software](https://www.nand2tetris.org/software).
-2. Using the provided JackCompiler, compile the TODO folder of this project (for each .jack file it will generate the corresponding .vm file).
-3. Using the provided VMEmulator, load the folder containing the .vm files.
-4. Don't forget to set the "Animation" to "No animate", and slide the speed marker to "Fast".
-5. Wait about 10 hours for the image to appear. :-) Or use the Python files to generate the same (or roughtly the same) result in seconds.
+2. Using the provided JackCompiler, compile the `Jack` folder of this project (for each .jack file it will generate the corresponding .vm file).
+3. Using the provided VMEmulator, load the Jack folder (now containing the .vm files).
+4. Don't forget to set the "Animation" to "No animate", and set the speed marker slide to "Fast".
+5. Wait about 10 hours for the image to appear. :-) You should see it building pixel-by-pixel.
+
+#### The Python code (with custom Float316 type)
+
+1. Make sure you can run Python3 with opencv-python and numpy packages.
+2. Go to the `Python_Float316` folder and run `Main.py`.
+3. Wait about 2 minutes for the image to appear. You should see it building row-by-row.
+4. This image is pixel-equivalent to the Jack image.
+
+#### The Python code (with built-in float type)
+
+1. Make sure you can run Python3 with opencv-python and numpy packages.
+2. Go to the `Python_float` folder and run `raymarcher.py`.
+3. Wait about 10 seconds for the image to appear. You should see it building row-by-row.
+4. This image is slightly different to the previous images to the precision difference in float numbers.
 
 ## Challenges in Jack/Hack
 
@@ -85,7 +98,7 @@ The third version took the longest: developing such a Python program that is as 
 
 So, let's see the gory details!
 
-## My Custom Float316 Type
+## My Custom `Float316` Type
 
 There are basically two ways to represent real numbers: in fixed point notation, there are a fixed number of digits after the decimal point, whereas floating point number allows for a varying number of digits after the decimal point. Both has its advantages and disadvantages, so after some consideration, I went with floating points.
 
