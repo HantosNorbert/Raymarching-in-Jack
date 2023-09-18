@@ -72,8 +72,7 @@ For the sake of an example, let's say we operate on decimal numbers, and can onl
 
 We want to multiply $A = 9876$ and $B = 6789$. The result is a 8 digit number, and to store it we need two registers. Let's call them $M_1$ and $M_2$. Since the true result is $67048164$, we expect the following:
 
-**Given $A =$ `0 0 9 8 7 6` and $B =$ `0 0 6 7 8 9`,
-we want $M_1 =$ `0 0 6 7 0 4` and $M_2 =$ `0 0 8 1 6 4`.**
+**Given $A =$ `0 0 9 8 7 6` and $B =$ `0 0 6 7 8 9`, we want $M_1 =$ `0 0 6 7 0 4` and $M_2 =$ `0 0 8 1 6 4`.**
 
 First, we break $A$ and $B$ into two 2-digit parts, and store them in separate registers. Let's call $X_H$ = first two digits of a number stored in register $X$ (higher part), and $X_L$ = last two digits of the number in $X$ (lower part). Therefore, we have:
 
@@ -101,13 +100,13 @@ TODO
 
 Breaking the addition into $M_1$ and $M_2$ registers:
 
-$M_1 = P + Q_H + R_H = 6566 + 50 + 87 =$ `0 0 6 7 0 3`
+$M_1 = P + Q_H + R_H = 6566 + 87 + 50 =$ `0 0 6 7 0 3`
+
 $M_2 = Q_L + R_L + S = 22 + 92 + 6764 =$ `0 1 8 1 6 4`
 
 Notice that in this example, $M_2$ register no longer starts with `0 0`: we have an overflow, which we want to bring from $M_2$ to $M_1$. Doing so, we get the final result:
 
-$M_1 =$ `0 0 6 7 0 4`
-$M_2 =$ `0 0 8 1 6 4`
+$M_1 =$ `0 0 6 7 0 4`, $M_2 =$ `0 0 8 1 6 4`.
 
 We want to do the same with our mantissas. We have 16 digit registers with 14 significant binary digits, so we break them into 7 digit part first, do our magic, and keeping the $M_1$ part as the new mantissa. We throw away the $M_2$ part as truncation.
 
