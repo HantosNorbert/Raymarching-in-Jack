@@ -4,7 +4,7 @@ global TODO: all Float316 is `Float316`
 global TODO: how to load and run the program(s)
 TODO: Appendixes?
 
-TODO: image (still-result of Hack)
+![hack result](media/hackresult.png)
 
 ## Table of contents
 
@@ -395,6 +395,10 @@ On the Hack emulator it looked like this:
 *The final rendering process in the Hack simulator.*
 
 It took about 9 hours and 45 minutes for the entire image to emerge on an AMD Ryzen 5 CPU with 3.7GHz.
+
+![result](media/result.png)
+
+*The final result. Isn't it beautiful? :-)*
 
 ## Development Process, Testing
 
