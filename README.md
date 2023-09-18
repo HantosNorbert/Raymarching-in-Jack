@@ -262,7 +262,7 @@ I used the tetrahedron technique to calculate the surface normals. It calls the 
 
 ![normals](media/normals.png)
 
-*Surface normals: each color shows an $(x, y, z)$ surface normal interpreted as normalized RGB values*
+*Surface normals: each color shows an* $(x, y, z)$ *surface normal interpreted as normalized RGB values*
 
 ## The Phong Reflection Model
 
