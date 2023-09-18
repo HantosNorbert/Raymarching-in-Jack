@@ -1,9 +1,30 @@
 # Raymarching in Jack Language
 
-global TODO: how to load and run the program(s)
-TODO: Appendixes?
-
 ![hack result](media/hackresult.png)
+
+## How to run the application
+
+### The Jack code
+
+1. Donwload the essential materials from [https://www.nand2tetris.org/software](https://www.nand2tetris.org/software).
+2. Using the provided JackCompiler, compile the `Jack` folder of this project (for each .jack file it will generate the corresponding .vm file).
+3. Using the provided VMEmulator, load the Jack folder (now containing the .vm files).
+4. Don't forget to set the "Animation" to "No animate", and set the speed marker slide to "Fast".
+5. Wait about 10 hours for the image to appear. :-) You should see it building pixel-by-pixel.
+
+### The Python code (with custom Float316 type)
+
+1. Make sure you can run Python3 with opencv-python and numpy packages.
+2. Go to the `Python_Float316` folder and run `Main.py`.
+3. Wait about 2 minutes for the image to appear. You should see it building row-by-row.
+4. This image is pixel-equivalent to the Jack image.
+
+### The Python code (with built-in float type)
+
+1. Make sure you can run Python3 with opencv-python and numpy packages.
+2. Go to the `Python_float` folder and run `raymarcher.py`.
+3. Wait about 10 seconds for the image to appear. You should see it building row-by-row.
+4. This image is slightly different to the previous images to the precision difference in float numbers.
 
 ## Table of contents
 
@@ -30,30 +51,6 @@ With raytracing you can create cool looking images with different effects such a
 Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible![^1]
 
 [^1]: It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already decided I wanted to do my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but **knowing it is possible** kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
-
-### How to run the application
-
-#### The Jack code
-
-1. Donwload the essential materials from [https://www.nand2tetris.org/software](https://www.nand2tetris.org/software).
-2. Using the provided JackCompiler, compile the `Jack` folder of this project (for each .jack file it will generate the corresponding .vm file).
-3. Using the provided VMEmulator, load the Jack folder (now containing the .vm files).
-4. Don't forget to set the "Animation" to "No animate", and set the speed marker slide to "Fast".
-5. Wait about 10 hours for the image to appear. :-) You should see it building pixel-by-pixel.
-
-#### The Python code (with custom Float316 type)
-
-1. Make sure you can run Python3 with opencv-python and numpy packages.
-2. Go to the `Python_Float316` folder and run `Main.py`.
-3. Wait about 2 minutes for the image to appear. You should see it building row-by-row.
-4. This image is pixel-equivalent to the Jack image.
-
-#### The Python code (with built-in float type)
-
-1. Make sure you can run Python3 with opencv-python and numpy packages.
-2. Go to the `Python_float` folder and run `raymarcher.py`.
-3. Wait about 10 seconds for the image to appear. You should see it building row-by-row.
-4. This image is slightly different to the previous images to the precision difference in float numbers.
 
 ## Challenges in Jack/Hack
 
