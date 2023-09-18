@@ -8,7 +8,7 @@ If we right-shift the bits of the mantissa, we actually halve the number, becaus
 
 $$\mathbf{0} \cdot 4 + \mathbf{0} \cdot 2 + \mathbf{1} \cdot 1 + \mathbf{1} \cdot \frac{1}{2} + \mathbf{1} \cdot \frac{1}{4} + \mathbf{0} \cdot \frac{1}{8} + \dots = 0.75$$
 
-After a bit-shift to the right, it becomes `000111`, thus:
+After a bit-shift to the right, it becomes `000111...`, thus:
 
 $$\mathbf{0} \cdot 4 + \mathbf{0} \cdot 2 + \mathbf{0} \cdot 1 + \mathbf{1} \cdot \frac{1}{2} + \mathbf{1} \cdot \frac{1}{4} + \mathbf{1} \cdot \frac{1}{8} + \dots = 0.375$$
 
@@ -16,9 +16,9 @@ With a right shift, we halved the value of the number. But we can also modify th
 
 So, bit-shifting the mantissa to the right **and** adding 1 to the exponent actually represents the same number! Similarly, we can bit-shift the mantissa to the left and subtract 1 from the exponent. (Well, within certain boundaries, because too many bit shifts we can lose significant bits.) But now the mantissa does not start with `001` - it becomes **denormalized**.
 
-Why does this matter? Because addition, multiplication, and a bunch of other operands must temporarily denormalize the number in order to do their magic. Also, the resulted number can be denormalized. But now we know what to do: in order to **normalize a `Float316` number**, we just have to bit-shift the mantissa and change the exponent at the same time, until the mantissa starts with `001`. (We won't do this in the case of positive or negative zeros where the mantissa is all 0 bits.)
+Why does this matter? Because addition, multiplication, and a bunch of other operands must temporarily denormalize the number in order to do their magic. Also, the resulted number can be denormalized on its own. But now we know what to do: in order to **normalize a `Float316` number**, we just have to bit-shift the mantissa and change the exponent at the same time, until the mantissa starts with `001`. (We won't do this in the case of positive or negative zero where the mantissa is all $0$ bits.)
 
-Note that in Jack we do not have bit shift operands. For bit-shifting the mantissa to the right, we actually have to halve its integer representation. Bit-shifting to the left is just adding it to itself.
+Note that in Jack we do not have bit shift operators. For bit-shifting the mantissa to the right, we actually have to halve its integer representation. Bit-shifting to the left is just adding it to itself.
 
 Why do we need normalized numbers? Because it simplifies a lot of the arithmetic functions if we know that the starting numbers are already normalized.
 
@@ -30,7 +30,7 @@ Which `Float316` number is bigger? Well, positive numbers are bigger than negati
 
 That was easy, huh? Let's see something harder.
 
-## Addition of Float316 Numbers
+## Addition of `Float316` Numbers
 
 Wikipedia has a handy article about [floating point arithmetic](https://en.wikipedia.org/wiki/Floating-point_arithmetic), so we only have to follow it!
 
@@ -43,16 +43,16 @@ The main steps are:
 6. The result has the same sign and exponent as `Bigger`.
 7. Normalize the result.
 
-Example: add `1, 129, 10496` ($-5.12$) and `0, 127, 12288` ($1.5$).
+Example: add `1, 129, 10752` ($-5.25$) and `0, 127, 12288` ($1.5$).
 
-`Bigger`: `1, 129, 10496`, `Smaller`: `0, 127, 12288`.
+`Bigger`: `1, 129, 10752`, `Smaller`: `0, 127, 12288`.
 Sign of result: $1$, exponent of result: $129$ (encodes $e=2$).
 Denormalize `Smaller`: now it becomes `0, 129, 3072` (exponent increased by $2$, mantissa halved twice).
-Signs are different: mantissa of the result is $10496 - 3072 = 7424$.
-Resulted number is: `1, 129, 7424`.
-After normalization: `1, 128, 14848` (exponent decreased by $1$, mantissa doubled).
+Signs are different: mantissa of the result is $10752 - 3072 = 7680$.
+Resulted number is: `1, 129, 7680`.
+After normalization: `1, 128, 15360` (exponent decreased by $1$, mantissa doubled).
 
-Which happens to encode the real number $-3.625$.
+Which happens to encode the real number $-3.75$.
 
 ##  Substraction of Float316 Numbers
 
