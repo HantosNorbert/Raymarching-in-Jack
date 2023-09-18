@@ -108,26 +108,26 @@ Notice that in this example, $M_2$ register no longer starts with `0 0`: we have
 
 $M_1 =$ `0 0 6 7 0 4`, $M_2 =$ `0 0 8 1 6 4`.
 
-We want to do the same with our mantissas. We have 16 digit registers with 14 significant binary digits, so we break them into 7 digit part first, do our magic, and keeping the $M_1$ part as the new mantissa. We throw away the $M_2$ part as truncation.
+We want to do the same with our `Float316` mantissas. We have 16 digit registers with 14 significant binary digits, so we break them into 7 digit parts first, do our magic, and keeping the $M_1$ part as the new mantissa. We throw away the $M_2$ part as truncation.
 
 **But what about the decimal point?**
 
-Our mantissa contains a virtual binary point: `0011001(...)` actually means `001.1001(...)`. Let's look at our example again, but with a decimal point after the third digit (first significant digit): Let interpret $A =$ `0 0 9 8 7 6` as $9.876$. Similarly, $B =$ `0 0 6 7 8 9` is $6.789$. After our calculations, $M_1$ register still contains `0 0 6 7 0 4`, since we do everything exactly the same way. But we cannot interpret the result as $6.704$! Instead, it should be $67.04$ (as the true value of $9.876 \cdot 6.789 = 67.048164$). The decimal point shifted by one. (Think about it why!) To fix it, we have to adjust the exponent by subtracting $1$.
+Our mantissa contains a virtual binary point: `0011001(...)` actually means `001.1001(...)`. Let's look at our example again, but with a decimal point after the third digit (first significant digit): Let's interpret $A =$ `0 0 9 8 7 6` as $9.876$. Similarly, $B =$ `0 0 6 7 8 9` is $6.789$. After our calculations, $M_1$ register still contains `0 0 6 7 0 4`, since we do everything exactly the same way. But we cannot interpret the result as $6.704$! Instead, it should be $67.04$ (as the true value of $9.876 \cdot 6.789 = 67.048164$). The decimal point shifted by one. (Think about it why!) To fix it, we have to adjust the exponent by subtracting $1$.
 
 One final note: in the actual implementation of the `Float316` multiplication, we drop every calculation that is related to $M_2$, since we don't use it anyway. We lose some precision though: as we saw in the example, an overflow in $M_2$ modifies the last digit/bit of $M_1$. But we can make this sacrifice in order to speed up the computation!
 
 Finally, let's sum up the steps of the multiplication!
 
-1. The result has the sign of $(s1 + s2) ~ \& ~ 1$.
+1. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
 2. If one of the numbers is $0.0$, return with $0.0$.
 3. If one of the numbers is $\pm 1.0$, return with the other number with the new sign.
 4. The result has the exponent $e_1 + e_2 - 127 + 1$.
 5. For the mantissa:
-    i) If $X_H$ denotes the higher 7 bits ($X / 128$), and $X_L$ is the lower 7 bits ($X ~ \& ~ 127$) of an integer $X$, then let:
-    ii) $P = m_{1H} \cdot m_{2H}$,
-    iii) $Q = m_{1H} \cdot m_{2L}$,
-    iv) $R = m_{1L} \cdot m_{2H}$.
-    v) The final mantissa is $P + Q_H + R_H$.
+    1) If $X_H$ denotes the higher 7 bits ($X / 128$), and $X_L$ is the lower 7 bits ($X ~ \& ~ 127$) of an integer $X$, then let:
+    2) $P = m_{1H} \cdot m_{2H}$,
+    3) $Q = m_{1H} \cdot m_{2L}$,
+    4) $R = m_{1L} \cdot m_{2H}$.
+    5) The final mantissa is $P + Q_H + R_H$.
 6. Normalize the final number.
 
 If you reached this point, congratulations! This was probably the hardest part. :-)
