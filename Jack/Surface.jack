@@ -1,0 +1,22 @@
+// A class for surface objects defined at a specific point:
+// contains a signed distance from the closest object and its
+// color. Technically a Vec2 with a specific purpose.
+class Surface {
+    field Float316 sd, col;
+    
+    constructor Surface newZero() {
+        let sd = Float316.newZero();
+        let col = Float316.newZero();
+        return this;
+    }
+    
+    method Float316 sd() { return sd; }
+    method Float316 col() { return col; }
+    
+    method void set(Float316 sdist, Float316 color) {
+        // deepcopy
+        do sd.set(sdist.s(), sdist.e(), sdist.m());
+        do col.set(color.s(), color.e(), color.m());
+        return;
+    }
+}

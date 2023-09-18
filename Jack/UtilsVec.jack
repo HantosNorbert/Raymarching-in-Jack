@@ -1,0 +1,133 @@
+// A couple of functions that use Float316 variables
+// for internal computations.
+class UtilsVec {
+    // Constants
+    static Float316 CONST_ONE;
+    
+    // Variables for temporal computations
+    static Float316 UTILS_vx2, UTILS_vy2, UTILS_vz2;
+    
+    static Float316 NORMALIZE_coeff;
+    
+    static Float316 CROSS_v1y_mul_V2z, CROSS_v2y_mul_v1z;
+    static Float316 CROSS_v1z_mul_v2x, CROSS_v2z_mul_v1x;
+    static Float316 CROSS_v1x_mul_v2y, CROSS_v2x_mul_v1y;
+    
+    function void init() {
+        // Constants
+        let CONST_ONE = Float316.new(0, 127, 8192);  // 1.0
+        
+        // Variables for temporal computations
+        let UTILS_vx2 = Float316.newZero();
+        let UTILS_vy2 = Float316.newZero();
+        let UTILS_vz2 = Float316.newZero();
+        
+        let NORMALIZE_coeff = Float316.newZero();
+        
+        let CROSS_v1y_mul_V2z = Float316.newZero();
+        let CROSS_v2y_mul_v1z = Float316.newZero();
+        let CROSS_v1z_mul_v2x = Float316.newZero();
+        let CROSS_v2z_mul_v1x = Float316.newZero();
+        let CROSS_v1x_mul_v2y = Float316.newZero();
+        let CROSS_v2x_mul_v1y = Float316.newZero();
+        return;
+    }
+    
+    // res = length(v)
+    function void length(Float316 res, Vec3 v) {
+        var Float316 vx, vy, vz;
+        
+        let vx = v.x();
+        let vy = v.y();
+        let vz = v.z();
+        
+        // collect the squares of x, y, and z values
+        do Float316.mul(UTILS_vx2, vx, vx);
+        do Float316.mul(UTILS_vy2, vy, vy);
+        do Float316.mul(UTILS_vz2, vz, vz);
+
+        // res = v.x^2 + v.y^2 + v.y^2
+        do Float316.add(res, UTILS_vx2, UTILS_vy2);
+        do Float316.add(res, res, UTILS_vz2);
+        
+        // res = sqrt(res)
+        do UtilsFloat.sqrt(res, res);
+        return;
+    }
+    
+    // res = normalize(v)
+    function void normalize(Float316 res, Vec3 v) {
+        var Float316 vx, vy, vz;
+        
+        let vx = v.x();
+        let vy = v.y();
+        let vz = v.z();
+
+        // collect the squares of x, y, and z values
+        do Float316.mul(UTILS_vx2, vx, vx);
+        do Float316.mul(UTILS_vy2, vy, vy);
+        do Float316.mul(UTILS_vz2, vz, vz);
+
+        // coeff = 1.0 / (v.x^2 + v.y^2 + v.y^2)
+        do Float316.add(NORMALIZE_coeff, UTILS_vx2, UTILS_vy2);
+        do Float316.add(NORMALIZE_coeff, NORMALIZE_coeff, UTILS_vz2);
+        do UtilsFloat.invSqrt(NORMALIZE_coeff, NORMALIZE_coeff);
+        
+        do Vec3.cmul(res, v, NORMALIZE_coeff);
+        return;
+    }
+    
+    // res = dotProduct(v1, v2)
+    function void dot(Float316 res, Vec3 v1, Vec3 v2) {
+        //res = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z)
+        do Float316.mul(UTILS_vx2, v1.x(), v2.x());
+        do Float316.mul(UTILS_vy2, v1.y(), v2.y());
+        do Float316.mul(UTILS_vz2, v1.z(), v2.z());
+        
+        do Float316.add(res, UTILS_vx2, UTILS_vy2);
+        do Float316.add(res, res, UTILS_vz2);
+        return;
+    }
+    
+    // The angle between v1 and v2.
+    // res = clamp(dot(v1, v2), 0, 1)
+    function void angle(Float316 res, Vec3 v1, Vec3 v2) {
+        do UtilsVec.dot(res, v1, v2);
+        // if the result is negative, return with 0.0
+        if (res.s() > 0) {
+            do res.set(0, 0, 0);
+            return;
+        }
+        if (res.gt(CONST_ONE)) {
+            do res.set(0, 127, 8192);
+        }
+        return;
+    }
+    
+    function void cross(Vec3 res, Vec3 v1, Vec3 v2) {
+        var Float316 v1x, v1y, v1z, v2x, v2y, v2z;
+        
+        let v1x = v1.x();
+        let v1y = v1.y();
+        let v1z = v1.z();
+        let v2x = v2.x();
+        let v2y = v2.y();
+        let v2z = v2.z();
+        
+        // res.x = v1.y * v2.z - v2.y * v1.z
+        do Float316.mul(CROSS_v1y_mul_V2z, v1y, v2z);
+        do Float316.mul(CROSS_v2y_mul_v1z, v2y, v1z);
+        do Float316.sub(res.x(), CROSS_v1y_mul_V2z, CROSS_v2y_mul_v1z);
+
+        // res.y = v1.z * v2.x - v2.z * v1.x
+        do Float316.mul(CROSS_v1z_mul_v2x, v1z, v2x);
+        do Float316.mul(CROSS_v2z_mul_v1x, v2z, v1x);
+        do Float316.sub(res.y(), CROSS_v1z_mul_v2x, CROSS_v2z_mul_v1x);
+        
+        // res.z = v1.x * v2.y - v2.x * v1.y
+        do Float316.mul(CROSS_v1x_mul_v2y, v1x, v2y);
+        do Float316.mul(CROSS_v2x_mul_v1y, v2x, v1y);
+        do Float316.sub(res.z(), CROSS_v1x_mul_v2y, CROSS_v2x_mul_v1y);
+        return;
+    }
+}

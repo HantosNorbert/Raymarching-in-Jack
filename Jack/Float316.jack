@@ -1,0 +1,335 @@
+// Float316 is a floating point number stored in 3 16-bit registers:
+// | sign | exponent | mantissa
+//   where sign and exponent are like IEEE-754,
+//   and mantissa is truncated to the first 13 bits, then padded by 001 on the left:
+//   00 is for detecting overflow (required for some calculations),
+//   1 is the hidden 1 not stored in IEEE-754.
+//
+// For example, 5.75 in IEEE-754 is:
+// 0 | 10000001 | 01110000000000000000000
+// In Float316:
+// 0 | 10000001 | 0010111000000000
+// In decimal representation:
+// 0 | 129 | 11776
+// 
+// Zero is represented as either (0, 0, 0) or (1, 0, 0).
+// The class supports signed zero.
+// The class DOES NOT support borderline cases such as
+//   infinities, NaNs, and subnormal numbers.
+class Float316 {
+    field int s, e, m;
+    
+    constructor Float316 newZero() {
+        let s = 0;
+        let e = 0;
+        let m = 0;
+        return this;
+    }
+    
+    constructor Float316 new(int sign, int exponent, int mantissa){
+        let s = sign;
+        let e = exponent;
+        let m = mantissa;
+        return this;
+    }
+    
+    method int s() { return s; }
+    method int e() { return e; }
+    method int m() { return m; }
+    
+    method void swapSign() {
+        let s = 1 - s;
+        return;
+    }
+    
+    // quick method to halve a non-zero number
+    method void halve() {
+        if (e > 0) {
+            let e = e - 1;
+        }
+        return;
+    }
+    
+    // quick method to quarter a non-zero number
+    method void quarter() {
+        if (e > 0) {
+            let e = e - 2;
+        }
+        return;
+    }
+    
+    // quick method to double a non-zero number
+    method void double() {
+        if (e > 0) {
+            let e = e + 1;
+        }
+        return;
+    }
+    
+    method void set(int sign, int exponent, int mantissa) {
+        let s = sign;
+        let e = exponent;
+        let m = mantissa;
+        return;
+    }
+    
+    // an approximation of res = f1 * f2
+    function void mul(Float316 res, Float316 f1, Float316 f2) {
+        var int f1s, f1e, f1m, f2s, f2e, f2m;
+        var int sign, exponent, mantissa;
+		var int f1_m_high, f1_m_low, f2_m_high, f2_m_low;
+		var int res_m_middle1, res_m_middle2, res_m_high;
+
+        let f1s = f1.s();        
+        let f1e = f1.e();
+        let f1m = f1.m();
+        let f2s = f2.s();
+        let f2e = f2.e();
+        let f2m = f2.m();
+
+        // sign = (s1 + s2) mod 2
+        let sign = (f1s + f2s) & 1;
+
+        // if either f1 or f2 is zero, the result is zero
+        if ( ((f1e = 0) & (f1m = 0)) | ((f2e = 0) & (f2m = 0)) ) {
+            do res.set(sign, 0, 0);
+            return;
+        }
+        
+        // if one of the numbers are +1 or -1, return with the other
+        if ( (f1e = 127) & (f1m = 8192) ) {
+            do res.set(sign, f2e, f2m);
+        }
+        if ( (f2e = 127) & (f2m = 8192) ) {
+            do res.set(sign, f1e, f1m);
+        }
+        
+        // exponents are adding up, but correct it with the bias
+        // exponent is shifted by 1 to correct the decimal point shift
+        // in the mantissa multiplication
+        let exponent = (f1e + f2e) - 126;
+        
+        // calculate the upper and lower 7 bits of the factors
+        let f1_m_high = f1m / 128;
+        let f1_m_low =  f1m & 127;
+        let f2_m_high = f2m / 128;
+        let f2_m_low =  f2m & 127;        
+        
+        // multiply the matching pairs (ignoring res_low calculation
+        // for gaining speed but losing minor accuracy)
+        let res_m_middle1 = f1_m_high * f2_m_low;
+        let res_m_middle2 = f1_m_low  * f2_m_high;
+        let res_m_high =    f1_m_high * f2_m_high;
+        
+        // final mantissa
+        let mantissa = res_m_high + ((res_m_middle1 + res_m_middle2) / 128);
+        
+        // mantissa must start as 001; if not, shift the mantissa and
+        // correct the exponent
+        if (mantissa > 0) {
+            while (mantissa < 8192) {
+                let mantissa = mantissa + mantissa;
+                let exponent = exponent - 1;
+            }
+        }
+        
+        do res.set(sign, exponent, mantissa);
+        return;
+    }
+    
+    // True iff this > f
+    method boolean gt(Float316 f) {
+        var int fs, fe, fm;
+
+        let fs = f.s();        
+        let fe = f.e();
+        let fm = f.m();
+        
+        if ( ~(s = fs) ){
+            return fs > s;
+        }
+        
+        // exponent decides first, then mantissa
+        // positive numbers
+        if (s = 0) {
+            if ( ~(e = fe) ) {
+                return e > fe;
+            }
+            return m > fm;
+        // negative numbers
+        } else {
+            if ( ~(e = fe) ) {
+                return e < fe;
+            }
+        }
+        return m < fm;
+    }
+    
+    // an approximation of res = f1 + f2
+    function void add(Float316 res, Float316 f1, Float316 f2) {
+        var int f1s, f1e, f1m, f2s, f2e, f2m;
+        var int bigs, bige, bigm, smols, smole, smolm;
+        var int exp_diff;
+
+        let f1s = f1.s();        
+        let f1e = f1.e();
+        let f1m = f1.m();
+        let f2s = f2.s();
+        let f2e = f2.e();
+        let f2m = f2.m();
+        
+        // instead of f1 + f2, we calculate bigger + smaller (in absolute terms)
+        // so it's easier to handle negative numbers
+        if ( (f1e < f2e) | ((f1e = f2e) & (f1m < f2m)) ) {
+            let bigs = f2s;
+            let bige = f2e;
+            let bigm = f2m;
+            let smols = f1s;
+            let smole = f1e;
+            let smolm = f1m;
+        } else {
+            let bigs = f1s;
+            let bige = f1e;
+            let bigm = f1m;
+            let smols = f2s;
+            let smole = f2e;
+            let smolm = f2m;
+        }
+        
+        // special case of adding a zero
+        if ( (smole = 0) & (smolm = 0) ) {
+            do res.set(bigs, bige, bigm);
+            return;
+        }
+        
+        // special case of a + -a = 0 (or -a + a = 0)
+        if ( (~(bigs = smols)) & (bige = smole) & (bigm = smolm) ) {
+            do res.set(0, 0, 0);
+            return;
+        }
+        
+        // adjust the exponent of the smaller number to match the bigger one
+        let exp_diff = bige - smole;
+        while (exp_diff > 0) {
+            let smolm = smolm / 2;
+            let exp_diff = exp_diff - 1;
+        }
+        
+        // the result will be stored in big
+        // addition
+        if (bigs = smols) {
+            let bigm = bigm + smolm;
+            // if there was an overflow, normalize (mantissa must start with 001)
+            if (bigm > 16383) {  // 0011111...
+                let bigm = bigm / 2;
+                let bige = bige + 1;
+            }
+        // substraction
+        } else {
+            let bigm = bigm - smolm;
+            // normalize (mantissa must start with 001)
+            while (bigm < 8192) {  // 0010000...
+                let bigm = bigm + bigm;
+                let bige = bige - 1;
+            }
+        }
+        
+        do res.set(bigs, bige, bigm);
+        return;
+    }
+
+    // an approximation of res = f1 - f2
+    function void sub(Float316 res, Float316 f1, Float316 f2) {        
+        do f2.swapSign();
+        do Float316.add(res, f1, f2);
+        if ( ~(f1 = f2) ) {
+            do f2.swapSign();
+        }
+        return;
+    }
+
+    // an approximation of res = f1 / f2
+    function void div(Float316 res, Float316 f1, Float316 f2) {
+        var int f1s, f1e, f1m, f2s, f2e, f2m;
+        var int sign, exponent, mantissa;
+        var int m1, m2, i;
+
+        let f1s = f1.s();        
+        let f1e = f1.e();
+        let f1m = f1.m();
+        let f2s = f2.s();
+        let f2e = f2.e();
+        let f2m = f2.m();
+        
+        // sign = (s1 + s2) mod 2
+        let sign = (f1s + f2s) & 1;
+        
+        // if f1 = 0, return 0
+        if ( (f1e = 0) & (f1m = 0) ) {
+            do res.set(sign, 0, 0);
+            return;
+        }
+        
+        // if f2 = 0, trouble
+        if ( (f2e = 0) & (f2m = 0) ) {
+            do Sys.error(1);
+        }
+        
+        // the new exponent is the difference, adjusted by the bias
+        let exponent = (f1e + 127) - f2e;
+        
+        // mantissa division algorithm
+        // let mantissa = 0;
+        let m1 = f1m;
+        let m2 = f2m;
+        let i = 13;
+        while (i > -1) { 
+            if (m1 > m2) {
+                let mantissa = mantissa + TwoToThePower.of(i);
+                let m1 = m1 - m2;
+            }
+            let m2 = m2 / 2;
+            let i = i - 1;
+        }
+        
+        // normalize (mantissa must start with 001)
+        while (mantissa < 8192) {
+            let mantissa = mantissa + mantissa;
+            let exponent = exponent - 1;
+        }
+
+        do res.set(sign, exponent, mantissa);
+        return;
+    }
+    
+    // res = x % 2, assuming f is a Float316 containing a rounded number
+    // (for example, after a floor function was applied)
+    function void mod2(Float316 res, Float316 f) {
+        var int i, mask;
+        
+        // We just have to peek at a specific position in the mantissa.
+        // The position depends on the exponent.
+        let i = f.e() - 127;
+        let mask = TwoToThePower.of(13-i);
+        
+        // if the particular bit is 1, return with 1.0
+        if ( (f.m() & mask) > 0) {
+            do res.set(0, 127, 8192);
+            return;
+        }
+        // else, return with 0.0
+        do res.set(0, 0, 0);
+        return;
+    }
+        
+    /* FOR DEBUGGING ONLY */
+    method void print() {
+        do Output.printInt(s);
+        do Output.printChar(32);
+        do Output.printInt(e);
+        do Output.printChar(32);
+        do Output.printInt(m);
+        do Output.println();
+        return;
+    }
+}

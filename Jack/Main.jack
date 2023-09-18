@@ -1,0 +1,19 @@
+class Main {
+    function void main() {
+        // initialization order matters!
+        do TwoToThePower.init();
+        do UtilsFloat.init();
+        do UtilsVec.init();
+        do Parameters.init();
+        do CameraMatrix.init();
+        do Scene.init();
+        do RayMarcher.init();
+        do CalcPixel.init();
+        do Dither.init();
+        do ImageRenderer.init();
+        
+        // take a deep breath...
+        do ImageRenderer.render();        
+        return;
+    }
+}

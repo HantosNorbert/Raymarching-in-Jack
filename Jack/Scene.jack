@@ -1,0 +1,157 @@
+// A class containing functions to define the signed distance function.
+// that describes the entire scene.
+class Scene {
+    // Constants
+    static Float316 CONST_ONE;
+
+    // Parameters
+    static Float316 PARAM_objectColor;
+    static Vec3 PARAM_spherePos, PARAM_torusPos;
+    static Float316 PARAM_sphereRad, PARAM_torusOuterRad, PARAM_torusInnerRad;
+    
+    // Variables for temporal computations
+    static Vec3 SPHERE_p;
+    static Float316 SPHERE_length, SPHERE_sd;
+    
+    static Vec3 TORUS_p;
+    static Float316 TORUS_p1_2, TORUS_p2_2, TORUS_d1, TORUS_d2;
+    
+    static Float316 FLOOR_sd;
+    
+    static Float316 SCENE_floorPx, SCENE_floorPz, SCENE_floorColor;
+    static Surface SCENE_floor, SCENE_sphere, SCENE_torus, SCENE_res;
+    
+    function void init() {
+        // Constants
+        let CONST_ONE = Float316.new(0, 127, 8192);  // 1.0
+        
+        // Parameters
+        let PARAM_objectColor = Parameters.objectColor();
+        let PARAM_spherePos = Parameters.spherePos();
+        let PARAM_sphereRad = Parameters.sphereRad();
+        let PARAM_torusPos = Parameters.torusPos();
+        let PARAM_torusOuterRad = Parameters.torusOuterRad();
+        let PARAM_torusInnerRad = Parameters.torusInnerRad();
+        
+        // Variables for temporal computations
+        let SPHERE_p = Vec3.newZero();
+        let SPHERE_length = Float316.newZero();
+        let SPHERE_sd = Float316.newZero();
+        
+        let TORUS_p = Vec3.newZero();
+        let TORUS_p1_2 = Float316.newZero();
+        let TORUS_p2_2 = Float316.newZero();
+        let TORUS_d1 = Float316.newZero();
+        let TORUS_d2 = Float316.newZero();
+        
+        let FLOOR_sd = Float316.newZero();
+        
+        let SCENE_floorPx = Float316.newZero();
+        let SCENE_floorPz = Float316.newZero();
+        let SCENE_floorColor = Float316.newZero();
+        let SCENE_floor = Surface.newZero();
+        let SCENE_sphere = Surface.newZero();
+        let SCENE_torus = Surface.newZero();
+        let SCENE_res = Surface.newZero();
+        return;
+    }
+
+    // Define a Surface res, where
+    //   res.col = col
+    //   res.sd = the signed distance of p and a sphere defined
+    //   at offset point offset with radius r
+    // See https://iquilezles.org/articles/distfunctions/
+    function void sdSphere(Surface res, Vec3 p, Float316 r, Vec3 offset, Float316 col) {
+        // p = p - offset
+        do Vec3.sub(SPHERE_p, p, offset);
+        
+        // sd = length(p) - r
+        do UtilsVec.length(SPHERE_length, SPHERE_p);
+        do Float316.sub(SPHERE_sd, SPHERE_length, r);
+        
+        do res.set(SPHERE_sd, col);
+        return;
+    }
+    
+    // Define a Surface res, where
+    //   res.col = col
+    //   res.sd = the signed distance of p and a torus defined at
+    //   offset point offset with outer radius r1 and cross radius r2
+    // See https://iquilezles.org/articles/distfunctions/
+    function void sdTorus(Surface res, Vec3 p, Float316 r1, Float316 r2, Vec3 offset, Float316 col) {
+        var Float316 px, py, pz;
+        
+        // p = p - offset
+        do Vec3.sub(TORUS_p, p, offset);
+        
+        let px = TORUS_p.x();
+        let py = TORUS_p.y();
+        let pz = TORUS_p.z();
+        
+        // d1 = length(p.x, p.z) - r1
+        do Float316.mul(TORUS_p1_2, px, px);
+        do Float316.mul(TORUS_p2_2, pz, pz);
+        do Float316.add(TORUS_d1, TORUS_p1_2, TORUS_p2_2);
+        do UtilsFloat.sqrt(TORUS_d1, TORUS_d1);
+        do Float316.sub(TORUS_d1, TORUS_d1, r1);
+        
+        // d2 = length(d1, p.y) - r2
+        do Float316.mul(TORUS_p1_2, TORUS_d1, TORUS_d1);
+        do Float316.mul(TORUS_p2_2, py, py);        
+        do Float316.add(TORUS_d2, TORUS_p1_2, TORUS_p2_2);
+        do UtilsFloat.sqrt(TORUS_d2, TORUS_d2);        
+        do Float316.sub(TORUS_d2, TORUS_d2, r2);
+        
+        do res.set(TORUS_d2, col);
+        return;
+    }
+    
+    // Define a Surface res, where
+    //   res.col = col
+    //   res.sd = the signed distance of p and a plane (floor) defined at y = -1
+    function void sdFloor(Surface res, Vec3 p, Float316 col) {
+        // sd = p.y + 1.0
+        do Float316.add(FLOOR_sd, p.y(), CONST_ONE);
+        
+        do res.set(FLOOR_sd, col);
+        return;
+    }
+    
+    // union of two surfaces: a min function
+    function Surface unionSDF(Surface obj1, Surface obj2) {
+        var Float316 sd2;
+        let sd2 = obj2.sd();
+        if ( sd2.gt(obj1.sd()) ) {
+            return obj1;
+        }
+        return obj2;
+    }
+    
+    // Put together a scene (Surface), containing a floor with checkerboard
+    // pattern and two identical spheres at different positions.
+    function void sdScene(Surface res, Vec3 p) {
+        // floorColor is a checkerboard pattern:
+        // floorColor = 1. + objColor*((floor(p.x) + math.floor(p.z)) % 2)
+        do UtilsFloat.floor(SCENE_floorPx, p.x());
+        do UtilsFloat.floor(SCENE_floorPz, p.z());
+        do Float316.add(SCENE_floorColor, SCENE_floorPx, SCENE_floorPz);
+        do Float316.mod2(SCENE_floorColor, SCENE_floorColor);
+        do Float316.mul(SCENE_floorColor, SCENE_floorColor, PARAM_objectColor);
+        do Float316.add(SCENE_floorColor, SCENE_floorColor, CONST_ONE);
+        
+        // define the scene: a floor, a sphere and a torus
+        do Scene.sdFloor(SCENE_floor, p, SCENE_floorColor);
+        do Scene.sdSphere(SCENE_sphere, p, PARAM_sphereRad,
+                          PARAM_spherePos, PARAM_objectColor);
+        do Scene.sdTorus(SCENE_torus, p, PARAM_torusOuterRad,
+                         PARAM_torusInnerRad, PARAM_torusPos,
+                         PARAM_objectColor);
+        
+        // res = union(sphere1, sphere2, floor)
+        let SCENE_res = Scene.unionSDF(SCENE_sphere, SCENE_torus);
+        let SCENE_res = Scene.unionSDF(SCENE_res, SCENE_floor);
+        
+        do res.set(SCENE_res.sd(), SCENE_res.col());
+        return;
+    }
+}
