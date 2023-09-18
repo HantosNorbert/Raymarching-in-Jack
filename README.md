@@ -440,7 +440,7 @@ There is a lot, I mean a LOT that can be optimized. Fewer static variables, fast
 
 ## A Noteworthy Difference Between Jack and Python
 
-One final issue I have to mention specifically, is a difference between Jack and Python. I thought that Python integer division and Jack integer division is the same. But apparently they differ on negative numbers! $-47 ~ // ~ 2$ in Python is$~ -23$ (rounding down), while $-47 / 2$ in Jack it is $-24$ (rounding towards zero). This difference is so subtle in the raymarcher, I only discovered it by chance when the Python `sqrt()` and the Jack `sqrt()` functions mismatched ever slightly... Took me an hour to figure out why!
+One final issue I have to mention specifically, is a difference between Jack and Python. I thought that Python integer division and Jack integer division is the same. But apparently they differ on negative numbers! $-47 ~ // ~ 2$ in Python is$-23$ (rounding down), while $-47 / 2$ in Jack it is $-24$ (rounding towards zero). This difference is so subtle in the raymarcher, I only discovered it by chance when the Python `sqrt()` and the Jack `sqrt()` functions mismatched ever slightly... Took me an hour to figure out why!
 
 ## Gallery
 
