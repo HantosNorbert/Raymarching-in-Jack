@@ -62,9 +62,9 @@ Change the sign of the second number and do addition. Duh!
 
 This is gonna be a bumpy ride. At first glance it seems easy: to multiply $m_1 \cdot 2^{e_1}$ and $m_2 \cdot 2^{e_2}$, the result is simply $m_1 m_2 \cdot 2^{e_1 + e_2}$. We just have to add the mantissas and multiply the exponents!
 
-The smaller caveat is that both exponents contain the extra bias of 127. Adding them means we have double bias, so we have to subtract it once: the new mantissa is $m_1 + m_2 - 127$.
+The smaller caveat is that both exponents contain the extra bias of $127$. Adding them means we have double bias, so we have to subtract it once: the new exponent is $e_1 + e_2 - 127$.
 
-The sign is also easy: $(s_1 + s_2) ~ \text{mod} ~ 2$. Or, since we don't have a `mod` function, $(s_1 + s_2) ~ \& ~ 1$.
+The sign is also easy: $(s_1 + s_2) ~ \text{mod} ~ 2$. Or, since we don't have a `mod` function, $(s_1 + s_2) ~ & ~ 1$.
 
 The biggest issue is multiplying the mantissas. Normally it would go like this: multiply the mantissas in 32 bit registers (since multiplying 16 bit numbers require at most 32 bits), and keep the top 16 bits as the truncated result. But we don't have 32 bits - so we have to break the multiplications into parts.
 
