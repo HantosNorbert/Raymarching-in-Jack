@@ -2,11 +2,11 @@
 
 An at: &
 
-An at: $1 \\& 2$
+An at: $1 ~ \\& ~ 2$
 
 An at: $1 \& 2$
 
-An at: $1 \with 2$
+An at: $1 (&) 2$
 
 ## Normalization of Float316 Numbers
 
