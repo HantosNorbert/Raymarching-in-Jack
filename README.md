@@ -402,19 +402,18 @@ It took about 9 hours and 45 minutes for the entire image to emerge on an AMD Ry
 
 ## Development Process, Testing
 
-As I mentioned before, the development process was done in Python. The first version was built in ShaderToy: the $\text{SDF}$, the raymarcher, the Phong model, they are all standard stuff and can put together easily. Next I wrote a Python code with float numbers, but custom `Vec3` class and overloaded functions. The code is slightly longer and slower, but still quick for testing.
+As I mentioned before, the development process was done in Python. The first version was built in Shadertoy: the $\text{SDF}$, the raymarcher, the Phong model, they are all standard stuff and can be put together easily. Next I wrote a Python code with the built-in float numbers, but custom `Vec3` class and overloaded functions. The code is slightly longer and slower, but still quick for testing.
 
 Next I developed the `Float316` class and all the related functions in Python. I wrote many test functions, especially for the `Float316` and `Vec3` classes. This would have been extremely painful in Jack/Hack, and I ran into many issues that I was able to debug in Python fairly easily.
 
-Once it was done, I brought the classes and functions one-by-one to Jack, and randomly tested the functionaly there as well (I created `print()` functions for `Float316` and `Vec3`). Do Python and Jack agree on the multiplication of the same numbers? Does the $\text{SDF}$ gives the same answer to certain 3D coordinates? Does the pixel in the $42$nd row and $55$th column has the same `Float316` color value?
+Once it was done, I brought the classes and functions one-by-one to Jack, and randomly tested the functionaly there as well (I created `print()` functions for `Float316` and `Vec3`). Do Python and Jack agree on the multiplication of the same numbers? Does the $\text{SDF}$ gives the same answer to certain 3D coordinates? Does the pixel in the 42nd row and 55th column has the same `Float316` color value?
 
 One issue I hadn't talk about is the memory allocations. Since alloc/dealloc is very demanding on the Hack machine, I wanted to allocate all the necessary memory in the beginning, and never deal with memory during the actual computations. So, such a version of the float multiplication is unacceptable:
 ```
 var Float316 result, f1, f2;
 let f1 = Float316.new(...);
 let f2 = Float316.new(...);
-let result = Float316.mul(f1, f2); // mul creates a new object
-//    with mul = f1 * f2
+let result = Float316.mul(f1, f2);  // mul creates a new object with mul = f1 * f2
 ```
 
 Instead, every `Float316` is either a parameter or a static variable with a meaningful name, allocated at `init()` time. Usually the first parameter of the function is where the result will be filled into; and the function does not change the value of its other parameters.
@@ -425,17 +424,17 @@ function void init() {
     let LIGHT_angle = (...);
 }
 (...)
-do Float316.mul(result, PARAM_kd_id, LIGHT_angle);
-// result = PARAM_kd_id * LIGHT_angle;
+// result is a parameter passed by reference
+do Float316.mul(result, PARAM_kd_id, LIGHT_angle);  // result = PARAM_kd_id * LIGHT_angle;
 ```
 
 The naming convention is:
-- `CONST_ALL_CAPITAL` for constant values. Such an example is `CONST_ONE = Float316(0, 127, 8192)`, the `Float316` representation of $1.0$.
+- `CONST_ALL_CAPITAL` for constant values. Such an example is `CONST_ONE = Float316(0, 127, 8192)`, which is the `Float316` representation of $1.0$.
 - `PARAM_camelCase` for variables considered as program parameters that can be easily changed: background color, object color and position, camera view direction, ray marching step threshold, etc.
 - `FUNCNAME_camelCase` for temporal variables inside a function. For example, the `lightIntensity()` function needs to store the light direction, so it uses a variable called `LIGHT_lightDir`. `LIGHT_lightDir` is allocated in the class's `init()` function.
-- `camelCase` for parameters and local variables.
+- `camelCase` for function parameters and local variables.
 
-In the final code I created a lot of static variables in the various classes as available as temporal storage. These are mostly references to `Float316` and `Vec3` objects (or occasionally `Surface` objects). The number of static variables in the entire program is more than 120 - which is a lot! One idea is to rewrite all the $Float316$ functions to allow mutable parameters - I just didn't want to fall into a trap where allocated memories collide (which still happened a few times during the development...)
+In the final code I created a lot of static variables in the various classes as available as temporal storage. These are mostly references to `Float316` and `Vec3` objects (or occasionally `Surface` objects). The number of static variables in the entire program is more than 120 - which is a lot! One idea is to rewrite all the `Float316` functions to allow mutable parameters - I just didn't want to fall into a trap where allocated memories collide (which still happened a few times during the development...)
 
 There is a lot, I mean a LOT that can be optimized. Fewer static variables, faster raymarching, fine-tuning the `Float316` functions (runtime vs precision), and so on. I'm sure you have a few ideas for improvements - so go on, create something better! :-)
 
