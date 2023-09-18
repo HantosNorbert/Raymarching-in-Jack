@@ -2,7 +2,7 @@
 
 ![hack result](media/hackresult.png)
 
-## How to run the application
+## How to run the applications
 
 ### The Jack code
 
@@ -12,23 +12,19 @@
 4. Don't forget to set the "Animation" to "No animate", and set the speed marker slide to "Fast".
 5. Wait about 10 hours for the image to appear. :-) You should see it building pixel-by-pixel.
 
-### The Python code (with custom Float316 type)
+### The Python code (with custom `Float316` type)
 
-1. Make sure you can run Python3 with opencv-python and numpy packages.
+1. Make sure you can run `Python3` with `opencv-python` and `numpy` packages.
 2. Go to the `Python_Float316` folder and run `Main.py`.
 3. Wait about 2 minutes for the image to appear. You should see it building row-by-row.
 4. This image is pixel-equivalent to the Jack image.
 
-### The Python code (with built-in float type)
+### The Python code (with built-in `float` type)
 
-1. Make sure you can run Python3 with opencv-python and numpy packages.
+1. Make sure you can run `Python3` with `opencv-python` and `numpy` packages.
 2. Go to the `Python_float` folder and run `raymarcher.py`.
 3. Wait about 10 seconds for the image to appear. You should see it building row-by-row.
-4. This image is slightly different to the previous images to the precision difference in float numbers.
-
-## Table of contents
-
-TODO
+4. This image is not pixel-equivalent to the previous ones, but the difference is negligible.
 
 ## Introduction
 
@@ -454,4 +450,6 @@ One final issue I have to mention specifically, is a difference between Jack and
 
 ## Gallery
 
-TODO: shadertoy animation, dithered big resolution, python-real, different dithering
+Go to the [Gallery](media/gallery.md) to see some interesting images!
+
+*Norbert Hantos, 2023.09.18.*
