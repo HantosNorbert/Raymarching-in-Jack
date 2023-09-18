@@ -308,9 +308,11 @@ Raymarching can also be used to detect whenever a surface point is in the shadow
 
 You can read more about shadow rays [here](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/ligth-and-shadows.html). Just don't forget the shadow-acne!
 
-## Camera Matrix
+## View Matrix
 
-In order to cast rays, we need a ray origin and a ray direction. The ray origin is defined at some coordinates in the world. But the ray direction is trickier: the virtual screen is in front of the camera, with each pixel representing a direction - but the overall camera has a direction too. So we need to transform the direction of the ray accordingly. Hence, the camera matrix.
+In order to cast rays, we need a ray origin and a ray direction. The ray origin is defined at some coordinates in the world. But the ray direction is trickier: the virtual screen is in front of the camera, with each pixel representing a direction - but the overall camera has a direction too. So we need to transform the direction of the ray accordingly. Hence, the view matrix.
+
+![rays](media/rays.png)
 
 Again, without going into the details, I just give you the result. Let's say $C$ is the camera position in the world, and $L$ is the so called "look-at-point": a point in the world we aim our camera at. We also define a **global up** direction as ${\bf G} = (0, 1, 0)$. Think of it as the direction towards the sky in the world coordinate system. Finally, let ${\bf V}_N$ denote the normalized version of some vector ${\bf V}$.
 
