@@ -68,19 +68,16 @@ The sign is also easy: $(s_1 + s_2) ~ \text{mod} ~ 2$. Or, since we don't have a
 
 The biggest issue is multiplying the mantissas. Normally it would go like this: multiply the mantissas in 32 bit registers (since multiplying 16 bit numbers require at most 32 bits), and keep the top 16 bits as the truncated result. But we don't have 32 bits - so we have to break the multiplications into parts.
 
-For the sake of an example, let's say we operate on decimal numbers, and can only store 4 digits in 6 digit registers (so we can detect overflow). So $4123$ is stored as `0 0 4 1 2 3`.
+For the sake of an example, let's say we operate on decimal numbers, and can only store 4 digits in 6 digit registers (so we can detect overflow). The number $4123$ is stored as `0 0 4 1 2 3`.
 
 We want to multiply $A = 9876$ and $B = 6789$. The result is a 8 digit number, and to store it we need two registers. Let's call them $M_1$ and $M_2$. Since the true result is $67048164$, we expect the following:
 
 **Given $A =$ `0 0 9 8 7 6` and $B =$ `0 0 6 7 8 9`,
 we want $M_1 =$ `0 0 6 7 0 4` and $M_2 =$ `0 0 8 1 6 4`.**
 
-First, we break $A$ and $B$ into two 2-digit parts, and store them in separate registers. Let's call $X_H$ = first two digits of a register $X$ (higher part), and $X_L$ = last two digits of $X$ (lower part). Therefore, we have:
+First, we break $A$ and $B$ into two 2-digit parts, and store them in separate registers. Let's call $X_H$ = first two digits of a number stored in register $X$ (higher part), and $X_L$ = last two digits of the number in $X$ (lower part). Therefore, we have:
 
-$A_H =$ `0 0 0 0 9 8`
-$A_L =$ `0 0 0 0 7 6`
-$B_H =$ `0 0 0 0 6 7`
-$B_L =$ `0 0 0 0 8 9`
+$A_H =$ `0 0 0 0 9 8`, $A_L =$ `0 0 0 0 7 6`, $B_H =$ `0 0 0 0 6 7`, $B_L =$ `0 0 0 0 8 9`.
 
 Notice that $X = 100 X_H + X_L$ by design. Therefore, we can write the following identity:
 
