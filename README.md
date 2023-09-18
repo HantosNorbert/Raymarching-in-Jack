@@ -260,6 +260,10 @@ You can read more about the calculation of surface normals from $\text{SDFs}$ [h
 
 I used the tetrahedron technique to calculate the surface normals. It calls the $\text{SDF}$ four times for a single surface normal. I also tried the classic technique that calls the $\text{SDF}$ three times but results biased normals. I found the latter about 10% faster, but visually I was not satisfied with the result.
 
+![normals](media/normals.png)
+
+*Surface normals: each color shows an $(x, y, z)$ surface normal interpreted as normalized RGB values*
+
 ## The Phong Reflection Model
 
 The [Phong Reflection Model](https://en.wikipedia.org/wiki/Phong_reflection_model) is an empirical model to create realistic looking (but still locally computed) lights. It contains three components: ambient, which represents the light scattered across all the scene; diffuse reflection of rough surfaces; and specular reflection, which acts like the mirror-like reflection of the light sources on the surface.
