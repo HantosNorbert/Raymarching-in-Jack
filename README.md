@@ -324,7 +324,7 @@ The **forward** direction vector is ${\bf F} = (C - L)_N$. Pretty straightforwar
 
 The **right** direction vector is ${\bf R} = ({\bf G} \times {\bf F})_N$. A perpendicular vector to *global up* and *forward*. This is the $x$ direction to our camera.
 
-The **up** direction vector is ${\bf U} = {\bf F} \times {\bf R}$. A perpendicular vector to *forward* and *right*. Since ${\bf R}$ and ${\bf F}$ are already normalized, ${\bf U}$ is normalized too. This is up relative to the camera (which can be tilted depending on the the camera position and the look-at-point). This is the $y$ direction to our camera.
+The **up** direction vector is ${\bf U} = {\bf F} \times {\bf R}$. A perpendicular vector to *forward* and *right*. Since ${\bf R}$ and ${\bf F}$ are already normalized, ${\bf U}$ is normalized too. This is the $y$ direction to our camera.
 
 The view matrix itself is:
 
@@ -339,17 +339,17 @@ $$M = \begin{pmatrix}
 {\bf R}_z & {\bf U_z} & {\bf F}_z
 \end{pmatrix}$$
 
-Since we store the view matrix in row-major order, any transformation (multiplication from the left) can be written as a series of drot products: $M \cdot {\bf v} = ({\bf m}_x \cdot {\bf v}, ~ {\bf m}_y \cdot {\bf v}, ~ {\bf m}_z \cdot {\bf v})$.
+Since we store the view matrix in row-major order in ${\bf m}_x$, ${\bf m}_y$ and ${\bf m}_z$, any transformation (multiplication from the left) can be written as a series of dot products: $M \cdot {\bf v} = ({\bf m}_x \cdot {\bf v}, ~ {\bf m}_y \cdot {\bf v}, ~ {\bf m}_z \cdot {\bf v})$.
 
 You can read more about view matrices [here](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function/framing-lookat-function.html) and [here](https://www.3dgep.com/understanding-the-view-matrix/).
 
 ## Dithering
 
-This is all good - but we still operate of `Float316` numbers, and as we'll see, the final shade of a pixel will be something between $0.0$ and $1.0$, where $0.0$ means completely black, $1.0$ means completely white, and the value can be anything between: a pixel value of $0.5$ means mid-gray shade. Here is such an example:
+This is all good - but we still operate of `Float316` numbers, and as we'll see, the final shade of a pixel will be something between $0.0$ and $1.0$, where $0.0$ means completely black, $1.0$ means completely white, and the value can be anything between: a pixel value of $0.5$ means mid-gray shade. Here is such an example from Wikipedia:
 
 ![halftone](https://upload.wikimedia.org/wikipedia/commons/7/71/Michelangelo%27s_David_-_63_grijswaarden.png)
 
-But on the Hack machine, every pixel is either black or white. What we need is called [color quantization](https://en.wikipedia.org/wiki/Color_quantization). Shall we do a threshold? Let's set everything above 0.5 to white, and everything else is black:
+But on the Hack machine, every pixel is either black or white. What we need is called [color quantization](https://en.wikipedia.org/wiki/Color_quantization). Shall we do a threshold? Let's set everything above $0.5$ to white, and everything else is black:
 
 ![threshold](https://upload.wikimedia.org/wikipedia/commons/a/a3/Michelangelo%27s_David_-_drempel.png)
 
@@ -373,24 +373,19 @@ Now that everything is ready and implemented, let's put together our main algori
 
 For every pixel on the image, do **Step 1** first, and then **Step 2**.
 
-**Step 1**: the color intensity of a pixel.
+**Step 1**: calculate the color intensity (shade) of a pixel.
 1. Calculate the normalized pixel coordinates: $x$ axis goes from $-1.0$ to $1.0$, $y$ axis goes from $-0.5$ to $0.5$.
-2. The ray direction $R_d$ goes from the camera center point towards the normalized pixel position; $R_d$ is then adjusted by the view matrix.
-3. The ray origin $R_o$ is the camera position.
+2. The ray origin $R_o$ is the camera position.
+3. The ray direction $R_d$ goes from the camera center point towards the normalized pixel position; $R_d$ is then adjusted by the view matrix.
 4. Use the raymarching algorithm to cast a ray from $R_o$ with the direction $R_d$: this uses our $\text{SDF}$ function to search for a surface point $P$.
-5. If we didn't hit anything, the initial pixel value $v$ is a background color, and we are done here. Goto **Step 2**.
-6. Calculate the light intensity at the surface point $P$ using the Phong reflection model. This is our initial color intensity $v$ for the pixel.
+5. If we didn't hit anything, the initial pixel value $v$ is a background color, and we are done here. Goto **Step 2**. Otherwise, we hit a surface, and we can ask for the object's color.
+6. Calculate the light ntensity at the surface point $P$ using the Phong reflection model. This is our initial color intensity $v$ for the pixel.
 7. Cast a second ray using raymarching to determine if we are in a shadow. Now $R_o$ is the surface point $P$, and the ray direction $R_d$ points from $P$ to the light source.
 8. If the cumulative length of the ray is smaller than the distance of the surface point $P$ and the light source, we hit an object before we could reach the light - so we are in a shadow. Reduce the pixel intensity $v$ to $\frac{1}{4}v$. Goto **Step 2**.
 
 **Step 2**: dithering.
 
-1. A pixel value $v$ at screen coordinates $(x, y)$ is adjusted to the following: $v' = v + D[8 \cdot (y ~ \text{mod} ~ 8) + (x ~ \text{mod} ~ 8)]$, where $D$ is a list of 64 float numbers of the ordered dithering threshold values:
-$0/64 - 0.5$
-$48/64 - 0.5$
-$12/64 - 0.5$
-$\dots$
-$21/64 - 0.5$
+1. A pixel value $v$ at screen coordinates $(x, y)$ is adjusted by the ordered dithering threshold map according to $x ~ \text{mod} ~ 8$ and $y ~ \text{mod} ~ 8$.
 3. Finally, if $v' > 0.5$, we color the pixel white. Else, it's black.
 
 TODO final animation
