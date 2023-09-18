@@ -123,7 +123,7 @@ Finally, let's sum up the steps of the multiplication!
 3. If one of the numbers is $\pm 1.0$, return with the other number with the new sign.
 4. The result has the exponent $e_1 + e_2 - 127 + 1$.
 5. For the mantissa:
-    1) If $X_H$ denotes the higher 7 bits ($X / 128$), and $X_L$ is the lower 7 bits ($X ~ \& ~ 127$) of an integer $X$, then let:
+    1) If $X_H$ denotes the higher 7 bits ($X / 128$), and $X_L$ is the lower 7 bits ($X ~ \\& ~ 127$) of an integer $X$, then let:
     2) $P = m_{1H} \cdot m_{2H}$,
     3) $Q = m_{1H} \cdot m_{2L}$,
     4) $R = m_{1L} \cdot m_{2H}$.
