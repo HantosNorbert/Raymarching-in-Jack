@@ -386,9 +386,15 @@ For every pixel on the image, do **Step 1** first, and then **Step 2**.
 **Step 2**: dithering.
 
 1. A pixel value $v$ at screen coordinates $(x, y)$ is adjusted by the ordered dithering threshold map according to $x ~ \text{mod} ~ 8$ and $y ~ \text{mod} ~ 8$.
-3. Finally, if $v' > 0.5$, we color the pixel white. Else, it's black.
+3. Finally, if $v > 0.5$, we color the pixel white. Else, it's black.
 
-TODO final animation
+On the Hack emulator it looked like this:
+
+![hack avi](media/hack.avi)
+
+*The final rendering process in the Hack simulator.*
+
+It took about 9 hours and 45 minutes for the entire image to emerge on an AMD Ryzen 5 CPU with 3.7GHz.
 
 ## Development Process, Testing
 
