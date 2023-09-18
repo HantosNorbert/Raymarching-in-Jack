@@ -450,6 +450,8 @@ One final issue I have to mention specifically, is a difference between Jack and
 
 ## Gallery
 
-Go to the [Gallery](media/gallery.md) to see some interesting images!
+Go to the [Gallery](media/Gallery.md) to see some interesting images!
+
+---------------------------------------
 
 *Norbert Hantos, 2023.09.18.*
