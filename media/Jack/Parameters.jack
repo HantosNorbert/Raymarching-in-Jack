@@ -1,0 +1,111 @@
+// A class that contains all the parameters that can be freely changed,
+// such as the position, size and color of the objects; and some more.
+class Parameters {
+    static Vec3 spherePos, torusPos;
+    static Float316 sphereRad, torusOuterRad, torusInnerRad;
+    
+    static Vec3 cameraPos, cameraLookAt;
+    
+    static Float316 objectColor, backgroundColor, ambientBackgroundColor;
+    static Float316 kd_id, ks_is;
+    static Vec3 lightPos;
+
+    static Float316 precision, precision2, maxDist;
+    static int maxMarchingSteps, maxMarchingStepsShadow;
+    static Vec3 exyy, eyyx, eyxy, exxx;
+    
+    function void init() {
+        // **********************************
+        // SCENE DEFINITION
+        // **********************************
+        let spherePos = Vec3.new(Float316.new(1, 127, 12288), // -1.5
+                                 Float316.new(0, 0, 0),       //  0.0
+                                 Float316.new(0, 0, 0));      //  0.0
+        let sphereRad = Float316.new(0, 127, 8192);  // 1.0
+
+        let torusPos = Vec3.new(Float316.new(0, 127, 12288), // 1.5
+                                Float316.new(0, 0, 0),       // 0.0
+                                Float316.new(0, 0, 0));      // 0.0
+        let torusOuterRad = Float316.new(0, 127, 8192);  // 1.0
+        let torusInnerRad = Float316.new(0, 125, 8192);  // 0.25
+        
+        // **********************************
+        // CAMERA
+        // **********************************
+        let cameraPos = Vec3.new(Float316.new(0, 0, 0),        // 0.0
+                                 Float316.new(0, 127, 12288),  // 1.5
+                                 Float316.new(0, 129, 8192));  // 4.0
+        let cameraLookAt = Vec3.new(Float316.new(0, 0, 0),   // 0.0
+                                    Float316.new(0, 0, 0),   // 0.0
+                                    Float316.new(0, 0, 0));  // 0.0
+                                      
+        // **********************************
+        // COLORS AND LIGHTING
+        // **********************************
+        let objectColor = Float316.new(0, 126, 11468);  // 0.7
+        let backgroundColor = Float316.new(0, 126, 13680);  // 0.835
+        let ambientBackgroundColor = Float316.new(0, 124, 10944);  // 0.2 *
+                                                         // backgroundColor
+        
+        let lightPos = Vec3.new(Float316.new(0, 128, 8192),   //  2.0
+                                Float316.new(0, 129, 10240),  //  5.0
+                                Float316.new(1, 127, 8192));  // -1.0
+                                 
+        let kd_id = Float316.new(0, 126, 10321);  // kd * id, 0.9 * 0.7
+        let ks_is = Float316.new(0, 125, 11468);  // ks * is, 0.7 * 0.5
+
+        // **********************************
+        // RAYMARCHING
+        // **********************************
+        let precision = Float316.new(0, 120, 10485);  // 0.01
+        
+        let precision2 = Float316.newZero();
+        do precision2.set(precision.s(), precision.e(), precision.m());
+        do precision2.double();
+        
+        let maxDist = Float316.new(0, 130, 12288);  // 12.0
+        
+        let maxMarchingSteps = 64;
+        let maxMarchingStepsShadow = 32;
+        
+        let exyy = Vec3.new(Float316.new(0, 119, 10485),   //  0.005
+                            Float316.new(1, 119, 10485),   // -0.005
+                            Float316.new(1, 119, 10485));  // -0.005
+        let eyyx = Vec3.new(Float316.new(1, 119, 10485),   // -0.005
+                            Float316.new(1, 119, 10485),   // -0.005
+                            Float316.new(0, 119, 10485));  //  0.005
+        let eyxy = Vec3.new(Float316.new(1, 119, 10485),   // -0.005
+                            Float316.new(0, 119, 10485),   //  0.005
+                            Float316.new(1, 119, 10485));  // -0.005
+        let exxx = Vec3.new(Float316.new(0, 119, 10485),   //  0.005
+                            Float316.new(0, 119, 10485),   //  0.005
+                            Float316.new(0, 119, 10485));  //  0.005
+        return;
+    }
+    
+    function Vec3 spherePos() { return spherePos; }
+    function Float316 sphereRad() { return sphereRad; }
+    function Vec3 torusPos() { return torusPos; }
+    function Float316 torusOuterRad() { return torusOuterRad; }
+    function Float316 torusInnerRad() { return torusInnerRad; }
+    
+    function Vec3 cameraPos() { return cameraPos; }
+    function Vec3 cameraLookAt() { return cameraLookAt; }
+    
+    function Float316 objectColor() { return objectColor; }
+    function Float316 backgroundColor() { return backgroundColor; }
+    function Float316 ambientBackgroundColor() { return ambientBackgroundColor; }
+    function Vec3 lightPos() { return lightPos; }
+    function Vec3 kd_id() { return kd_id; }
+    function Vec3 ks_is() { return ks_is; }
+
+    function Float316 precision() { return precision; }
+    function Float316 precision2() { return precision2; }
+    function Float316 maxDist() { return maxDist; }
+    function int maxMarchingSteps() { return maxMarchingSteps; }
+    function int maxMarchingStepsShadow() { return maxMarchingStepsShadow; }
+    function Vec3 exyy() { return exyy; }
+    function Vec3 eyyx() { return eyyx; }
+    function Vec3 eyxy() { return eyxy; }
+    function Vec3 exxx() { return exxx; }
+}

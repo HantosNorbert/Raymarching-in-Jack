@@ -1,0 +1,150 @@
+// A class to calculate the float value of a single pixel.
+class CalcPixel {
+    // Constants
+    static Float316 CONST_MINUS_ONE;
+    
+    // Parameters
+    static Vec3 PARAM_cameraPos;
+    static int PARAM_maxMarchingSteps;
+    static int PARAM_maxMarchingStepsShadow;
+    static Float316 PARAM_maxDist, PARAM_backgroundColor;
+    static Float316 PARAM_ambientBackgroundColor;
+    static Vec3 PARAM_lightPos, PARAM_precision2;
+
+    // Variables for temporal computations
+    static Vec3 PIXEL_normUV, PIXEL_rayDir, PIXEL_P;
+    static Vec3 PIXEL_cameraMatrixV1, PIXEL_cameraMatrixV2, PIXEL_cameraMatrixV3;
+    static Surface PIXEL_surface;
+    static Vec3 PIXEL_normal;
+    static Float316 PIXEL_lightIntensity, PIXEL_lightDistance;
+    static Vec3 PIXEL_lightPosMinusNewRayOrigin;
+
+    static Vec3 PIXEL_lightPosMinusP, PIXEL_lightDir;
+    static Vec3 PIXEL_newRayOrigin;
+    static Float316 PIXEL_shadowRayLength;
+    
+    function void init() {
+        // Constants
+        let CONST_MINUS_ONE = Float316.new(1, 127, 8192);  // -1.0
+        
+        // Parameters
+        let PARAM_cameraPos = Parameters.cameraPos();
+        let PARAM_maxMarchingSteps = Parameters.maxMarchingSteps();
+        let PARAM_maxMarchingStepsShadow = Parameters.maxMarchingStepsShadow();
+        let PARAM_maxDist = Parameters.maxDist();
+        let PARAM_backgroundColor = Parameters.backgroundColor();
+        let PARAM_ambientBackgroundColor = Parameters.ambientBackgroundColor();
+        let PARAM_lightPos = Parameters.lightPos();
+        let PARAM_precision2 = Parameters.precision2();
+        
+        // Variables for temporal computations
+        let PIXEL_normUV = Vec3.newZero();
+        let PIXEL_rayDir = Vec3.newZero();
+        
+        let PIXEL_P = Vec3.newZero();
+        let PIXEL_surface = Surface.newZero();
+        let PIXEL_normal = Vec3.newZero();
+        let PIXEL_lightIntensity = Float316.newZero();
+        
+        let PIXEL_lightPosMinusP = Vec3.newZero();
+        let PIXEL_lightDir = Vec3.newZero();
+        let PIXEL_newRayOrigin = Vec3.newZero();
+        let PIXEL_shadowRayLength = Float316.newZero();
+        let PIXEL_lightPosMinusNewRayOrigin = Vec3.newZero();
+        let PIXEL_lightDistance = Float316.newZero();
+        
+        // Get the camera matrix
+        let PIXEL_cameraMatrixV1 = Vec3.newZero();
+        let PIXEL_cameraMatrixV2 = Vec3.newZero();
+        let PIXEL_cameraMatrixV3 = Vec3.newZero();
+        do CameraMatrix.create(PIXEL_cameraMatrixV1, PIXEL_cameraMatrixV2,
+                               PIXEL_cameraMatrixV3);
+        return;
+    }
+
+    // res = intensity value at normalized pixel coordinates (u,v)
+    function void calcPixelValue(Float316 res, Float316 u, Float316 v) {
+        //##############################################################
+        // RAY MARCHING
+        //##############################################################
+        var Float316 sd;
+        
+        // calculate the ray direction
+        // rd = camMatrix * normalize(Vec3(u, v, -1.0))
+        do PIXEL_normUV.set(u, v, CONST_MINUS_ONE);
+
+        do UtilsVec.normalize(PIXEL_normUV, PIXEL_normUV);
+
+        do UtilsVec.dot(PIXEL_rayDir.x(), PIXEL_cameraMatrixV1, PIXEL_normUV);
+        do UtilsVec.dot(PIXEL_rayDir.y(), PIXEL_cameraMatrixV2, PIXEL_normUV);
+        do UtilsVec.dot(PIXEL_rayDir.z(), PIXEL_cameraMatrixV3, PIXEL_normUV);
+        
+        // ray marching: what surface did we hit
+        // co = rayMarch(camPos, rd)
+        do RayMarcher.rayMarch(PIXEL_surface, PARAM_cameraPos, PIXEL_rayDir,
+                               PARAM_maxMarchingSteps);
+        
+        // if we didn't hit any surface: it's a background (no lighting)
+        // if surface.sd > MAX_DIST:
+        //   col = backgroundColor
+        let sd = PIXEL_surface.sd();
+        if ( sd.gt(PARAM_maxDist) ) {
+            do res.set(PARAM_backgroundColor.s(), PARAM_backgroundColor.e(),
+                       PARAM_backgroundColor.m());
+            return;
+        }
+        
+        //##############################################################
+        // LIGHT INTENSITY
+        //##############################################################
+        
+        // let's bring p to that surface
+        // p = camPos + rd * co.sd
+        do Vec3.cmul(PIXEL_P, PIXEL_rayDir, sd);
+        do Vec3.add(PIXEL_P, PARAM_cameraPos, PIXEL_P);
+        
+        // normal = calcNormal(p)
+        do RayMarcher.calcNormal(PIXEL_normal, PIXEL_P);
+        
+        // calculate the light intensity at p
+        // col = co.col * lightIntensity(p, normal, camPos, lightPos, co.sd) +
+        //       0.2*backgroundColor
+        do RayMarcher.lightIntensity(PIXEL_lightIntensity, PIXEL_P,
+                                     PIXEL_normal);
+        do Float316.mul(res, PIXEL_surface.col(), PIXEL_lightIntensity);
+        do Float316.add(res, res, PARAM_ambientBackgroundColor);
+        
+        //##############################################################
+        // SHADOW CALCULATIONS
+        //##############################################################
+        
+        // we need a light direction first
+        // lightDir = normalize(lightPos - p)
+        do Vec3.sub(PIXEL_lightPosMinusP, PARAM_lightPos, PIXEL_P);
+        do UtilsVec.normalize(PIXEL_lightDir, PIXEL_lightPosMinusP);
+        
+        // start a new raymarching from the surface we hit, but we need to
+        // lift it up a little ("up" = towards its normal vector)
+        // newRayOrigin = p + normal * PRECISION * 2.0
+        do Vec3.cmul(PIXEL_newRayOrigin, PIXEL_normal, PARAM_precision2);
+        do Vec3.add(PIXEL_newRayOrigin, PIXEL_newRayOrigin, PIXEL_P);
+        
+        // start a new ray march: we either hit a surface or don't
+        // shadowRayLength = rayMarch(newRayOrigin, lightDir).sd
+        do RayMarcher.rayMarch(PIXEL_surface, PIXEL_newRayOrigin,
+                               PIXEL_lightDir, PARAM_maxMarchingStepsShadow);
+        let sd = PIXEL_surface.sd();
+        do PIXEL_shadowRayLength.set(sd.s(), sd.e(), sd.m());
+        
+        // if we hit a surface: we are in a shadow -> reduce the final color
+        // if shadowRayLength < length(lightPos - newRayOrigin):
+        //     col *= 0.25
+        do Vec3.sub(PIXEL_lightPosMinusNewRayOrigin, PARAM_lightPos,
+                    PIXEL_newRayOrigin);
+        do UtilsVec.length(PIXEL_lightDistance, PIXEL_lightPosMinusNewRayOrigin);
+        if ( PIXEL_lightDistance.gt(PIXEL_shadowRayLength) ) {
+            do res.quarter();
+        }
+        return;
+    }
+}

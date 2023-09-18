@@ -1,0 +1,91 @@
+// Ordered dithering 8x8 threshold map values
+class Dither {
+	static Array ditherValues;
+
+	function void init() {
+		var int i;
+		let ditherValues = Array.new(64);
+		while (i < 64) {
+			let ditherValues[i] = Float316.newZero();
+			let i = i + 1;
+		}
+		
+		let ditherValues[ 0] = Float316.new(1, 126,  8192);  //  0/64 - 0.5
+		let ditherValues[ 1] = Float316.new(0, 125,  8192);  // 48/64 - 0.5
+		let ditherValues[ 2] = Float316.new(1, 125, 10240);  // 12/64 - 0.5
+		let ditherValues[ 3] = Float316.new(0, 125, 14336);  // 60/64 - 0.5
+		let ditherValues[ 4] = Float316.new(1, 125, 14848);  //  3/64 - 0.5
+		let ditherValues[ 5] = Float316.new(0, 125,  9728);  // 51/64 - 0.5
+		let ditherValues[ 6] = Float316.new(1, 125,  8704);  // 15/64 - 0.5
+		let ditherValues[ 7] = Float316.new(0, 125, 15872);  // 63/64 - 0.5
+
+		let ditherValues[ 8] = Float316.new(0,   0,     0);  // 32/64 - 0.5
+		let ditherValues[ 9] = Float316.new(1, 125,  8192);  // 16/64 - 0.5
+		let ditherValues[10] = Float316.new(0, 124, 12288);  // 44/64 - 0.5
+		let ditherValues[11] = Float316.new(1, 123,  8192);  // 28/64 - 0.5
+		let ditherValues[12] = Float316.new(0, 122, 12288);  // 35/64 - 0.5
+		let ditherValues[13] = Float316.new(1, 124, 13312);  // 19/64 - 0.5
+		let ditherValues[14] = Float316.new(0, 124, 15360);  // 47/64 - 0.5
+		let ditherValues[15] = Float316.new(1, 121,  8192);  // 31/64 - 0.5
+
+		let ditherValues[16] = Float316.new(1, 125, 12288);  //  8/64 - 0.5
+		let ditherValues[17] = Float316.new(0, 125, 12288);  // 56/64 - 0.5
+		let ditherValues[18] = Float316.new(1, 125, 14336);  //  4/64 - 0.5
+		let ditherValues[19] = Float316.new(0, 125, 10240);  // 52/64 - 0.5
+		let ditherValues[20] = Float316.new(1, 125, 10752);  // 11/64 - 0.5
+		let ditherValues[21] = Float316.new(0, 125, 13824);  // 59/64 - 0.5
+		let ditherValues[22] = Float316.new(1, 125, 12800);  //  7/64 - 0.5
+		let ditherValues[23] = Float316.new(0, 125, 11776);  // 55/64 - 0.5
+
+		let ditherValues[24] = Float316.new(0, 124,  8192);  // 40/64 - 0.5
+		let ditherValues[25] = Float316.new(1, 124,  8192);  // 24/64 - 0.5
+		let ditherValues[26] = Float316.new(0, 123,  8192);  // 36/64 - 0.5
+		let ditherValues[27] = Float316.new(1, 124, 12288);  // 20/64 - 0.5
+		let ditherValues[28] = Float316.new(0, 124, 11264);  // 43/64 - 0.5
+		let ditherValues[29] = Float316.new(1, 123, 10240);  // 27/64 - 0.5
+		let ditherValues[30] = Float316.new(0, 123, 14336);  // 39/64 - 0.5
+		let ditherValues[31] = Float316.new(1, 124,  9216);  // 23/64 - 0.5
+
+		let ditherValues[32] = Float316.new(1, 125, 15360);  //  2/64 - 0.5
+		let ditherValues[33] = Float316.new(0, 125,  9216);  // 50/64 - 0.5
+		let ditherValues[34] = Float316.new(1, 125,  9216);  // 14/64 - 0.5
+		let ditherValues[35] = Float316.new(0, 125, 15360);  // 62/64 - 0.5
+		let ditherValues[36] = Float316.new(1, 125, 15872);  //  1/64 - 0.5
+		let ditherValues[37] = Float316.new(0, 125,  8704);  // 49/64 - 0.5
+		let ditherValues[38] = Float316.new(1, 125,  9728);  // 13/64 - 0.5
+		let ditherValues[39] = Float316.new(0, 125, 14848);  // 61/64 - 0.5
+
+		let ditherValues[40] = Float316.new(0, 122,  8192);  // 34/64 - 0.5
+		let ditherValues[41] = Float316.new(1, 124, 14336);  // 18/64 - 0.5
+		let ditherValues[42] = Float316.new(0, 124, 14336);  // 46/64 - 0.5
+		let ditherValues[43] = Float316.new(1, 122,  8192);  // 30/64 - 0.5
+		let ditherValues[44] = Float316.new(0, 121,  8192);  // 33/64 - 0.5
+		let ditherValues[45] = Float316.new(1, 124, 15360);  // 17/64 - 0.5
+		let ditherValues[46] = Float316.new(0, 124, 13312);  // 45/64 - 0.5
+		let ditherValues[47] = Float316.new(1, 122, 12288);  // 29/64 - 0.5
+
+		let ditherValues[48] = Float316.new(1, 125, 11264);  // 10/64 - 0.5
+		let ditherValues[49] = Float316.new(0, 125, 13312);  // 58/64 - 0.5
+		let ditherValues[50] = Float316.new(1, 125, 13312);  //  6/64 - 0.5
+		let ditherValues[51] = Float316.new(0, 125, 11264);  // 54/64 - 0.5
+		let ditherValues[52] = Float316.new(1, 125, 11776);  //  9/64 - 0.5
+		let ditherValues[53] = Float316.new(0, 125, 12800);  // 57/64 - 0.5
+		let ditherValues[54] = Float316.new(1, 125, 13824);  //  5/64 - 0.5
+		let ditherValues[55] = Float316.new(0, 125, 10752);  // 53/64 - 0.5
+
+		let ditherValues[56] = Float316.new(0, 124, 10240);  // 42/64 - 0.5
+		let ditherValues[57] = Float316.new(1, 123, 12288);  // 26/64 - 0.5
+		let ditherValues[58] = Float316.new(0, 123, 12288);  // 38/64 - 0.5
+		let ditherValues[59] = Float316.new(1, 124, 10240);  // 22/64 - 0.5
+		let ditherValues[60] = Float316.new(0, 124,  9216);  // 41/64 - 0.5
+		let ditherValues[61] = Float316.new(1, 123, 14336);  // 25/64 - 0.5
+		let ditherValues[62] = Float316.new(0, 123, 10240);  // 37/64 - 0.5
+		let ditherValues[63] = Float316.new(1, 124, 11264);  // 21/64 - 0.5
+		
+		return;
+	}
+	
+	function Float316 at(int i) {
+		return ditherValues[i];
+	}
+}
