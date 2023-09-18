@@ -1,6 +1,6 @@
-# Appendix A - Float316 Functions in Detail
+# Appendix A - `Float316` Functions in Detail
 
-## Normalization of Float316 Numbers
+## Normalization of `Float316` Numbers
 
 Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$ (since we store the explicit 1 in $m$, we don't have to add it to $m$ anymore).
 
@@ -54,11 +54,11 @@ After normalization: `1, 128, 15360` (exponent decreased by $1$, mantissa double
 
 Which happens to encode the real number $-3.75$.
 
-##  Substraction of Float316 Numbers
+##  Substraction of `Float316` Numbers
 
 Change the sign of the second number and do addition. Duh!
 
-##  Multiplication of Float316 Numbers
+##  Multiplication of `Float316` Numbers
 
 This is gonna be a bumpy ride. At first glance it seems easy: to multiply $m_1 \cdot 2^{e_1}$ and $m_2 \cdot 2^{e_2}$, the result is simply $m_1 m_2 \cdot 2^{e_1 + e_2}$. We just have to add the mantissas and multiply the exponents!
 
@@ -132,7 +132,7 @@ Finally, let's sum up the steps of the multiplication!
 
 If you reached this point, congratulations! This was probably the hardest part. :-)
 
-##  Division of Float316 Numbers
+##  Division of `Float316` Numbers
 
 This will be surprisingly easy after multiplication. Dividing $m_1 \cdot 2^{e_1}$ by $m_2 \cdot 2^{e_2}$ results $\frac{m_1}{m_2} \cdot 2^{e_1 - e_2}$.
 
@@ -173,7 +173,7 @@ To sum up:
     iii) if $m_1 > m_2$, then $m_1 = m_1 - m_2$ and let $m[i] = 1$.
     iv) Regardless of the previous step, divide $m_2$ by $2$ (right-shift), and lower the bit index $i$ by $1$.
 
-##  Floor and Modulo 2 of Float316 Numbers
+##  Floor and Modulo 2 of `Float316` Numbers
 
 They are fairly simple. If you set every bit from the $n$th position in the mantissa to $0$ (counting from the least significant bit being at position $0$), you will end up with an integer. And if you peek at the bit one position before $n$, you will know if it's even or odd. And what is the value of $n$? That depends on the exponent!
 
@@ -183,7 +183,7 @@ For the curious minds: the solution is $n = 22 - (e - 127)$ for IEEE 754, and $n
 
 Note that zeroing out the mantissa up to the $n$th position gives us the `floor` function for positive numbers, but `ceil` function for negatives. We have to adjust the result if we are dealing with negatives.
 
-##  Square Root of Float316 Numbers
+##  Square Root of `Float316` Numbers
 
 Our general strategy: go with an initial guess, and use [Newton-Raphson method](https://en.wikipedia.org/wiki/Newton%27s_method) to get a better approximation. I don't want to go into the details why and how this method works, there are plenty of articles and examples on the subject.
 
@@ -205,7 +205,7 @@ To halve the exponent, we have to consider the bias: the new exponent should be 
 
 I found that two iterations of the Newton-Raphson method is sufficient for our raymarcher.
 
-##  (Fast) Inverse Square Root of Float316 Numbers
+##  (Fast) Inverse Square Root of `Float316` Numbers
 
 Computing $c/\sqrt{x}$ for some $c$ and $x$ values requires a square root function followed by a division (and as we will see later, we need this combination for vector normalization). Division is slower than multiplication - so wouldn't it be better if we could do $c \cdot \frac{1}{\sqrt{x}}$, where $\frac{1}{\sqrt{x}}$ is computed directly? The answer is yes!
 
