@@ -1,5 +1,13 @@
 # Appendix A - Float316 Functions in Detail
 
+An at: &
+
+An at: $1 & 2$
+
+An at: $1 \& 2$
+
+An at: $1 \with 2$
+
 ## Normalization of Float316 Numbers
 
 Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$ (since we store the explicit 1 in $m$, we don't have to add it to $m$ anymore).
