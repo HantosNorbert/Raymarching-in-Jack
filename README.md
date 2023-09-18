@@ -390,7 +390,7 @@ For every pixel on the image, do **Step 1** first, and then **Step 2**.
 
 On the Hack emulator it looked like this:
 
-![hack video](media/giphy.gif)
+![hack video](media/hackvideo.gif)
 
 *The final rendering process in the Hack simulator.*
 
