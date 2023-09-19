@@ -168,10 +168,10 @@ To sum up:
 3. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
 4. The result has the exponent $e_1 + 127 - e_2$.
 5. For the mantissa $m$:
-    i) Set the bit index to $i = 13$ (the first significant digit of $m$).
-    ii) While $i \ge 0$, repeat the following steps:
-    iii) if $m_1 > m_2$, then $m_1 = m_1 - m_2$ and let $m[i] = 1$.
-    iv) Regardless of the previous step, divide $m_2$ by $2$ (right-shift), and lower the bit index $i$ by $1$.
+    1) Set the bit index to $i = 13$ (the first significant digit of $m$).
+    2) While $i \ge 0$, repeat the following steps:
+    3) if $m_1 > m_2$, then $m_1 = m_1 - m_2$ and let $m[i] = 1$.
+    4) Regardless of the previous step, divide $m_2$ by $2$ (right-shift), and lower the bit index $i$ by $1$.
 
 ##  Floor and Modulo 2 of `Float316` Numbers
 
