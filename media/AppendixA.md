@@ -100,9 +100,9 @@ TODO
 
 Breaking the addition into $M_1$ and $M_2$ registers:
 
-$M_1 = P + Q_H + R_H = 6566 + 87 + 50 =$ `0 0 6 7 0 3`
+$M_2 = S + 100 \cdot R_L + 100 \cdot Q_L + S = 6764 + 9200 + 2200 =$ `0 1 8 1 6 4`
 
-$M_2 = Q_L + R_L + S = 22 + 92 + 6764 =$ `0 1 8 1 6 4`
+$M_1 = R_H + Q_H + P = 50 + 87 + 6566 =$ `0 0 6 7 0 3`
 
 Notice that in this example, $M_2$ register no longer starts with `0 0`: we have an overflow, which we want to bring from $M_2$ to $M_1$. Doing so, we get the final result:
 
