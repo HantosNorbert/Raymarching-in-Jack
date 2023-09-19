@@ -284,7 +284,7 @@ class Float316 {
         let m2 = f2m;
         let i = 13;
         while (i > -1) { 
-            if (m1 > m2) {
+            if (m1 > (m2 - 1)) {
                 let mantissa = mantissa + TwoToThePower.of(i);
                 let m1 = m1 - m2;
             }

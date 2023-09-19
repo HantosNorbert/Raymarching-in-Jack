@@ -203,7 +203,7 @@ class Float316:
         m2 = f2.m
         i = 13
         while i > -1: 
-            if m1 > m2:
+            if m1 > m2 - 1:
                 mantissa = mantissa + 2**i
                 m1 = m1 - m2
             m2 = m2 // 2
@@ -243,7 +243,7 @@ class Float316:
     #####################################################################################
     # print a representation
     def __str__(self):
-        return f"{self.getValue()} | {self.s} | {bin(self.e)[2:].zfill(8)} | {bin(self.m)[2:].zfill(16)}"
+        return f"{self.getValue()} | {self.s} | {bin(self.e)[2:].zfill(8)} | {bin(self.m)[2:].zfill(16)} ({self.s}, {self.e}, {self.m})"
     # def __str__(self):
     #     return f"{self.s}, {self.e}, {self.m}"
 
