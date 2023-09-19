@@ -96,7 +96,7 @@ $A_L B_L = 76 \cdot 89 =$ `0 0 6 7 6 4`. Let's call this $S$.
 
 By shifting them to the left ($P$ by 4 places, $Q$ and $R$ by 2 places, $S$ by none) and adding them together, we get the result. This table illustrates the process:
 
-![multiplication](media/mult.png)
+![multiplication](mult.png)
 
 Breaking the addition into $M_1$ and $M_2$ registers:
 
