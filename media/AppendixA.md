@@ -1,4 +1,4 @@
-L# Appendix A - `Float316` Functions in Detail
+# Appendix A - `Float316` Functions in Detail
 
 ## Normalization of `Float316` Numbers
 
