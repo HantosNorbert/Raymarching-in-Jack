@@ -1,4 +1,4 @@
-# Appendix A - `Float316` Functions in Detail
+L# Appendix A - `Float316` Functions in Detail
 
 ## Normalization of `Float316` Numbers
 
@@ -134,29 +134,29 @@ If you reached this point, congratulations! This was probably the hardest part. 
 
 ##  Division of `Float316` Numbers
 
-This will be surprisingly easy after multiplication. Dividing $m_1 \cdot 2^{e_1}$ by $m_2 \cdot 2^{e_2}$ results $\frac{m_1}{m_2} \cdot 2^{e_1 - e_2}$.
+This will be surprisingly easy after multiplication. Dividing $m_1 \cdot 2^{e_1}$ by $m_2 \cdot 2^{e_2}$ gives $\frac{m_1}{m_2} \cdot 2^{e_1 - e_2}$.
 
-Sign is simple: $(s_1 + s_2) ~ \& ~ 1$.
+Sign is simple: $(s_1 + s_2) ~ \\& ~ 1$.
 
-Exponent: $e_1 + 127 - e_2$.
+Exponent: $e_1 - e_2 + 127$.
 
 Now, we cannot use integer division between the mantissas. If $A =$ `0 127 12288` ($1.5$) and $B =$ `0 123 13107` (approx. $0.1$), we expect $A/B$ to be around `0 130 15360` ($15.0$). But an integer division of the mantissas $12288$ and $13107$ gives us $0$.
 
-Instead, what we'll do is repeated subtraction and bit shift. For the sake of an example, let's say we operate on decimals up to 3 decimal places, and we want to calculate $A/B$ where $A = 321.000$, and $B = 513.000$.
+Instead, what we'll do is repeated subtraction and bit-shift. For the sake of an example, let's say we operate on decimals up to 3 decimal places, and we want to calculate $A/B$ where $A = 321.000$, and $B = 513.000$.
 
-We subtract $B$ from $A$ $n$ times ($A - nB$) where $n$ is as big as possible as long as the result remains positive. We mark down $n$, replace $A$ with the subtracted value, and shift $B$ to the right. We repeat this as long as we can, or in our case: until we run out of digits of $B$.
+We subtract $B$ from $A$ $n$ times ($A - nB$) where $n$ is as big as possible as long as the result remains non-negative. We mark down $n$, replace $A$ with the subtracted value, and shift $B$ to the right. We repeat this as long as we can, or in our case: until we run out of digits of $B$.
 
-$n = 0$, since $321.000 - 1 \cdot 513.000$ would be negative. $A$ does not change, $B$ shifts into $51.300$.
+At step 1, $n = 0$, since $321.000 - 1 \cdot 513.000$ would be negative. $A$ does not change, $B$ shifts into $51.300$.
 
-$n = 6$, since $321.000 - 7 \cdot 51.300$ would be negative. $A$ changes to $13.200$, $B$ shifts into $5.130$.
+At step 2, $n = 6$, since $321.000 - 7 \cdot 51.300$ would be negative. $A$ changes to $13.200$, $B$ shifts into $5.130$.
 
-$n = 2$, since $13.200 - 3 \cdot 5.130$ would be negative. $A$ changes to $2.940$, $B$ shifts into $0.513$.
+At step 3, $n = 2$, since $13.200 - 3 \cdot 5.130$ would be negative. $A$ changes to $2.940$, $B$ shifts into $0.513$.
 
-$n = 5$, since $2.940 - 6 \cdot 0.513$ would be negative. $A$ changes to $0.375$, $B$ shifts into $0.051$. We start to lose significant digits on $B$, so our result won't be accurate, but hopefully good enough. Still, we continue.
+At step 4, $n = 5$, since $2.940 - 6 \cdot 0.513$ would be negative. $A$ changes to $0.375$, $B$ shifts into $0.051$. We start to lose significant digits on $B$, so our result won't be accurate, but hopefully good enough. Still, we continue.
 
-$n = 7$, since $0.375 - 8 \cdot 0.051$ would be negative. $A$ changes to $0.018$, $B$ shifts into  $0.005$.
+At step 5, $n = 7$, since $0.375 - 8 \cdot 0.051$ would be negative. $A$ changes to $0.018$, $B$ shifts into  $0.005$.
 
-$n = 3$, since $0.018 - n \cdot 0.005$ would be negative. $A$ changes to $0.003$, $B$ shifts into $0.000$.
+At step 6, $n = 3$, since $0.018 - n \cdot 0.005$ would be negative. $A$ changes to $0.003$, $B$ shifts into $0.000$.
 
 $B$ ran out of significant digits, so we can stop (the next step would bring $n$ to infinity). Collecting the $n$ values, the result is $0.62573$. The true result of $A/B$ is $0.62573099415$, so it's quite close!
 
