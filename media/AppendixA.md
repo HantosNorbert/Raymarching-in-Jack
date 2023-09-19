@@ -96,11 +96,11 @@ $A_L B_L = 76 \cdot 89 =$ `0 0 6 7 6 4`. Let's call this $S$.
 
 By shifting them to the left ($P$ by 4 places, $Q$ and $R$ by 2 places, $S$ by none) and adding them together, we get the result. This table illustrates the process:
 
-TODO
+![multiplication](media/mult.png)
 
 Breaking the addition into $M_1$ and $M_2$ registers:
 
-$M_2 = S + 100 R_L + 100 Q_L + S = 6764 + 9200 + 2200 =$ `0 1 8 1 6 4`
+$M_2 = S + 100 R_L + 100 Q_L = 6764 + 9200 + 2200 =$ `0 1 8 1 6 4`
 
 $M_1 = R_H + Q_H + P = 50 + 87 + 6566 =$ `0 0 6 7 0 3`
 
