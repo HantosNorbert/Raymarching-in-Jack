@@ -181,7 +181,7 @@ Go to [this handy tool](https://www.h-schmidt.net/FloatConverter/IEEE754.html) o
 
 For the curious minds: the solution is $n = 22 - (e - 127)$ for IEEE 754, and $n = 12 - (e - 127)$ for `Float316` numbers.
 
-Note that zeroing out the mantissa up to the $n$th position gives us the `floor` function for positive numbers, but `ceil` function for negatives. We have to adjust the result if we are dealing with negatives.
+Note that zeroing out the mantissa up to the $n$-th position gives us the `floor` function for positive numbers, but `ceil` function for negatives. We have to adjust the result if we are dealing with negatives.
 
 ##  Square Root of `Float316` Numbers
 
