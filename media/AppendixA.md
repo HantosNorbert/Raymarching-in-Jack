@@ -193,7 +193,7 @@ $$x_{n+1} = \frac{\large(x_n + \frac{X}{x_n}\large)}{2}$$
 
 where $X$ is the number we want the square root of, and $x_0$ is the initial guess: the closer to the square root the better, because we need fewer iterations for a good result. So what is a good initial guess?
 
-`Float316` numbers are $m \cdot 2^e$, and taking the square root is equivalent of raising it to the $1/2$th power: 
+`Float316` numbers are $m \cdot 2^e$, and taking the square root is equivalent of raising it to the $1/2$-th power: 
 
 $$(m \cdot 2^e)^{1/2} = m^{1/2} \cdot 2^{(e/2)}$$
 
@@ -207,7 +207,7 @@ I found that two iterations of the Newton-Raphson method is sufficient for our r
 
 ##  (Fast) Inverse Square Root of `Float316` Numbers
 
-Computing $c/\sqrt{x}$ for some $c$ and $x$ values requires a square root function followed by a division (and as we will see later, we need this combination for vector normalization). Division is slower than multiplication - so wouldn't it be better if we could do $c \cdot \frac{1}{\sqrt{x}}$, where $\frac{1}{\sqrt{x}}$ is computed directly? The answer is yes!
+Computing $c/\sqrt{x}$ for some $c$ and $x$ values requires a square root function followed by a division (we need this combination for vector normalization). Division is slower than multiplication - so wouldn't it be better if we could do $c \cdot \frac{1}{\sqrt{x}}$, where $\frac{1}{\sqrt{x}}$ is computed directly? The answer is yes!
 
 Our main strategy is technically the same as the square root function: take an initial guess, and refine it with the [Newton-Raphson method](https://en.wikipedia.org/wiki/Newton%27s_method). Only this time we have a different function:
 
@@ -215,16 +215,16 @@ $$x_{n+1} = x_n \cdot (1.5 - (X/2 \cdot x_n^2))$$
 
 Again, with $X$ being the number we want the inverse square root of. We need a good intitial guess for $x_0$.
 
-The inverse square root of a value is just raising that value to the $-1/2$th power:
+The inverse square root of a value is just raising that value to the $-1/2$-th power:
 
 $$(m \cdot 2^e)^{-\frac{1}{2}} = m^{-\frac{1}{2}} \cdot 2^{-\frac{e}{2}}$$
 
 Again, we leave the mantissa, and focus on only the exponent: $-(e - 127)/2 + 127 = 190.5 - e/2$. In the code, we just use $190 - e/2$ as the new exponent, and use two iterations of the Newton-Raphson method.
 
-What is fascinating is that this algorithm is a simplified version of the famous [Fast Inverse Square Root](https://en.wikipedia.org/wiki/Fast_inverse_square_root) method, which heavily relies on how IEEE 754 stores a float number. I won't go into the details on how it works - and luckily, we don't actually need to understand it to use our version of the `Float316` implementation, but I still recommend to dig into that algorithm - it is mind blowing! And though it may not seems true first, but the two methods are actually closely related.[^1]
+What is fascinating is that this algorithm is a simplified version of the famous [Fast Inverse Square Root](https://en.wikipedia.org/wiki/Fast_inverse_square_root) algorithm, which heavily relies on how IEEE 754 stores a real number. I won't go into the details on how it works - and luckily, we don't actually need to understand it to use our version of the `Float316` implementation, but I still recommend to dig into that algorithm - it is mind blowing! And though it may not seems true first, but the two methods are actually closely related.[^1]
 
 [^1]: Notice that the main step in the Fast Inverse Square Root algorithm is $\text{0x5f3759df} -  (  i  \text{>>}  1  )$: it halves the original number (interpreted as an integer), and subtract it from a magic constant. The decimal value of the constant is $1597463007$. What we did in our version is $190.5 - e/2$ for the exponent: we halved the exponent, and subtracted it from a "less-magical" constant. But what happens if we apply the same strategy to an IEEE 754 number? We need to bit-shift $190.5$ to the left to skip the mantissa: that means we apply $190.5 \cdot 2^{23} - i/2$. It does the same trick if we handle the entire bit string as an $i$ integer: the mantissa is halved, and subtracted from 190.5. It will change the mantissa too, but let's ignore that here. And guess what: $190.5 \cdot 2^{23} = 1598029824$. Quite close to the original mysterious magic constant! And it's not a coincidence. :-)
 
 Another recommended reading on the simplified version can be found [here](https://githubharald.github.io/fast_inv_sqrt.html).
 
-Side note: computing $c \cdot \text{invSqrt}(x)$ is only slightly better than $c / \text{sqrt}(x)$ on the Hack machine: I found the first to be only 23% faster. The reason is that both cases requires a lot of function calls and internal calculations; the Hack machine does not support float operations, so even a simple multiplication is quite slow, and makes the difference less significant. Still, even that 23% speed up is worth it, since we will use vector normalization a lot!
+Side note: computing $c \cdot \text{invSqrt}(x)$ is only slightly better than $c / \text{sqrt}(x)$ on the Hack machine; I found the first version to be only 23% faster. The reason is that both cases requires a lot of function calls and internal calculations; the Hack machine does not support float operations, so even a simple multiplication is quite slow, and makes the difference less significant. Still, even that 23% speed up is worth it, since we will use vector normalization a lot!
