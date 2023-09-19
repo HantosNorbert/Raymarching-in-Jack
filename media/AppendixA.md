@@ -171,7 +171,7 @@ To sum up:
     1) Set the bit index to $i = 13$ (the first significant bit of $m$).
     2) While $i \ge 0$, repeat the following steps:
     3) if $m_1 \ge m_2$, then $m_1 = m_1 - m_2$ and let $m[i] = 1$.
-    4) Regardless of the previous step, divide $m_2$ by $2$ (right-shift), and lower the bit index $i$ by $1$.
+    4) Regardless of the previous step, divide $m_2$ by $2$ (right-shift), and decrease the bit index $i$ by $1$.
 
 ##  Floor and Modulo 2 of `Float316` Numbers
 
