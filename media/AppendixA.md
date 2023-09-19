@@ -156,16 +156,16 @@ At step 4, $n = 5$, since $2.940 - 6 \cdot 0.513$ would be negative. $A$ changes
 
 At step 5, $n = 7$, since $0.375 - 8 \cdot 0.051$ would be negative. $A$ changes to $0.018$, $B$ shifts into  $0.005$.
 
-At step 6, $n = 3$, since $0.018 - n \cdot 0.005$ would be negative. $A$ changes to $0.003$, $B$ shifts into $0.000$.
+At step 6, $n = 3$, since $0.018 - 4 \cdot 0.005$ would be negative. $A$ changes to $0.003$, $B$ shifts into $0.000$.
 
-$B$ ran out of significant digits, so we can stop (the next step would bring $n$ to infinity). Collecting the $n$ values, the result is $0.62573$. The true result of $A/B$ is $0.62573099415$, so it's quite close!
+$B$ ran out of significant digits, so we can stop (the next step would bring $n$ to infinity). Collecting the $n$ values from every step and adjusting the decimal point, the result is $0.62573$. The true result of $A/B$ is $0.62573099415$, so it's quite close!
 
 In binary we do the same with the mantissas, except we have an even easier job: $n$ is either $0$ or $1$, so a single comparison of $A$ and $B$ is enough to determine the result.
 
 To sum up:
 1. If the first number is $0.0$, return with $0.0$.
 2. If the second number is $0.0$, **panic**.
-3. The result has the sign of $(s1 + s2) ~ \& ~ 1$.
+3. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
 4. The result has the exponent $e_1 + 127 - e_2$.
 5. For the mantissa $m$:
     i) Set the bit index to $i = 13$ (the first significant digit of $m$).
