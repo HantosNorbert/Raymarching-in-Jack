@@ -27,3 +27,5 @@ The same image with ordered dithering but with a resolution of $1920 \times 1080
 ![result camera change](result_cam_change.png)
 
 Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$ changes the scenery a lot.
+
+<iframe width="640" height="360" frameborder="0" src="https://www.shadertoy.com/embed/dtSyDz?gui=true&t=10&paused=true&muted=false" allowfullscreen></iframe>
