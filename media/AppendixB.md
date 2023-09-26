@@ -6,11 +6,11 @@
 
 ![dither threshold](dither_threshold.png)
 
-*The simplest dither algorithm: threshold. Every pixel shade below $0.5$ is black, the rest is white*
+*The simplest dither algorithm: threshold. Every pixel shade below* $0.5$ *is black, the rest is white*
 
 ![dither random](dither_random.png)
 
-*Random dithering: every pixel with a grayscale value of $p$ has a probability of $p$ to be white*
+*Random dithering: every pixel with a grayscale value of* $p$ *has a probability of* $p$ *to be white*
 
 ![dither floyd](dither_floyd.png)
 
