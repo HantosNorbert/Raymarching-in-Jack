@@ -50,7 +50,7 @@ The same image with ordered dithering, but with a resolution of $1920 \times 108
 
 ![result camera change](result_cam_change.png)
 
-Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$ in the parameters (in `Float316` format).
+Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$. In `Float316` it means changing `PARAM_cameraPos = Vec3(Float316(0, 0, 0), Float316(0, 127, 12288), Float316(0, 129, 8192))` to `PARAM_cameraPos = Vec3(Float316(0, 129, 8192), Float316(0, 128, 12288), Float316(0, 129, 8192))`.
 
 &nbsp;
 
