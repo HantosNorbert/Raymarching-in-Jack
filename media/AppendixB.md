@@ -2,7 +2,7 @@
 
 ![grayscale](grayscale_normal_size.png)
 
-The grayscale prototype image created with Shadertoy.
+The grayscale prototype image created with Python, with built-in `float` numbers.
 
 &nbsp;
 
@@ -12,7 +12,7 @@ The grayscale prototype image created with Shadertoy.
 
 ![dither threshold](dither_threshold.png)
 
-The simplest dither algorithm: threshold. Every pixel shade below $0.5$ is black, the rest is white.
+The simplest dither algorithm: threshold. Every pixel that has a grayscale value of $0.5$ or higher is white, the rest is black. This is why we need dithering.
 
 &nbsp;
 
@@ -22,7 +22,7 @@ The simplest dither algorithm: threshold. Every pixel shade below $0.5$ is black
 
 ![dither random](dither_random.png)
 
-Random dithering: every pixel with a grayscale value of $p$ has a probability of $p$ to be white.
+Random dithering: instead of painting a pixel white if its grayscale value is high, we paint it white only *with certain probability*. Since the grayscale value is already between $0$ and $1$, that can be the probability value itself. So a white-ish (but not completely white) area will still contain some black pixels. A gray area should have white and black pixels in equal amount. The result is still far from satisfying - but it's a good effort.
 
 &nbsp;
 
@@ -32,7 +32,7 @@ Random dithering: every pixel with a grayscale value of $p$ has a probability of
 
 ![dither floyd](dither_floyd.png)
 
-[Floyd-Steinberg dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering). It pushes he residual quantization error of a pixel onto its neighboring pixels. Very nice result, but requires a lot of memory to keep the list of error values.
+[Floyd-Steinberg dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering). For each pixel we apply a simple threshold, but then we push the difference (called *residual quantization error*) to its neighbours. A white-ish area will contain a lot of white pixels, until the error grows too large and a black pixel appear. The resulted image is very nice, but the algorithm requires to keep a lot of error values in memory, which I wanted to avoid in Jack/Hack. Alex Quach used this algorithm in his ![Jack raytracer](https://blog.alexqua.ch/posts/from-nand-to-raytracer/).
 
 &nbsp;
 
@@ -42,7 +42,7 @@ Random dithering: every pixel with a grayscale value of $p$ has a probability of
 
 ![result](result.png)
 
-The final image Jack produces with $8 \times 8$ ordered dithering.
+The final image we produce, with an $8 \times 8$ ordered dithering.
 
 &nbsp;
 
@@ -52,7 +52,7 @@ The final image Jack produces with $8 \times 8$ ordered dithering.
 
 ![ordered dither big](ordered_dither_big.png)
 
-The same image with ordered dithering but with a resolution of $1920 \times 1080$. Open the image separately to see in its full glory!
+The same image with ordered dithering, but with a resolution of $1920 \times 1080$. Open the image separately to see in its full glory!
 
 &nbsp;
 
@@ -62,7 +62,7 @@ The same image with ordered dithering but with a resolution of $1920 \times 1080
 
 ![result camera change](result_cam_change.png)
 
-Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$ changes the scenery a lot.
+Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$ in the parameters (in `Float316` format).
 
 &nbsp;
 
