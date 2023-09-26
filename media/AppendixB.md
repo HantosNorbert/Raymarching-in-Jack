@@ -30,10 +30,11 @@ Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$ changes the scene
 
 ![colored](colored.png)
 
-Colors can improve a lot!
+If only Hack had colors...
+
+&nbsp;
+&nbsp;
 
 ![shadertoy](shadertoy.png)
-
-</br>
 
 Animated version created by Shadertoy. Go to https://www.shadertoy.com/view/dtSyDz to see it in real time!
