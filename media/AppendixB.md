@@ -32,7 +32,11 @@ Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$ changes the scene
 
 If only Hack had colors...
 
-&nbsp; &nbsp; &nbsp;
+&nbsp;
+
+&nbsp;
+
+&nbsp;
 
 ![shadertoy](shadertoy.png)
 
