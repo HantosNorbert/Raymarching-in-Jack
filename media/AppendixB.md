@@ -28,6 +28,12 @@ The same image with ordered dithering but with a resolution of $1920 \times 1080
 
 Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$ changes the scenery a lot.
 
+![colored](colored.png)
+
+Colors can improve a lot!
+
 ![shadertoy](shadertoy.png)
+
+</br>
 
 Animated version created by Shadertoy. Go to https://www.shadertoy.com/view/dtSyDz to see it in real time!
