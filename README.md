@@ -355,23 +355,11 @@ This is all good - but we still operate of `Float316` numbers, and as we'll see,
 
 ![halftone](https://upload.wikimedia.org/wikipedia/commons/7/71/Michelangelo%27s_David_-_63_grijswaarden.png)
 
-But on the Hack machine, every pixel is either black or white. What we need is called [color quantization](https://en.wikipedia.org/wiki/Color_quantization). Shall we do a threshold? Let's set everything above $0.5$ to white, and everything else is black:
-
-![threshold](https://upload.wikimedia.org/wikipedia/commons/a/a3/Michelangelo%27s_David_-_drempel.png)
-
-Ugh! Nope. The is a better family of solutions called [dithering](https://en.wikipedia.org/wiki/Dither), which applies noise to swap the color of the pixels to reduce quantization error. A simple but questionable method is called random dithering: in our case, every float pixel value is also a probability for that pixel to become white. Pixels of higher values became white more easily - but it's not guaranteed (unless they have a value of $1.0$ exactly).
-
-![random](https://upload.wikimedia.org/wikipedia/commons/c/ce/Michelangelo%27s_David_-_ruis.png)
-
-Looks like an old newspaper illustration. But we can do better! [Floyd–Steinberg dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering) is quite beautiful:
-
-![floyd](https://upload.wikimedia.org/wikipedia/commons/c/c1/Michelangelo%27s_David_-_Floyd-Steinberg.png)
-
-Unfortunately, it requires to keep a lot of pixel values (or quantization error values) in the memory, and I didn't want to go into that direction. Luckily, there is an approach that produces fairly good images and still can be calculated locally. It's called [ordered dithering](https://en.wikipedia.org/wiki/Ordered_dithering), and it adjusts the value of a pixel based on its position on the screen (the modulo value of its row and column positions to be precise).
+But on the Hack machine, every pixel is either black or white. What we need is called [color quantization](https://en.wikipedia.org/wiki/Color_quantization) combined with [dithering](https://en.wikipedia.org/wiki/Dither). We basically turn the grayscale image into a binary one in such a way that the density of black dots in the new image approximates the average gray level in the original. One approach that produces fairly good images and still can be calculated locally is called [ordered dithering](https://en.wikipedia.org/wiki/Ordered_dithering). It adjusts the grayscale value of a pixel based on its position on the screen (the modulo value of its row and column positions to be precise) before applying a simple threshold.
 
 ![ordered](https://upload.wikimedia.org/wikipedia/commons/e/ef/Michelangelo%27s_David_-_Bayer.png)
 
-So I implemented that, with an $8 \times 8$ threshold map.
+I implemented that with an $8 \times 8$ threshold map.
 
 ## Render the Image
 
