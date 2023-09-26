@@ -248,7 +248,7 @@ Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have s
 
 Note that pure $\text{SDFs}$ returns with a single distance value for a particular input position. If we find a surface point (where the $\text{SDF}$ value is $0$), we also want to identify which object did we find - because different objects have different properties. In my case, the only other property is the color (shade) of the object, so instead of a single value, my $\text{SDF}$ returns with a `Surface` object. A `Surface` contains two `Float316` numbers: one is the distance to the closest object, the other one is the color (the shade of gray normalized between $0.0$ and $1.0$), of that object. In other applications a `Surface` can contain even more information: material properties, texture coordinates, transparency level, refractive index, and so on.
 
-## Surface Normals with ${\text SDF}$
+## Surface Normals with SDF
 
 In order to calculate the light intensity at a specific surface point, we need the normal vector: a vector that is perpendicular to the tangent plane of the surface at that point.
 
