@@ -26,7 +26,7 @@ Random dithering: instead of painting a pixel white if its grayscale value is hi
 
 ![dither floyd](dither_floyd.png)
 
-[Floyd-Steinberg dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering). For each pixel we apply a simple threshold, but then we push the difference (called *residual quantization error*) to its neighbours. A white-ish area will contain a lot of white pixels, until the error grows too large and a black pixel appear. The resulted image is very nice, but the algorithm requires to keep a lot of error values in memory, which I wanted to avoid in Jack/Hack. Alex Quach used this algorithm in his ![Jack raytracer](https://blog.alexqua.ch/posts/from-nand-to-raytracer/).
+[Floyd-Steinberg dithering](https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering). For each pixel we apply a simple threshold, but then we push the difference (called *residual quantization error*) to its neighbours. A white-ish area will contain a lot of white pixels, until the error grows too large and a black pixel appear. The resulted image is very nice, but the algorithm requires to keep a lot of error values in memory, which I wanted to avoid in Jack/Hack. Alex Quach used this algorithm in his [Jack raytracer](https://blog.alexqua.ch/posts/from-nand-to-raytracer/).
 
 &nbsp;
 
