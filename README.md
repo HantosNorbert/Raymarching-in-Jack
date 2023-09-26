@@ -436,7 +436,7 @@ One final issue I have to mention specifically, is a difference between Jack and
 
 ## Gallery
 
-Go to the [Gallery](media/AppendixB.md) to see some interesting images!
+Go to [Appendix B - Gallery](media/AppendixB.md) for some interesting images!
 
 ---------------------------------------
 
