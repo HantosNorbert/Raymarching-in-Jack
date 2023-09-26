@@ -1,6 +1,6 @@
 # Appendix B - Gallery
 
-![grayscale](grayscale.png)
+![grayscale](grayscale_normal_size.png)
 
 The grayscale prototype image created with Shadertoy.
 
