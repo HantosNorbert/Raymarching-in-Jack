@@ -56,9 +56,9 @@ Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$. In the Python co
 
 &nbsp;
 
-![colored](colored.png)
+![colorful](colorful.png)
 
-If only Hack had colors...
+A step towards reality: colors, [displacement mapping](https://en.wikipedia.org/wiki/Displacement_mapping) on the sphere, reflective surface on the torus, fog effect. See https://www.shadertoy.com/view/csVyz1 in animation.
 
 &nbsp;
 
