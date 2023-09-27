@@ -78,7 +78,7 @@ In terms of creating a raymarching/raytracing software, these are the biggest ch
 
 However, Jack has a few features that comes in handy, such as class/object definition; references to objects; static (class level), field (object level) and local variables; function calls; branching and looping; and a few more. Integer multiplication, integer division and integer square root are supported by the operating system and implemented on software side.
 
-The screen of the Hack machine (and thus what is supported by the provided operating system) is $256 \times 512$. While the resolution is acceptable, we have no way to use colors or even grayscale images. But there is a solution called [dither](https://en.wikipedia.org/wiki/Dither) which allows us to mimic a grayscale image using only binary colors.
+The screen of the Hack machine (and thus what is supported by the provided operating system) is $256 \times 512$. While the resolution is acceptable, we have no way to use colors or even grayscale images. But there is a solution called [dither](https://en.wikipedia.org/wiki/Dither) which allows us to mimic a grayscale image using only binary pixels.
 
 ## Key Implementation Steps
 
@@ -95,7 +95,7 @@ In order to write a raytracing/raymarching program, I marked the following key s
 
 Since debugging and overall developing a software in Jack can be quite difficult, I created the program in phases in different programming languages.
 
-The first version was created with Shadertoy, an online tool for creating vertex shader applications in webGL. It is so fast you can create [raytraced animations](https://www.shadertoy.com/view/dtSyDz)!
+The first version was created with [Shadertoy](https://www.shadertoy.com/), an online tool for creating vertex shader applications in webGL. It is so fast you can create [raytraced animations](https://www.shadertoy.com/view/dtSyDz)!
 
 ![grayscale](media/grayscale.png)
 
