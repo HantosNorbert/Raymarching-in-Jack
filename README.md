@@ -398,7 +398,7 @@ Again, without going into the details, I just give you the result. Let's say $C$
 
 ![camera](media/camera.png)
 
-*In our case, Tmp is the "global up". Source: [scratchapixel](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function/framing-lookat-function.html)*
+*In our case, Tmp is the "global up". Source: [scratchapixel.com](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function/framing-lookat-function.html)*
 
 &nbsp;
 
@@ -441,7 +441,7 @@ I implemented that with an $8 \times 8$ threshold map.
 
 Now that everything is ready and implemented, let's put together our main algorithm:
 
-For every pixel on the image, do **Step 1** first, and then **Step 2**.
+We have a few parameters predefined: the camera position, the view matrix (calculated from the camera position and the look-at point), the light source position, the basic color (shade) of the objects, the $\text{SDF}$ encoding our scene, and so on. Next, for every pixel on the image, do **Step 1** first, and then **Step 2**.
 
 **Step 1**: calculate the color intensity (shade) of a pixel.
 1. Calculate the normalized pixel coordinates: $x$ axis goes from $-1.0$ to $1.0$, $y$ axis goes from $-0.5$ to $0.5$.
@@ -449,8 +449,8 @@ For every pixel on the image, do **Step 1** first, and then **Step 2**.
 3. The ray direction $R_d$ goes from the camera center point towards the normalized pixel position; $R_d$ is then adjusted by the view matrix.
 4. Use the raymarching algorithm to cast a ray from $R_o$ with the direction $R_d$: this uses our $\text{SDF}$ function to search for a surface point $P$.
 5. If we didn't hit anything, the initial pixel value $v$ is a background color, and we are done here. Goto **Step 2**. Otherwise, we hit a surface, and we can ask for the object's color.
-6. Calculate the light ntensity at the surface point $P$ using the Phong reflection model. This is our initial color intensity $v$ for the pixel.
-7. Cast a second ray using raymarching to determine if we are in a shadow. Now $R_o$ is the surface point $P$, and the ray direction $R_d$ points from $P$ to the light source.
+6. Calculate the light intensity at the surface point $P$ using the Phong reflection model. This is our initial color intensity $v$ for the pixel.
+7. Cast a second ray using the raymarching algorithm again to determine if we are in a shadow. Now $R_o$ is the surface point $P$, and the ray direction $R_d$ points from $P$ to the light source.
 8. If the cumulative length of the ray is smaller than the distance of the surface point $P$ and the light source, we hit an object before we could reach the light - so we are in a shadow. Reduce the pixel intensity $v$ to $\frac{1}{4}v$. Goto **Step 2**.
 
 **Step 2**: dithering.
