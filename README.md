@@ -171,7 +171,7 @@ Or in decimal from:
 
 `1, 131, 13184`
 
-Note that in our case of the mantissa the bit worth $\frac{1}{2}$ is on the 4th place, the bit worth $\frac{1}{4}$ is the 5th, and so on. Going the other direction, the 3rd bit can be interpreted as $1$, the 2nd bit as $2$, and the 1st bit as $4$. This seems confusing, but actually comes handy at some point (see [Normalization of `Float316` Numbers](media/AppendixA.md#normalization-of-float316-numbers) in Appendix A).
+Note that in our case of the mantissa the bit worth $\frac{1}{2}$ is on the 4th place, the bit worth $\frac{1}{4}$ is the 5th, and so on. Going the other direction, the 3rd bit can be interpreted as $1$, the 2nd bit as $2$, and the 1st bit as $4$. This seems confusing, but actually comes handy at some point (see *Normalization of `Float316` Numbers* in [Appendix A](media/AppendixA.md#normalization-of-float316-numbers)).
 
 ### Few extra notes on `Float316`
 
