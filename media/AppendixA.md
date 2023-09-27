@@ -6,15 +6,15 @@ Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$
 
 If we right-shift the bits of the mantissa, we actually halve the number, because new each mantissa bit contributes half as much to the real number. A mantissa of `0011100...0` can be deciphered as
 
-$$\left( \mathbf{0} \cdot 4 \right) + \left( \mathbf{0} \cdot 2 \right) + \left( \mathbf{0} \cdot 1 \right) + \left( \mathbf{1} \cdot \frac{1}{2} \right) + \left( \mathbf{1} \cdot \frac{1}{4} \right) + \left( \mathbf{1} \cdot \frac{1}{8} \right) + \left( \mathbf{0} \cdot \frac{1}{16} \right) + \dots + \left( \mathbf{0} \cdot \frac{1}{8192} \right) = 0.875 = 1.75$$
+$$\left( \mathbf{0} \cdot 4 \right) + \left( \mathbf{0} \cdot 2 \right) + \left( \mathbf{1} \cdot 1 \right) + \left( \mathbf{1} \cdot \frac{1}{2} \right) + \left( \mathbf{1} \cdot \frac{1}{4} \right) + \left( \mathbf{0} \cdot \frac{1}{8} \right) + \left( \mathbf{0} \cdot \frac{1}{16} \right) + \dots + \left( \mathbf{0} \cdot \frac{1}{8192} \right) = 1.75$$
 
 After a bit-shift to the right, it becomes `0001110...0`, thus:
 
-$$(\mathbf{0} \cdot 4) + (\mathbf{0} \cdot 2) + (\mathbf{0} \cdot 1) + (\mathbf{1} \cdot \frac{1}{2}) + (\mathbf{1} \cdot \frac{1}{4}) + (\mathbf{1} \cdot \frac{1}{8}) + (\mathbf{0} \cdot \frac{1}{16}) + \dots + (\mathbf{0} \cdot \frac{1}{8192}) = 0.875 = \frac{1.75}{2}$$
+$$\left( \mathbf{0} \cdot 4 \right) + \left( \mathbf{0} \cdot 2 \right) + \left( \mathbf{0} \cdot 1 \right) + \left( \mathbf{1} \cdot \frac{1}{2} \right) + \left( \mathbf{1} \cdot \frac{1}{4} \right) + \left( \mathbf{1} \cdot \frac{1}{8} \right) + \left( \mathbf{0} \cdot \frac{1}{16} \right) + \dots + \left( \mathbf{0} \cdot \frac{1}{8192} \right) = 0.875 = \frac{1.75}{2}$$
 
 With a right shift, we halved the value of the number! Similarly, with a left shift, we can double the number. `0111000...0` is:
 
-$$(\mathbf{0} \cdot 4) + (\mathbf{1} \cdot 2) + (\mathbf{1} \cdot 1) + (\mathbf{1} \cdot \frac{1}{2}) + (\mathbf{0} \cdot \frac{1}{4}) + (\mathbf{0} \cdot \frac{1}{8}) + (\mathbf{0} \cdot \frac{1}{16}) + \dots + (\mathbf{0} \cdot \frac{1}{8192}) = 3.5 = 2 \cdot 1.75$$
+$$\left( \mathbf{0} \cdot 4 \right) + \left( \mathbf{1} \cdot 2 \right) + \left( \mathbf{1} \cdot 1 \right) + \left( \mathbf{1} \cdot \frac{1}{2} \right) + \left( \mathbf{0} \cdot \frac{1}{4} \right) + \left( \mathbf{0} \cdot \frac{1}{8} \right) + \left( \mathbf{0} \cdot \frac{1}{16} \right) + \dots + \left( \mathbf{0} \cdot \frac{1}{8192} \right) = 3.5 = 2 \cdot 1.75$$
 
 But we can also modify the exponent. Adding 1 to the exponent means we just simply double the number.
 
