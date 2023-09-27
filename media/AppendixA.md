@@ -10,12 +10,11 @@ $$(\mathbf{0} \cdot 4) + (\mathbf{0} \cdot 2) + (\mathbf{1} \cdot 1) + (\mathbf{
 
 After a bit-shift to the right, it becomes `0001110...0`, thus:
 
-$$(\mathbf{0} \cdot 4) + (\mathbf{0} \cdot 2) + (\mathbf{0} \cdot 1) + (\mathbf{1} \cdot \frac{1}{2}) + (\mathbf{1} \cdot \frac{1}{4}) + (\mathbf{1} \cdot \frac{1}{8}) + (\mathbf{0} \cdot \frac{1}{16}) + \dots + (\mathbf{0} \cdot \frac{1}{8192}) = 0.875$$
+$$(\mathbf{0} \cdot 4) + (\mathbf{0} \cdot 2) + (\mathbf{0} \cdot 1) + (\mathbf{1} \cdot \frac{1}{2}) + (\mathbf{1} \cdot \frac{1}{4}) + (\mathbf{1} \cdot \frac{1}{8}) + (\mathbf{0} \cdot \frac{1}{16}) + \dots + (\mathbf{0} \cdot \frac{1}{8192}) = 0.875 = \frac{1.75}{2}$$
 
-With a right shift, we halved the value of the number! Similarly, with a left shift, we can double the number. `01110...` is:
+With a right shift, we halved the value of the number! Similarly, with a left shift, we can double the number. `0111000...0` is:
 
-$$\mathbf{0} \cdot 4 + \mathbf{1} \cdot 2 + \mathbf{1} \cdot 1 + \mathbf{1} \cdot \frac{1}{2} + \mathbf{0} \cdot \frac{1}{4} = 0.375$$
-
+$$(\mathbf{0} \cdot 4) + (\mathbf{1} \cdot 2) + (\mathbf{1} \cdot 1) + (\mathbf{1} \cdot \frac{1}{2}) + (\mathbf{0} \cdot \frac{1}{4}) + (\mathbf{0} \cdot \frac{1}{8}) + (\mathbf{0} \cdot \frac{1}{16}) + \dots + (\mathbf{0} \cdot \frac{1}{8192}) = 3.5 = 2 \cdot 1.75$$
 
 But we can also modify the exponent. Adding 1 to the exponent means we just simply double the number.
 
