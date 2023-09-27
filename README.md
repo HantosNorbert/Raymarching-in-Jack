@@ -526,4 +526,4 @@ Go to [Appendix B - Gallery](media/AppendixB.md) for some interesting images!
 
 ---------------------------------------
 
-*Norbert Hantos, 2023.09.18.*
+*Norbert Hantos, 2023.09.27.*
