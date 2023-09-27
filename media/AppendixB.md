@@ -10,7 +10,7 @@ The grayscale prototype image created with Python, with built-in `float` numbers
 
 ![dither threshold](dither_threshold.png)
 
-The simplest dither algorithm: threshold. Every pixel that has a grayscale value of $0.5$ or higher is white, the rest is black. This is why we need dithering.
+The simplest dither algorithm: threshold. Every pixel that has a grayscale value of $0.5$ or higher is white, the rest is black. This is why we need proper dithering.
 
 &nbsp;
 
