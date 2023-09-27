@@ -1,8 +1,8 @@
 # Raymarching in Jack Language
 
-![hack result](media/hackresult.png)
-
 &nbsp;
+
+![hack result](media/hackresult.png)
 
 &nbsp;
 
@@ -42,21 +42,21 @@ This is the result of my efforts to build a **raymarcher**.
 
 [^1]: Strictly speaking, raytracing is a technique for computing the visibility between points. It is the shader that ultimately determines the final color of a specific pixel; but they are so closely related, I call the whole package as a raytracer.
 
+&nbsp;
+
 ![raytrace diagram](media/raytracing_diagram.png)
 
 *Raytracing illustrated. Source: Wikipedia*
 
 &nbsp;
 
-&nbsp;
-
 With raytracing you can create cool looking images with different effects such as reflections, shadows, transparency, depth of field, etc. While it is not the only technique, it is essential in many areas of computer graphics and animation.
+
+&nbsp;
 
 ![Raytrace example](media/Recursive_raytrace_of_a_sphere.png)
 
 *A raytraced image with different lighting effects. Source: Wikipedia*
-
-&nbsp;
 
 &nbsp;
 
@@ -97,11 +97,11 @@ Since debugging and overall developing a software in Jack can be quite difficult
 
 The first version was created with [Shadertoy](https://www.shadertoy.com/), an online tool for creating vertex shader applications in webGL. It is so fast you can create [raytraced animations](https://www.shadertoy.com/view/dtSyDz)!
 
+&nbsp;
+
 ![grayscale](media/grayscale.png)
 
 *The grayscale prototype image created with Shadertoy. To speed up the computation for Jack/Hack, some parameters are fine-tuned but had an odd visual effect. For example, the curved horizon is due to the low visibility distance threshold*
-
-&nbsp;
 
 &nbsp;
 
@@ -147,7 +147,11 @@ With these settings, $s=1$, $e=130 - 127 = 3$, and $m = \frac{1}{2} + \frac{1}{8
 
 This allows us to represent a wide range of numbers, from very small to quite large ones. Keep in mind that there are infinitely many real numbers even between $0$ and $1$, so we cannot represent all of them exactly. For example, $0.1$ is actually $0.100000001490116119384765625$ if we decode the bits (which are by the way `0 | 01111011 | 10011001100110011001101`). But for our case (and for many other real world applications), this is good enough!
 
+&nbsp;
+
 ![Mediocrates](media/mediocrates.png)
+
+&nbsp;
 
 IEEE 754 is a good idea for Jack, but it requires 32 bits. We only have 16. There is a so called [Half-precision floating-point format](https://en.wikipedia.org/wiki/Half-precision_floating-point_format), which uses the same idea, but with 16 bits: a sign (1 bit), an exponent (5 bits), and a mantissa (10 bits). We lose some precision, but it can be still good for us, right?
 
@@ -256,11 +260,11 @@ The $\text{SDF}$ value of a 3D point $P = (x, y, z)$ is simply the distance of $
 
 Here is a 2D example of a signed distance function, where every pixel shows the $\text{SDF}$ value of its center.
 
+&nbsp;
+
 ![2D SDF example](media/circlewithdistances.png)
 
 *A circle with signed distances. Source: https://shaderfun.com/*
-
-&nbsp;
 
 &nbsp;
 
@@ -268,21 +272,21 @@ As you can imagine, different scenes have different $\text{SDFs}$. If you want c
 
 Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have simple $\text{SDFs}$. $\text{SDFs}$ can be combined, distorted, or altered in some way that they can create cool effects: duplicate objects without increasing the complexity, create rippled surface effects, rotate and scale objects, blending objects together in a continuous way, creating holes, and so on.
 
+&nbsp;
+
 ![3D SDF example](media/sdf.png)
 
 *A 3D signed distance function containing multiple objects. Source: http://mercury.sexy/hg_sdf/*
 
 &nbsp;
 
-&nbsp;
-
 [Here](https://iquilezles.org/articles/distfunctions/) you can see a lot of $\text{SDFs}$ and how to manipulate them. For my project, I selected a simple $\text{SDF}$ that is basically the union of a plane, a sphere and a torus. But it can be modified easily to create something different!
+
+&nbsp;
 
 ![my SDF](media/mySDF.png)
 
 *My signed distance function visualized. Darker pixel means bigger distance from the camera*
-
-&nbsp;
 
 &nbsp;
 
@@ -292,11 +296,11 @@ Note that pure $\text{SDFs}$ returns with a single distance value for a particul
 
 In order to calculate the light intensity at a specific surface point, we need the normal vector: a vector that is perpendicular to the tangent plane of the surface at that point.
 
+&nbsp;
+
 ![normals](media/surface_normals.svg)
 
 *A surface showing many surface normals at various surface points. Source: Wikipedia*
-
-&nbsp;
 
 &nbsp;
 
@@ -308,11 +312,11 @@ You can read more about the calculation of surface normals from $\text{SDFs}$ [h
 
 I used the tetrahedron technique to calculate the surface normals. It calls the $\text{SDF}$ four times for a single surface normal. I also tried the classic technique that calls the $\text{SDF}$ three times but results biased normals. I found the latter about 10% faster, but visually I was not satisfied with the result.
 
+&nbsp;
+
 ![normals](media/normals.png)
 
 *Surface normals: each color shows an* $(x, y, z)$ *surface normal interpreted as normalized RGB values. For example, the floor is green because each surface normal points to the* $(0, 1, 0)$ *direction*
-
-&nbsp;
 
 &nbsp;
 
@@ -320,11 +324,11 @@ I used the tetrahedron technique to calculate the surface normals. It calls the 
 
 The [Phong Reflection Model](https://en.wikipedia.org/wiki/Phong_reflection_model) is an empirical model to create realistic looking (but still locally computed) lights. It contains three components: ambient, which represents the light scattered across all the scene; diffuse reflection of rough surfaces; and specular reflection, which acts like the mirror-like reflection of the light sources on the surface.
 
+&nbsp;
+
 ![Phong Reflection Model](media/phong.png)
 
 *The Phong Reflection Model. Source: Wikipedia*
-
-&nbsp;
 
 &nbsp;
 
@@ -344,7 +348,11 @@ ${\bf R} = 2({\bf L} \cdot {\bf N}) {\bf N} - {\bf L}$
 
 At every step, the result of the dot product clamped between $0.0$ and $1.0$.
 
+&nbsp;
+
 ![reflection model](media/reflections.png)
+
+&nbsp;
 
 In the Jack implementation, many variables are merged into a single constant, such as $k_a i_a$.
 
@@ -356,19 +364,17 @@ We can start from $P = R_o$, and gradually ask the $\text{SDF}$ what is the dist
 
 The following image illustrates this process. Each circle has a radius of $\text{SDF}(P)$ at a specific point $P$, showing us that the closest surface point is (somewhere) on that circle. So we can march forward $\text{SDF}(P)$ amount to the next point $P$, where we ask the $\text{SDF}$ again. In 7 steps we reached a surface point.
 
+&nbsp;
+
 ![raymarching](media/raymarching.png)
 
 *This explains the name "sphere tracing". Source: Wikipedia*
 
 &nbsp;
 
-&nbsp;
-
 ![raymarching](media/raymarching.gif)
 
 *Raymarching with the aid of a signed distance function. Source: [https://reindernijhoff.net/](https://reindernijhoff.net/2017/07/raymarching-distance-fields/)*
-
-&nbsp;
 
 &nbsp;
 
@@ -380,15 +386,19 @@ You can read more about shadow rays [here](https://www.scratchapixel.com/lessons
 
 In order to cast rays, we need a ray origin and a ray direction. The ray origin is defined at some coordinates in the world. But the ray direction is trickier: the virtual screen is in front of the camera, with each pixel representing a direction - but the overall camera has a direction too. So we need to transform the direction of the ray accordingly. Hence, the view matrix.
 
+&nbsp;
+
 ![rays](media/rays.png)
 
+&nbsp;
+
 Again, without going into the details, I just give you the result. Let's say $C$ is the camera position in the world, and $L$ is the so called "look-at-point": a point in the world we aim our camera at. We also define a **global up** direction as ${\bf G} = (0, 1, 0)$. Think of it as the direction towards the sky in the world coordinate system. Finally, let ${\bf V}_N$ denote the normalized version of some vector ${\bf V}$.
+
+&nbsp;
 
 ![camera](media/camera.png)
 
 *In our case, Tmp is the "global up". Source: scratchapixel*
-
-&nbsp;
 
 &nbsp;
 
@@ -450,21 +460,21 @@ For every pixel on the image, do **Step 1** first, and then **Step 2**.
 
 On the Hack emulator it looked like this:
 
+&nbsp;
+
 ![hack video](media/hackvideo.gif)
 
 *The final rendering process in the Hack simulator.*
 
 &nbsp;
 
-&nbsp;
-
 It took about 9 hours and 45 minutes for the entire image to emerge on an AMD Ryzen 5 CPU with 3.7GHz.
+
+&nbsp;
 
 ![result](media/result.png)
 
 *The final result. Isn't it beautiful? :-)*
-
-&nbsp;
 
 &nbsp;
 
