@@ -230,7 +230,7 @@ Changes the length of the vector to $1$ while the direction remains. The usual w
 
 $N({\bf v}) = \large(\frac{x}{||{\bf v}||}, ~ \frac{y}{||{\bf v}||}, ~ \frac{z}{||{\bf v}||} \large)$
 
-But we actually use the inverse square root here:
+But we actually use the inverse square root instead, simply because it's faster to compute:
 
 $S = \text{invSqrt}(x^2 + y^2 + z^2)$
 
@@ -252,7 +252,7 @@ ${\bf v_1} \times {\bf v_2} = (y_1 z_2 - y_2 z_1, ~ z_1 x_2 - z_2 x_1, ~ x_1 y_2
 
 Raymarching is an iterative technique to determine the intersection point of a light ray and and an object surface. To aid the raymarching algorithm, we can use $\text{SDFs}$ - signed distance functions.
 
-The $\text{SDF}$ value of a 3D point $P = (x, y, z)$ is simply the distance of $P$ and the closest object surface. So, if $\text{SDF}(P) = 0$, it means that that particular $P$ point is on a surface. If the $\text{SDF}$ is some positive number, that means the point is outside of the object. If the value is negative, the point is inside of the object. The $\text{SDF}$ value itself does not give us any directions - we don't know *where* is the closest surface point, only *how far* it is from the given $P$ point.
+The $\text{SDF}$ value of a 3D point $P = (x, y, z)$ is simply the distance of $P$ and the closest object surface. So, if $\text{SDF}(P) = 0$, it means that that particular $P$ point is on a surface. If the $\text{SDF}$ is some positive number, that means the point is outside of the object. If the value is negative, the point is inside of the object. The $\text{SDF}$ value itself does not give us any directions - we don't know *where* is the closest surface point, only *how far* is the closest surface point from the given $P$ point.
 
 Here is a 2D example of a signed distance function, where every pixel shows the $\text{SDF}$ value of its center.
 
@@ -351,6 +351,14 @@ The following image illustrates this process. Each circle has a radius of $\text
 ![raymarching](media/raymarching.png)
 
 *This explains the name "sphere tracing". Source: Wikipedia*
+
+&nbsp;
+
+&nbsp;
+
+![raymarching](media/raymarching.gif)
+
+*Raymarching with the aid of a signed distance function. Source: [https://reindernijhoff.net/](https://reindernijhoff.net/2017/07/raymarching-distance-fields/)*
 
 &nbsp;
 
