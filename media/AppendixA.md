@@ -2,7 +2,7 @@
 
 ## Normalization of `Float316` Numbers
 
-Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$ (since we store the explicit 1 in $m$, we don't have to add it to $m$ anymore).
+Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$ (since we store the explicit 1 in $m$, we don't have to add it to $m$ anymore). Keep in mind that we also have two overflow bits in front of the mantissa: if an IEEE 764 mantissa starts as `10110...` our mantissa starts as `00110110...` for the (approximately) same number. This means that in our case it's the 4th place that is worth $\frac{1}{2}$, the 5th place is worth $\frac{1}{4}$, the 6th place $\frac{1}{8}$ and so on. The binary places are the powers of 2, decreasing towards the right. Logically, the powers of 2 should increase towards the left side: the 3rd place is $1$ (as it should be! It is the explicit 1 we wanted to store), the 2nd place is worth $2$, and the 1st place worth $4$. Normally, we don't use them - however...
 
 If we right-shift the bits of the mantissa, we actually halve the number, because new each mantissa bit contributes half as much to the real number. A mantissa that starts as `001110...` can be deciphered as
 
