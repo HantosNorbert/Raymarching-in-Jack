@@ -105,7 +105,7 @@ The first version was created with [Shadertoy](https://www.shadertoy.com/), an o
 
 &nbsp;
 
-The second version was a quick Python implementation of the very same Shadertoy program. It does the same, except it goes pixel-by-pixel on the CPU, so the render time is much slower (around 10s on my computer), but still quick enough for developing purposes.
+The second version was a quick Python implementation of the very same Shadertoy program. It does the same, except it renders pixel-by-pixel on the CPU, so the render time is much slower (around 10s on my computer), but still quick enough for developing purposes.
 
 The third version took the longest: developing such a Python program that is as close to the desired Jack implementation as possible. 16 bit integers, custom float type, binary image - the whole package. This way I was able to test the various functions easily, and once the program was done, the Jack implementation and testing became pretty straightforward.
 
@@ -117,7 +117,11 @@ There are basically two ways to represent real numbers: in fixed point notation,
 
 [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) is one of the best known representation of such numbers. It uses 32 bits to encode 3 parts: a sign (1 bit), a mantissa (8 bits), and an exponent (23 bits) in this order.
 
+&nbsp;
+
 ![IEEE 754](media/ieee754.jpg)
+
+&nbsp;
 
 The sign is a single bit: $s=0$ means the number is positive, $s=1$ means it's negative.
 
