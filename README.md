@@ -290,7 +290,7 @@ Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have s
 
 &nbsp;
 
-Note that pure $\text{SDFs}$ returns with a single distance value for a particular input position. If we find a surface point (where the $\text{SDF}$ value is $0$), we also want to identify which object did we find - because different objects have different properties. In my case, the only other property is the color (shade) of the object, so instead of a single value, my $\text{SDF}$ returns with a `Surface` object. A `Surface` contains two `Float316` numbers: one is the distance to the closest object, the other one is the color (the shade of gray normalized between $0.0$ and $1.0$), of that object. In other applications a `Surface` can contain even more information: material properties, texture coordinates, transparency level, refractive index, and so on.
+Note that pure $\text{SDFs}$ return with a single distance value for a particular input position. If we find a surface point (where the $\text{SDF}$ value is $0$), we also want to identify which object did we find - because different objects have different properties. In my case, the only other property is the color (shade) of the object, so instead of a single value, my $\text{SDF}$ returns with a `Surface` object. A `Surface` contains two `Float316` numbers: one is the distance to the closest object, the other one is the color (the shade of gray normalized between $0.0$ and $1.0$), of that object. In other applications a `Surface` can contain even more information: material properties, texture coordinates, transparency level, refractive index, and so on.
 
 ## Surface Normals with SDF
 
@@ -342,7 +342,7 @@ $\text{diffuse }= k_d i_d ({\bf L} \cdot {\bf N})$
 
 $\text{specular} = k_s i_s ({\bf R} \cdot {\bf V})^{\alpha}$
 
-Here, $k_a$, $k_d$ and $k_s$ are the ambient, diffuse and specular reflection constants of the material (we can think of as the color of the object), $i_a$, $i_d$ and $i_s$ are the ambient, diffuse and specular components of the light (sort-of the color of the light). ${\bf L}$ is the normalized direction from the surface point to the light source, ${\bf V}$ is the normalized direction from the surface point to the viewer (camera). $\alpha$ controls the shininess. ${\bf R}$ is the reflected ray of light, and can be computed as:
+Here, $k_a$, $k_d$ and $k_s$ are the ambient, diffuse and specular reflection constants of the material (we can think of them as the color of the object), $i_a$, $i_d$ and $i_s$ are the ambient, diffuse and specular components of the light (sort-of the color of the light). ${\bf L}$ is the normalized direction from the surface point to the light source, ${\bf V}$ is the normalized direction from the surface point to the viewer (camera). $\alpha$ controls the shininess. ${\bf R}$ is the reflected ray of light, and can be computed as:
 
 ${\bf R} = 2({\bf L} \cdot {\bf N}) {\bf N} - {\bf L}$
 
@@ -360,7 +360,7 @@ In the Jack implementation, many variables are merged into a single constant, su
 
 [Raymarching](https://en.wikipedia.org/wiki/Ray_marching) (also known as sphere tracing, or sphere-assisted ray marching) is actually super simple! Let's say we have a ray origin $R_o$, usually the camera, and a ray direction $R_d$, pointing towards a pixel on the virtual screen in front of the camera. What we want to know is where is the closest surface point $P$ in that direction.
 
-We can start from $P = R_o$, and gradually ask the $\text{SDF}$ what is the distance. If the distance is some positive number $d$, we know that we can change $P$ to $P + d R_d$ - which means we move along the given direction by $d$ amount. We won't miss anything, since according to the $\text{SDF}$, no surface point can be closer than $d$. We might even arrive at a surface point! But if not, we can ask the $\text{SDF}$ again, and iteratively we move $P$ further and further on the line - until we either a) hit a surface point, b) reach a certain cumulative distance where we are sure there are no more objects (we passed everything), or c) we iterate the process long enough and don't want to waste more computations.
+We can start from $P = R_o$, and gradually ask the $\text{SDF}$ what is the distance. If the distance is some positive number $d$, we know that we can change $P$ to $P + d R_d$ - which means we move along the given direction by $d$ amount. We won't miss anything, since according to the $\text{SDF}$, no surface point can be closer than $d$. We might even arrive at a surface point! But if not, we can ask the $\text{SDF}$ again, and iteratively we move $P$ further and further on the line, until we either a) hit a surface point, b) reach a certain cumulative distance where we are sure there are no more objects (we passed everything), or c) we iterated the process long enough and don't want to waste more computations.
 
 The following image illustrates this process. Each circle has a radius of $\text{SDF}(P)$ at a specific point $P$, showing us that the closest surface point is (somewhere) on that circle. So we can march forward $\text{SDF}(P)$ amount to the next point $P$, where we ask the $\text{SDF}$ again. In 7 steps we reached a surface point.
 
@@ -380,7 +380,7 @@ The following image illustrates this process. Each circle has a radius of $\text
 
 Raymarching can also be used to detect whenever a surface point is in the shadow of an object. We use the same algorithm again, but this time the ray origin is the surface point $P$ itself, and the direction is the light source. If we reach the light source before we hit another surface point, we are in the light. Otherwise, we hit something - $P$ must be in the shadow of that object!
 
-You can read more about shadow rays [here](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/ligth-and-shadows.html). Just don't forget the shadow-acne!
+You can read more about shadow rays [here](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/ligth-and-shadows.html). Just don't forget the *shadow-acne!*
 
 ## View Matrix
 
@@ -398,7 +398,7 @@ Again, without going into the details, I just give you the result. Let's say $C$
 
 ![camera](media/camera.png)
 
-*In our case, Tmp is the "global up". Source: scratchapixel*
+*In our case, Tmp is the "global up". Source: [scratchapixel](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function/framing-lookat-function.html)*
 
 &nbsp;
 
