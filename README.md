@@ -2,6 +2,10 @@
 
 ![hack result](media/hackresult.png)
 
+&nbsp;
+
+&nbsp;
+
 ## How to run the applications
 
 ### The Jack code
@@ -42,11 +46,19 @@ This is the result of my efforts to build a **raymarcher**.
 
 *Raytracing illustrated. Source: Wikipedia*
 
+&nbsp;
+
+&nbsp;
+
 With raytracing you can create cool looking images with different effects such as reflections, shadows, transparency, depth of field, etc. While it is not the only technique, it is essential in many areas of computer graphics and animation.
 
 ![Raytrace example](media/Recursive_raytrace_of_a_sphere.png)
 
 *A raytraced image with different lighting effects. Source: Wikipedia*
+
+&nbsp;
+
+&nbsp;
 
 Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible![^2]
 
@@ -88,6 +100,10 @@ The first version was created with Shadertoy, an online tool for creating vertex
 ![grayscale](media/grayscale.png)
 
 *The grayscale prototype image created with Shadertoy*
+
+&nbsp;
+
+&nbsp;
 
 The second version was a quick Python implementation of the very same Shadertoy program. It does the same, except it goes pixel-by-pixel on the CPU, so the render time is much slower (around 10s on my computer), but still quick enough for developing purposes.
 
@@ -240,6 +256,10 @@ Here is a 2D example of a signed distance function, where every pixel shows the 
 
 *A circle with signed distances. Source: https://shaderfun.com/*
 
+&nbsp;
+
+&nbsp;
+
 As you can imagine, different scenes have different $\text{SDFs}$. If you want cubes instead of spheres, we have to change the $\text{SDF}$ accordingly.
 
 Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have simple $\text{SDFs}$. $\text{SDFs}$ can be combined, distorted, or altered in some way that they can create cool effects: duplicate objects without increasing the complexity, create rippled surface effects, rotate and scale objects, blending objects together in a continuous way, creating holes, and so on.
@@ -250,6 +270,10 @@ Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have s
 
 *My signed distance function visualized. Darker pixel means bigger distance from the camera*
 
+&nbsp;
+
+&nbsp;
+
 Note that pure $\text{SDFs}$ returns with a single distance value for a particular input position. If we find a surface point (where the $\text{SDF}$ value is $0$), we also want to identify which object did we find - because different objects have different properties. In my case, the only other property is the color (shade) of the object, so instead of a single value, my $\text{SDF}$ returns with a `Surface` object. A `Surface` contains two `Float316` numbers: one is the distance to the closest object, the other one is the color (the shade of gray normalized between $0.0$ and $1.0$), of that object. In other applications a `Surface` can contain even more information: material properties, texture coordinates, transparency level, refractive index, and so on.
 
 ## Surface Normals with SDF
@@ -259,6 +283,10 @@ In order to calculate the light intensity at a specific surface point, we need t
 ![normals](media/surface_normals.svg)
 
 *A surface showing many surface normals at various surface points. Source: Wikipedia*
+
+&nbsp;
+
+&nbsp;
 
 To quote from the [Wikipedia article](https://en.wikipedia.org/wiki/Normal_(geometry)): "If a surface $S$ is given implicitly as the set of points $(x, y, z)$ satisfying $F(x, y, z) = 0$, then a normal at a point $(x, y, z)$ on the surface is given by the gradient ${\bf n} = \nabla F(x, y, z)$".
 
@@ -272,6 +300,10 @@ I used the tetrahedron technique to calculate the surface normals. It calls the 
 
 *Surface normals: each color shows an* $(x, y, z)$ *surface normal interpreted as normalized RGB values. For example, the floor is green because each surface normal points to the* $(0, 1, 0)$ *direction*
 
+&nbsp;
+
+&nbsp;
+
 ## The Phong Reflection Model
 
 The [Phong Reflection Model](https://en.wikipedia.org/wiki/Phong_reflection_model) is an empirical model to create realistic looking (but still locally computed) lights. It contains three components: ambient, which represents the light scattered across all the scene; diffuse reflection of rough surfaces; and specular reflection, which acts like the mirror-like reflection of the light sources on the surface.
@@ -279,6 +311,10 @@ The [Phong Reflection Model](https://en.wikipedia.org/wiki/Phong_reflection_mode
 ![Phong Reflection Model](media/phong.png)
 
 *The Phong Reflection Model. Source: Wikipedia*
+
+&nbsp;
+
+&nbsp;
 
 All of the components can be computed at a given $P$ surface point fairly easily if the surface normal and a few other parameters are known.
 
@@ -312,6 +348,10 @@ The following image illustrates this process. Each circle has a radius of $\text
 
 *This explains the name "sphere tracing". Source: Wikipedia*
 
+&nbsp;
+
+&nbsp;
+
 Raymarching can also be used to detect whenever a surface point is in the shadow of an object. We use the same algorithm again, but this time the ray origin is the surface point $P$ itself, and the direction is the light source. If we reach the light source before we hit another surface point, we are in the light. Otherwise, we hit something - $P$ must be in the shadow of that object!
 
 You can read more about shadow rays [here](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/ligth-and-shadows.html). Just don't forget the shadow-acne!
@@ -327,6 +367,10 @@ Again, without going into the details, I just give you the result. Let's say $C$
 ![camera](media/camera.png)
 
 *In our case, Tmp is the "global up". Source: scratchapixel*
+
+&nbsp;
+
+&nbsp;
 
 The **forward** direction vector is ${\bf F} = (C - L)_N$. Pretty straightforward. (Pun intended.) This is the $z$ direction to our camera.
 
@@ -390,11 +434,19 @@ On the Hack emulator it looked like this:
 
 *The final rendering process in the Hack simulator.*
 
+&nbsp;
+
+&nbsp;
+
 It took about 9 hours and 45 minutes for the entire image to emerge on an AMD Ryzen 5 CPU with 3.7GHz.
 
 ![result](media/result.png)
 
 *The final result. Isn't it beautiful? :-)*
+
+&nbsp;
+
+&nbsp;
 
 ## Development Process, Testing
 
