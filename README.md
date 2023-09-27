@@ -125,9 +125,11 @@ There are basically two ways to represent real numbers: in fixed point notation,
 
 The sign is a single bit: $s=0$ means the number is positive, $s=1$ means it's negative.
 
-The exponent can be interpreted as an unsigned integer - and to avoid negative numbers, they add a constant of $127$ to it. So, while `01111100` is $124$ in decimal, it actually means an exponent of $e = -3$.
+The exponent can be interpreted as an unsigned integer, and to avoid negative numbers, they add a constant of $127$ to it. So, while the binary number `01111100` is $124$ in decimal, it actually means an exponent of $e = -3$.
 
-The mantissa includes 23 fraction bits to the right of the binary point and an implicit leading bit. The first bit indicates whenever we have $\frac{1}{2}$, the second bit is for $\frac{1}{4}$, then $\frac{1}{8}$, $\frac{1}{16}$, and so on. A mantissa of `010110...` can be interpreted as $m = \frac{1}{4} + \frac{1}{16} + \frac{1}{32} + \dots$
+The mantissa includes 23 fraction bits to the right of the binary point and an implicit leading bit. The first bit indicates whenever we have $\frac{1}{2}$, the second bit is for $\frac{1}{4}$, then $\frac{1}{8}$, $\frac{1}{16}$, and so on.[^3] A mantissa of `010110...` can be interpreted as $m = \frac{1}{4} + \frac{1}{16} + \frac{1}{32} + \dots$
+
+[^3]: The pattern is clear: towards the left of the binary point we have increasing powers of 2: $2^0$, $2^1$, $2^2$, $\dots$ Towards the right, we have decresing powers of 2: $2^{-1}$, $2^{-2}$, $2^{-3}$, $\dots$
 
 An IEEE 754 bitstring encodes the following real number:
 
