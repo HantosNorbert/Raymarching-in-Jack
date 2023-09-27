@@ -20,7 +20,7 @@ But we can also modify the exponent. Adding 1 to the exponent means we just simp
 
 So, bit-shifting the mantissa to the right **and** adding 1 to the exponent actually represents the same number! Similarly, we can bit-shift the mantissa to the left and subtract 1 from the exponent. (Well, within certain boundaries, because too many bit shifts we can lose significant bits.) But now the mantissa does not start with `001` - it becomes **denormalized**.
 
-Why does this matter? Because addition, multiplication, and a bunch of other operands must temporarily denormalize the number in order to do their magic. Also, the resulted number can be denormalized on its own. But now we know what to do: in order to **normalize a `Float316` number**, we just have to bit-shift the mantissa and change the exponent at the same time, until the mantissa starts with `001`. (We won't do this in the case of positive or negative zero where the mantissa is all $0$ bits.)
+Why does this matter? Because addition, multiplication, and a bunch of other operands must temporarily denormalize the number in order to do their magic. Also, the resulted number can be denormalized on its own. But now we know what to do: in order to **normalize a `Float316` number**, we just have to **bit-shift the mantissa and change the exponent at the same time**, until the mantissa starts with `001`. (We won't do this in the case of positive or negative zero where the mantissa is all $0$ bits.)
 
 Note that in Jack we do not have bit shift operators. For bit-shifting the mantissa to the right, we actually have to halve its integer representation. Bit-shifting to the left is just adding it to itself.
 
