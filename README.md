@@ -268,6 +268,14 @@ As you can imagine, different scenes have different $\text{SDFs}$. If you want c
 
 Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have simple $\text{SDFs}$. $\text{SDFs}$ can be combined, distorted, or altered in some way that they can create cool effects: duplicate objects without increasing the complexity, create rippled surface effects, rotate and scale objects, blending objects together in a continuous way, creating holes, and so on.
 
+![3D SDF example](media/sdf.png)
+
+*A 3D signed distance function containing multiple objects. Source: http://mercury.sexy/hg_sdf/*
+
+&nbsp;
+
+&nbsp;
+
 [Here](https://iquilezles.org/articles/distfunctions/) you can see a lot of $\text{SDFs}$ and how to manipulate them. For my project, I selected a simple $\text{SDF}$ that is basically the union of a plane, a sphere and a torus. But it can be modified easily to create something different!
 
 ![my SDF](media/mySDF.png)
