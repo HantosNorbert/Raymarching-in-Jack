@@ -276,7 +276,7 @@ Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have s
 
 ![3D SDF example](media/sdf.png)
 
-*A 3D signed distance function containing multiple objects. Source: http://mercury.sexy/hg_sdf/*
+*A 3D signed distance function containing multiple objects, visualized at a cross-section. Source: http://mercury.sexy/hg_sdf/*
 
 &nbsp;
 
@@ -286,7 +286,7 @@ Luckily, $\text{SDFs}$ are very flexible. A lot of basic geometric shapes have s
 
 ![my SDF](media/mySDF.png)
 
-*My signed distance function visualized. Darker pixel means bigger distance from the camera*
+*Using the SDF we can visualize distances from the camera in the direction of the individual pixels. Darker pixel means bigger distance*
 
 &nbsp;
 
