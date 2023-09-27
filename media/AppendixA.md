@@ -4,15 +4,20 @@
 
 Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$ (since we store the explicit 1 in $m$, we don't have to add it to $m$ anymore). Keep in mind that we also have two overflow bits in front of the mantissa: if an IEEE 764 mantissa starts as `10110...` our mantissa starts as `00110110...` for the (approximately) same number. This means that in our case it's the 4th place that is worth $\frac{1}{2}$, the 5th place is worth $\frac{1}{4}$, the 6th place $\frac{1}{8}$ and so on. The binary places are the powers of 2, decreasing towards the right. Logically, the powers of 2 should increase towards the left side: the 3rd place is $1$ (as it should be! It is the explicit 1 we wanted to store), the 2nd place is worth $2$, and the 1st place worth $4$. Normally, we don't use them - however...
 
-If we right-shift the bits of the mantissa, we actually halve the number, because new each mantissa bit contributes half as much to the real number. A mantissa that starts as `001110...` can be deciphered as
+If we right-shift the bits of the mantissa, we actually halve the number, because new each mantissa bit contributes half as much to the real number. A mantissa of `0011100...0` can be deciphered as
 
-$$\mathbf{0} \cdot 4 + \mathbf{0} \cdot 2 + \mathbf{1} \cdot 1 + \mathbf{1} \cdot \frac{1}{2} + \mathbf{1} \cdot \frac{1}{4} + \mathbf{0} \cdot \frac{1}{8} + \dots = 0.75$$
+$$\mathbf{0} \cdot 4 + \mathbf{0} \cdot 2 + \mathbf{1} \cdot 1 + \mathbf{1} \cdot \frac{1}{2} + \mathbf{1} \cdot \frac{1}{4} + \mathbf{0} \cdot \frac{1}{8} + + \mathbf{0} \cdot \frac{1}{16} + \dots + \mathbf{0} \cdot \frac{1}{8192} = 0.75$$
 
 After a bit-shift to the right, it becomes `000111...`, thus:
 
 $$\mathbf{0} \cdot 4 + \mathbf{0} \cdot 2 + \mathbf{0} \cdot 1 + \mathbf{1} \cdot \frac{1}{2} + \mathbf{1} \cdot \frac{1}{4} + \mathbf{1} \cdot \frac{1}{8} + \dots = 0.375$$
 
-With a right shift, we halved the value of the number. But we can also modify the exponent. Adding 1 to the exponent means we just simply double the number.
+With a right shift, we halved the value of the number! Similarly, with a left shift, we can double the number. `01110...` is:
+
+$$\mathbf{0} \cdot 4 + \mathbf{1} \cdot 2 + \mathbf{1} \cdot 1 + \mathbf{1} \cdot \frac{1}{2} + \mathbf{0} \cdot \frac{1}{4} = 0.375$$
+
+
+But we can also modify the exponent. Adding 1 to the exponent means we just simply double the number.
 
 So, bit-shifting the mantissa to the right **and** adding 1 to the exponent actually represents the same number! Similarly, we can bit-shift the mantissa to the left and subtract 1 from the exponent. (Well, within certain boundaries, because too many bit shifts we can lose significant bits.) But now the mantissa does not start with `001` - it becomes **denormalized**.
 
