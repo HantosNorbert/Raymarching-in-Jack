@@ -62,7 +62,7 @@ With raytracing you can create cool looking images with different effects such a
 
 Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible![^2]
 
-[^2]: It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already decided I wanted to do my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but **knowing it is possible** kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
+[^2]: It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already started to work on my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but *knowing it is possible* kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
 
 ## Challenges in Jack/Hack
 
