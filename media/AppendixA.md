@@ -32,7 +32,7 @@ That was easy, huh? Let's see something harder.
 
 ## Addition of `Float316` Numbers
 
-Wikipedia has a handy article about [floating point arithmetic](https://en.wikipedia.org/wiki/Floating-point_arithmetic), so we only have to follow it!
+Wikipedia has a handy article about [floating-point arithmetic](https://en.wikipedia.org/wiki/Floating-point_arithmetic), so we only have to follow it!
 
 The main steps are:
 1. Let's call the number `Bigger` which is bigger in absolute terms (ignoring the sign bit), the other will be `Smaller`.
