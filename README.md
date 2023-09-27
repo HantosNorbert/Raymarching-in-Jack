@@ -66,7 +66,7 @@ Though a simple raymarcher/raytracer can be done in a few dozens lines of code i
 
 ## Challenges in Jack/Hack
 
-Since you create the entire hardware, the compiler, and the operating system on your own under the guidence of the nand2tetris course, understandably, there are a lot of simplifications on the underlying architecture and functionality. **Creating the Jack language** is easier, but **creating an application in Jack** is more difficult due to the same limitations.
+Since you create the entire hardware, the compiler, and the operating system on your own under the guidence of the nand2tetris course, understandably, there are a lot of simplifications on the underlying architecture and functionality. **Creating the Jack language itself** is easier, but **creating an application in Jack** is more difficult due to the same limitations.
 
 In terms of creating a raymarching/raytracing software, these are the biggest challanges:
 
