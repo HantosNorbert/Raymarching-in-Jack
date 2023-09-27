@@ -99,7 +99,7 @@ The first version was created with [Shadertoy](https://www.shadertoy.com/), an o
 
 ![grayscale](media/grayscale.png)
 
-*The grayscale prototype image created with Shadertoy*
+*The grayscale prototype image created with Shadertoy. To speed up the computation for Jack/Hack, some parameters are fine-tuned but had an odd visual effect. For example, the curved horizon is due to the low visibility distance threshold*
 
 &nbsp;
 
