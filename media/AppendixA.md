@@ -6,7 +6,7 @@ Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$
 
 If we right-shift the bits of the mantissa, we actually halve the number, because new each mantissa bit contributes half as much to the real number. A mantissa of `0011100...0` can be deciphered as
 
-$$\left(\mathbf{0} \cdot 4 \right) = 1.75$$
+$$\left( \mathbf{0} \cdot 4 \right) = 1.75$$
 
 After a bit-shift to the right, it becomes `0001110...0`, thus:
 
