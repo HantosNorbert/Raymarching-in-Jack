@@ -486,7 +486,7 @@ Next I developed the `Float316` class and all the related functions in Python. I
 
 Once it was done, I brought the classes and functions one-by-one to Jack, and randomly tested the functionaly there as well (I created `print()` functions for `Float316` and `Vec3`). Do Python and Jack agree on the multiplication of the same numbers? Does the $\text{SDF}$ gives the same answer to certain 3D coordinates? Does the pixel in the 42nd row and 55th column has the same `Float316` color value?
 
-One issue I hadn't talk about is the memory allocations. Since alloc/dealloc is very demanding on the Hack machine, I wanted to allocate all the necessary memory in the beginning, and never deal with memory during the actual computations. So, such a version of the float multiplication is unacceptable:
+One issue I hadn't talked about is the memory allocations. Since alloc/dealloc is very demanding on the Hack machine, I wanted to allocate all the necessary memory in the beginning, and never deal with memory during the actual computations. So, such a version of the float multiplication is unacceptable:
 ```
 var Float316 result, f1, f2;
 let f1 = Float316.new(...);
@@ -518,7 +518,7 @@ There is a lot, I mean a LOT that can be optimized. Fewer static variables, fast
 
 ## A Noteworthy Difference Between Jack and Python
 
-One final issue I have to mention specifically, is a difference between Jack and Python. I thought that Python integer division and Jack integer division is the same. But apparently they differ on negative numbers! $-47 ~ // ~ 2$ in Python is $~ -23$ (rounding down), while $-47 / 2$ in Jack it is $-24$ (rounding towards zero). This difference is so subtle in the raymarcher, I only discovered it by chance when the Python `sqrt()` and the Jack `sqrt()` functions mismatched ever slightly... Took me an hour to figure out why!
+One final issue I have to mention specifically, is a difference between Jack and Python. I thought that Python integer division and Jack integer division is the same. But apparently they differ on negative numbers! $-47 ~ // ~ 2$ in Python is $~ -23$ (rounding down), while $-47 / 2$ in Jack it is $-24$ (rounding towards zero). This difference is so subtle in the raymarcher, I only discovered it by chance when the Python `sqrt()` and the Jack `sqrt()` functions mismatched ever slightly... Took me an hour to figure out why! After this discovery, I adjusted the Jack code so that both raymarcher programs should work exactly the same.
 
 ## Gallery
 
