@@ -153,7 +153,7 @@ IEEE 754 is a good idea for Jack, but it requires 32 bits. We only have 16. Ther
 
 The problem is that certain operations such as multiplication requires twice as many bits for the mantissa for temporal calculations. So, even for the half-precision floating-point, that would be 20 bits, which we cannot use. So we have to do some extra tricks to make the multiplication work (see later) and break it into smaller parts. This also implies that we don't have to restrict ourselves to 10 bits: the mantissa can be stored separately in a Jack integer, with 16 bits.
 
-As we will see later, we need overflow detection, and we also have to store the "hidden 1" of IEEE 754 (the explicit bit), because we don't want to use the extra computation to deal with it constantly. We want our number to represent $m \cdot 2^e$, not $(1+m) \cdot 2^e$. So, in our implementation of the float type, the mantissa bit string always begins with `001`, and the rest of the 13 bits are the actual values we care about. We handle the exponent and the sign the same was as IEEE 754 does, but again, we store them as separate integers.
+As we will see later, we need overflow detection, and we also have to store the "hidden 1" of IEEE 754 (the explicit bit), because we don't want to use the extra computation to deal with it constantly. We want our number to represent $m \cdot 2^e$, not $(1+m) \cdot 2^e$. So, in our implementation of the float type, the mantissa bit string always begins with `001`, and the rest of the 13 bits are the actual values we care about. We handle the exponent and the sign the same way as IEEE 754 does, but again, we store them as separate integers.
 
 Hence the birth of the `Float316` type (I chose the subfix `316`, because it requires "three 16-bit integers").
 
@@ -171,7 +171,7 @@ Or in decimal from:
 
 `1, 131, 13184`
 
-Note that in our case of the mantissa the bit worth $\frac{1}{2}$ is on the 4th place, the bit worth $\frac{1}{4}$ is the 5th, and so on. Going the other direction, the 3rd bit can be interpreted as $1$, the 2nd bit as $2$, and the 1st bit as $4$.
+Note that in our case of the mantissa the bit worth $\frac{1}{2}$ is on the 4th place, the bit worth $\frac{1}{4}$ is the 5th, and so on. Going the other direction, the 3rd bit can be interpreted as $1$, the 2nd bit as $2$, and the 1st bit as $4$. This seems confusing, but actually comes handy at some point (see [Normalization of `Float316` Numbers](media/AppendixA.md#normalization-of-float316-numbers) in Appendix A).
 
 ### Few extra notes on `Float316`
 
