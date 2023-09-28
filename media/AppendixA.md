@@ -227,7 +227,7 @@ $$x_{n+1} = x_n \cdot (1.5 - (X/2 \cdot x_n^2))$$
 
 Again, with $X$ being the number we want the inverse square root of. We need a good intitial guess for $x_0$.
 
-The inverse square root of a value is just raising that value to the $-1/2$-th power:
+The inverse square root of a real number is just raising that number to the $-1/2$-th power:
 
 $$(m \cdot 2^e)^{-\frac{1}{2}} = m^{-\frac{1}{2}} \cdot 2^{-\frac{e}{2}}$$
 
