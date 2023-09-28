@@ -1,3 +1,9 @@
+################################################################################
+# A raytracer created by Norbert Hantos
+#
+# See https://github.com/HantosNorbert/Raymarching-in-Jack
+################################################################################
+
 import numpy as np
 import cv2
 from dataclasses import dataclass
