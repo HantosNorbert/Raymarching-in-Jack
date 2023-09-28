@@ -2,7 +2,7 @@
 
 ## Normalization of `Float316` Numbers
 
-Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$ (since we store the explicit 1 in $m$, we don't have to add it to $m$ anymore). Keep in mind that we also have two overflow bits in front of the mantissa: if an IEEE 764 mantissa starts as `10110...` our mantissa starts as `00110110...` for the (approximately) same number. This means that in our case it's the 4th place that is worth $\frac{1}{2}$, the 5th place is worth $\frac{1}{4}$, the 6th place $\frac{1}{8}$ and so on. The binary places are the powers of 2, decreasing towards the right. Logically, the powers of 2 should increase towards the left side: the 3rd place is $1$ (as it should be! It is the explicit 1 we wanted to store), the 2nd place is worth $2$, and the 1st place worth $4$. Normally, we don't use them - however...
+Ignoring the sign for a moment, our `Float316` number's real form is $m\cdot2^e$ (since we store the explicit 1 in $m$, we don't have to add it to $m$ anymore). Keep in mind that we also have two overflow bits in front of the mantissa: if an IEEE 764 mantissa starts as `10110...` our mantissa starts as `00110110...` for the (approximately) same number. This means that in our case it's the 4th place that is worth $\frac{1}{2}$, the 5th place is worth $\frac{1}{4}$, the 6th place $\frac{1}{8}$, and so on. The binary places are the powers of 2, decreasing towards the right. Logically, the powers of 2 should increase towards the left side: the 3rd place is worth $1$ (as it should be! It is the explicit 1 we wanted to store), the 2nd place is worth $2$, and the 1st place is worth $4$. Normally, we don't use them - however...
 
 If we right-shift the bits of the mantissa, we actually halve the number, because new each mantissa bit contributes half as much to the real number. A mantissa of `0011100...0` can be deciphered as
 
@@ -20,7 +20,9 @@ But we can also modify the exponent. Adding 1 to the exponent means we just simp
 
 So, bit-shifting the mantissa to the right **and** adding 1 to the exponent actually represents the same number! Similarly, we can bit-shift the mantissa to the left and subtract 1 from the exponent. (Well, within certain boundaries, because too many bit shifts we can lose significant bits.) But now the mantissa does not start with `001` - it becomes **denormalized**.
 
-Why does this matter? Because addition, multiplication, and a bunch of other operands must temporarily denormalize the number in order to do their magic. Also, the resulted number can be denormalized on its own. But now we know what to do: in order to **normalize a `Float316` number**, we just have to **bit-shift the mantissa and change the exponent at the same time**, until the mantissa starts with `001`. (We won't do this in the case of positive or negative zero where the mantissa is all zero.)
+Why does this matter? Because addition, multiplication, and a bunch of other operands must temporarily denormalize the number in order to do their magic. Also, the resulted number can be denormalized on its own. But now we know what to do: in order to **normalize a `Float316` number**, we just have to **bit-shift the mantissa and change the exponent at the same time**[^1], until the mantissa starts with `001`. (We won't do this in the case of positive or negative zero where the mantissa is all zero.)
+
+[^1]: IEEE 754 has normalization steps too. Furthermore, numbers extremely close to zero can be left denormalized, called subnormal numbers. `Float316` does not support subnormal numbers (each operator has a final normalization step), because we don't need them for this application.
 
 Note that in Jack we do not have bit-shift operators. For bit-shifting the mantissa to the right, we actually have to halve its integer representation. Bit-shifting to the left is just adding it to itself.
 
