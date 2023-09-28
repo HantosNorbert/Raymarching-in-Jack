@@ -53,10 +53,10 @@ Example: add `1, 129, 10752` ($-5.25$) and `0, 127, 12288` ($1.5$).
 
 `Bigger`: `1, 129, 10752`, `Smaller`: `0, 127, 12288`.
 Sign of result: $1$, exponent of result: $E = 129$ (encodes $e=2$).
-Denormalize `Smaller`: now it becomes `0, 129, 3072` (exponent increased by $2$, mantissa halved twice).
+Denormalize `Smaller`: now it becomes `0, 129, 3072` (exponent increased by 2, mantissa halved twice).
 Signs are different: mantissa of the result is $M = 10752 - 3072 = 7680$.
 Resulted number is: `1, 129, 7680`.
-After normalization: `1, 128, 15360` (exponent decreased by $1$, mantissa doubled).
+After normalization: `1, 128, 15360` (exponent decreased by 1, mantissa doubled).
 
 Which happens to encode the real number $-3.75$.
 
@@ -150,7 +150,7 @@ This will be surprisingly easy after multiplication (though the algorithm itself
 
 Sign is simple: $(s_1 + s_2) ~ \\& ~ 1$.
 
-Exponent: $e_1 - e_2 + 127$.
+Exponent: $E = E_1 - E_2 + 127$.
 
 Now, we cannot use integer division between the mantissas. If $A =$ `0 127 12288` ($1.5$) and $B =$ `0 123 13107` (approx. $0.1$), we expect $A/B$ to be around `0 130 15360` ($15.0$). But an integer division of the mantissas $12288$ and $13107$ gives us $0$.
 
@@ -178,12 +178,12 @@ To sum up:
 1. If the first number represents zero, return with $0$.
 2. If the second number represents a zero, **panic**[^2].
 3. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
-4. The result has the exponent $e_1 + 127 - e_2$.
-5. For the mantissa $m$:
-    1) Set the bit index to $i = 13$ (the first significant bit of $m$).
+4. The result has the exponent $E_1 - E_2 + 127$.
+5. For the mantissa $M$:
+    1) Set the bit index to $i = 13$ (the first significant bit of $M$).
     2) While $i \ge 0$, repeat the following steps:
-    3) if $m_1 \ge m_2$, then $m_1 = m_1 - m_2$ and let $m[i] = 1$.
-    4) Regardless of the previous step, divide $m_2$ by $2$ (right-shift), and decrease the bit index $i$ by $1$.
+    3) if $M_1 \ge M_2$, then $M_1 = M_1 - M_2$ and set the $i$-th bit of $M$ to 1.
+    4) Regardless of the previous step, divide $M_2$ by 2 (right-shift), and decrease the bit index $i$ by 1.
 
 [^2]: IEEE 754 would set the represented number to plus or minus infinity. `Float316` does not support that, because (hopefully!) we don't need that for this application.
 
@@ -193,7 +193,7 @@ The main reason we need these is for the checkerboard pattern of the floor in th
 
 Go to [this handy tool](https://www.h-schmidt.net/FloatConverter/IEEE754.html) or any similar application that let you show IEEE 754 float numbers, and start to write in integers. Can you see the pattern? `Float316` works the same way, just don't forget that the mantissa is padded with `001`.
 
-For the curious minds: the solution is $n = 22 - (e - 127)$ for IEEE 754, and $n = 12 - (e - 127)$ for `Float316` numbers.
+For the curious minds: the solution is $n = 22 - (E - 127)$ for IEEE 754, and $n = 12 - (E - 127)$ for `Float316` numbers.
 
 Note that zeroing out the mantissa up to the $n$-th position gives us the `floor` function for positive numbers, but `ceil` function for negatives. We have to adjust the result if we are dealing with negatives.
 
