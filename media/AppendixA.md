@@ -116,19 +116,19 @@ Notice that in this example, $M_2$ register no longer starts with `0 0`: we have
 
 $M_1 =$ `0 0 6 7 0 4`, $M_2 =$ `0 0 8 1 6 4`.
 
-This illustrates what we want to do with our `Float316` mantissas, except we work in binary and with more bits/digits. We have 16 digit registers with 14 significant binary digits (the first two bits are zero because we start with normalized numbers), so we break them into 7 digit parts first, do our magic, and keeping the $M_1$ part as the new mantissa. We throw away the $M_2$ part as truncation.
+This illustrates what we want to do with our `Float316` mantissas, except we work in binary and with more digits/bits. We have 16 digit registers with 14 significant binary digits (the first two bits are zero because we start with normalized numbers), so we break them into 7 digit parts first, do our magic, and keeping the $M_1$ part as the new mantissa. We throw away the $M_2$ part as truncation.
 
 **But what about the decimal point?**
 
-Our mantissa contains a virtual binary point: `0011001(...)` actually means `001.1001(...)`. Let's look at our example again, but with a decimal point after the third digit (first significant digit): Let's interpret $A =$ `0 0 9 8 7 6` as $9.876$. Similarly, $B =$ `0 0 6 7 8 9` is $6.789$. After our calculations, $M_1$ register still contains `0 0 6 7 0 4`, since we do everything exactly the same way. But we cannot interpret the result as $6.704$! Instead, it should be $67.04$ (as the true value of $9.876 \cdot 6.789 = 67.048164$). The decimal point shifted by one. (Think about it why!) To fix it, we have to adjust the exponent by subtracting $1$.
+Our mantissa contains a virtual binary point: `0011001(...)` actually means `001.1001(...)`. Let's look at our example again, but with a decimal point after the third digit (first significant digit): Let's interpret $A =$ `0 0 9 8 7 6` as $9.876$. Similarly, $B =$ `0 0 6 7 8 9` is $6.789$. After our calculations, $M_1$ register still contains `0 0 6 7 0 4`, since we do everything exactly the same way. But we cannot interpret the result as $6.704$! Instead, it should be $67.04$ (as the true value of $9.876 \cdot 6.789 = 67.048164$). The decimal point shifted by one. (Think about it why!) To fix it, we have to adjust the exponent by subtracting 1.
 
 One final note: in the actual implementation of the `Float316` multiplication, we drop every calculation that is related to $M_2$, since we don't use it anyway. We lose some precision though: as we saw in the example, an overflow in $M_2$ modifies the last digit/bit of $M_1$. But we can make this sacrifice in order to speed up the computation!
 
 Finally, let's sum up the steps of the multiplication!
 
 1. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
-2. If one of the numbers is $0.0$, return with $0.0$.
-3. If one of the numbers is $\pm 1.0$, return with the other number with the new sign.
+2. If one of the numbers represents zero, return with $0$.
+3. If one of the numbers represents $\pm 1.0$, return with the other number with the new sign.
 4. The result has the exponent $e_1 + e_2 - 127 + 1$.
 5. For the mantissa:
     1) If $X_H$ denotes the higher 7 bits ($X / 128$), and $X_L$ is the lower 7 bits ($X ~ \\& ~ 127$) of an integer $X$, then let:
@@ -142,7 +142,7 @@ If you reached this point, congratulations! This was probably the hardest part. 
 
 ##  Division of `Float316` Numbers
 
-This will be surprisingly easy after multiplication. Dividing $m_1 \cdot 2^{e_1}$ by $m_2 \cdot 2^{e_2}$ gives $\frac{m_1}{m_2} \cdot 2^{e_1 - e_2}$.
+This will be surprisingly easy after multiplication (though the algorithm itself slower!). Dividing $m_1 \cdot 2^{e_1}$ by $m_2 \cdot 2^{e_2}$ gives $\frac{m_1}{m_2} \cdot 2^{e_1 - e_2}$.
 
 Sign is simple: $(s_1 + s_2) ~ \\& ~ 1$.
 
@@ -171,8 +171,8 @@ $B$ ran out of significant digits, so we can stop (the next step would bring $n$
 In binary we do the same with the mantissas, except we have an even easier job: $n$ is either $0$ or $1$, so a single comparison of $A$ and $B$ is enough to determine the result.
 
 To sum up:
-1. If the first number is $0.0$, return with $0.0$.
-2. If the second number is $0.0$, **panic**.
+1. If the first number represents zero, return with $0$.
+2. If the second number represents a zero, **panic**[^2].
 3. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
 4. The result has the exponent $e_1 + 127 - e_2$.
 5. For the mantissa $m$:
@@ -180,6 +180,8 @@ To sum up:
     2) While $i \ge 0$, repeat the following steps:
     3) if $m_1 \ge m_2$, then $m_1 = m_1 - m_2$ and let $m[i] = 1$.
     4) Regardless of the previous step, divide $m_2$ by $2$ (right-shift), and decrease the bit index $i$ by $1$.
+
+[^2]: IEEE 754 would set the represented number to plus (or minus) infinity. `Float316` does not support that, because (hopefully!) we don't need that for this application.
 
 ##  Floor and Modulo 2 of `Float316` Numbers
 
