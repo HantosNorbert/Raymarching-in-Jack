@@ -74,7 +74,7 @@ $$E = e + 127 = (e_1 + e_2) + 127 = (E_1 - 127 + E_2 - 127) + 127 = E_1 + E_2 - 
 
 There we have it: $E = E_1 + E_2 - 127$.
 
-The sign is also easy: $s_1 \text{XOR} s_2$, or $(s_1 + s_2) ~ \text{mod} ~ 2$. Or, since we don't have a `mod` function, $(s_1 + s_2) ~ \\& ~ 1$.
+The sign is also easy: $s_1 ~ \text{XOR} ~ s_2$, or $(s_1 + s_2) ~ \text{mod} ~ 2$. Or, since we don't have a `mod` function, $(s_1 + s_2) ~ \\& ~ 1$.
 
 The biggest issue is multiplying the mantissas. Normally it would go like this: multiply the mantissas in 32 bit registers (since multiplying 16 bit numbers require at most 32 bits), and keep the top 16 bits as the truncated result. But we don't have 32 bits - so we have to break the multiplications into parts.
 
