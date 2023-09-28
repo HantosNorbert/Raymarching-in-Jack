@@ -181,11 +181,11 @@ To sum up:
     3) if $m_1 \ge m_2$, then $m_1 = m_1 - m_2$ and let $m[i] = 1$.
     4) Regardless of the previous step, divide $m_2$ by $2$ (right-shift), and decrease the bit index $i$ by $1$.
 
-[^2]: IEEE 754 would set the represented number to plus (or minus) infinity. `Float316` does not support that, because (hopefully!) we don't need that for this application.
+[^2]: IEEE 754 would set the represented number to plus or minus infinity. `Float316` does not support that, because (hopefully!) we don't need that for this application.
 
 ##  Floor and Modulo 2 of `Float316` Numbers
 
-They are fairly simple. If you set every bit from the $n$-th position in the mantissa to $0$ (counting from the least significant bit being at position $0$), you will end up with an integer. And if you peek at the bit one position before $n$, you will know if it's even or odd. And what is the value of $n$? That depends on the exponent!
+The main reason we need these is for the checkerboard pattern of the floor in the final scene, so they are not super important. But their implementation is fairly simple. If you set every bit from the $n$-th position in the mantissa to zero (counting from the least significant bit being at position $0$), you will end up with an integer. And if you peek at the bit one position before $n$, you will know if it's even or odd. And what is the value of $n$? That depends on the exponent!
 
 Go to [this handy tool](https://www.h-schmidt.net/FloatConverter/IEEE754.html) or any similar application that let you show IEEE 754 float numbers, and start to write in integers. Can you see the pattern? `Float316` works the same way, just don't forget that the mantissa is padded with `001`.
 
