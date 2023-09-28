@@ -217,7 +217,9 @@ I found that two iterations of the Newton-Raphson method is sufficient for our r
 
 ##  (Fast) Inverse Square Root of `Float316` Numbers
 
-Computing $c/\sqrt{x}$ for some $c$ and $x$ values requires a square root function followed by a division (we need this combination for vector normalization). Division is slower than multiplication - so wouldn't it be better if we could do $c \cdot \frac{1}{\sqrt{x}}$, where $\frac{1}{\sqrt{x}}$ is computed directly? The answer is yes!
+Computing $c/\sqrt{x}$ for some $c$ and $x$ values requires a square root function followed by a division (we need this combination for vector normalization). Division is slower than multiplication - so wouldn't it be better if we could do $c \cdot \frac{1}{\sqrt{x}}$, where $\frac{1}{\sqrt{x}}$ is computed directly? The answer is yes! Hence, the inverse square root function.[^3]
+
+[^3] Strictly speaking, it is not the *inverse*, but the *multiplicative inverse* or *reciprocal* of the square root function.
 
 Our main strategy is technically the same as the square root function: take an initial guess, and refine it with the [Newton-Raphson method](https://en.wikipedia.org/wiki/Newton%27s_method). Only this time we have a different function:
 
