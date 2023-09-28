@@ -394,6 +394,8 @@ In order to cast rays, we need a ray origin and a ray direction. The ray origin 
 
 ![rays](media/rays.png)
 
+*Casting rays from the eye (camera center) through each pixel*
+
 &nbsp;
 
 Again, without going into the details, I just give you the result. Let's say $C$ is the camera position in the world, and $L$ is the so called "look-at-point": a point in the world we aim our camera at. We also define a **global up** direction as ${\bf G} = (0, 1, 0)$. Think of it as the direction towards the sky in the world coordinate system. Finally, let ${\bf V}_N$ denote the normalized version of some vector ${\bf V}$.
