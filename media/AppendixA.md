@@ -100,6 +100,8 @@ $A_L B_H = 76 \cdot 67 =$ `0 0 5 0 9 2`. Let's call this $R$.
 
 $A_L B_L = 76 \cdot 89 =$ `0 0 6 7 6 4`. Let's call this $S$.
 
+Our desired result can be written as $10000 \cdot P + 100 \cdot (Q + R) + S$.
+
 Multiplying a number by a power of 10 means we decimal-shift the number to the left by an amount equal to that power. So, by shifting our four new values to the left ($P$ by 4 places, $Q$ and $R$ by 2 places, $S$ by none) and adding them together, we get the result. This table illustrates the process:
 
 ![multiplication](mult.png)
