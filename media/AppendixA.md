@@ -215,7 +215,7 @@ So we need the square root of the mantissa, and halve the exponent.
 
 To spare some computations, we won't bother with the mantissa, so we leave it as it is. The Newton-Raphson method will set it anyway.
 
-To halve the exponent, we have to consider the bias: the new exponent should be $(e-127)/2 + 127 = e/2 + 63.5$. Since $e/2$ is an integer division, and we cannot subtract a fractional number, we go with $e/2 + 63$ if $e$ was originally even, and $e/2 + 64$ if $e$ was originally odd.
+To halve the exponent, we have to consider the bias: the new exponent should be $(E-127)/2 + 127 = E/2 + 63.5$. Since $E/2$ is an integer division, and we cannot subtract a fractional number, we go with $E/2 + 63$ if $E$ was originally even, and $E/2 + 64$ if $e$ was originally odd.
 
 I found that two iterations of the Newton-Raphson method is sufficient for our raymarcher.
 
