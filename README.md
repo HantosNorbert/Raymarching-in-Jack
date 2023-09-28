@@ -135,7 +135,7 @@ $$(-1)^{s} \cdot (1+m) \cdot 2^e$$
 
 In the example image above, $s=0$, $e=-3$ (with the 8 bits set to $E = 124$), $m=\frac{1}{4} = 0.25$ (with the 23 bits set to $M = 2097152$), so the number is $(1+0.25) \cdot 2^{-3} = 0.15625$.
 
-The $1$ we add to the mantissa $m$ is called the *implicit bit* or the *hidden 1*. This is a bit which is present virtually in the mantissa, but not stored in memory because its value is always 1 in a normalized number.
+The 1 we add to the mantissa $m$ is called the *implicit bit* or the *hidden 1*. This is a bit which is present virtually in the mantissa, but not stored in memory because its value is always 1 in a normalized number.
 
 Just to make sure you understand IEEE 754 numbers, let's see another example! Take this bit string of 32 bits:
 
@@ -159,7 +159,7 @@ IEEE 754 is a good idea for Jack, but it requires 32 bits. We only have 16. Ther
 
 The problem is that certain operations such as multiplication requires twice as many bits for the mantissa for temporal calculations. So, even for the half-precision floating-point, that would be 20 bits, which we cannot use. So we have to do some extra tricks to make the multiplication work (see later) and break it into smaller parts. This also implies that we don't have to restrict ourselves to 10 bits: the mantissa can be stored separately in a Jack integer, with 16 bits.
 
-As we will see later, we need overflow detection, and we also have to store the hidden 1 of IEEE 754 (the explicit bit), because we don't want to use the extra computation to deal with it constantly. We want our number to represent $m \cdot 2^e$, not $(1+m) \cdot 2^e$. So, in our implementation of the float type, the mantissa bit string always begins with `001`, and the rest of the 13 bits are the actual values we care about. We handle the exponent and the sign the same way as IEEE 754 does, but again, we store them as separate integers.
+As we will see later, we need overflow detection, and we also have to store the hidden 1 of IEEE 754 (the explicit bit), because we don't want to use the extra computation to deal with it constantly. We want our number to represent the sign and $m \cdot 2^e$, not $(1+m) \cdot 2^e$. So, in our implementation of the float type, the mantissa bit string always begins with `001`, and the rest of the 13 bits are the actual values we care about. We handle the exponent and the sign the same way as IEEE 754 does, but again, we store them as separate integers.
 
 Hence the birth of the `Float316` type (I chose the subfix `316`, because it requires "three 16-bit integers").
 
