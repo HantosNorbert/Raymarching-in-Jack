@@ -68,9 +68,9 @@ Change the sign of the second number and do addition. Duh!
 
 This is gonna be a bumpy ride. At first glance it seems easy: if we multiply $m_1 \cdot 2^{e_1}$ and $m_2 \cdot 2^{e_2}$, we get $m_1 m_2 \cdot 2^{e_1 + e_2}$ (again, handling the sign independently from the rest of the calculation). We just have to add the exponents and multiply the mantissas!
 
-The smaller caveat is that both exponents contain the extra bias of $127$. Adding them means we have double bias, so we have to subtract it once:
+The smaller caveat is that both exponents contain the extra bias of $127$, since $E = e + 127$. Adding the integer representation of the exponents means we have double bias, so we have to subtract it once. So, if we want $e = e_1 + e_2$, then:
 
-$$E = e - 127 = (e_1 + e_2) - 127 = (E_1 - 127 + E_2 - 127) - 127 = E_1 + E_2 - 127$$
+$$E = e + 127 = (e_1 + e_2) + 127 = (E_1 - 127 + E_2 - 127) + 127 = E_1 + E_2 - 127$$
 
 The sign is also easy: $(s_1 + s_2) ~ \text{mod} ~ 2$. Or, since we don't have a `mod` function, $(s_1 + s_2) ~ \\& ~ 1$.
 
