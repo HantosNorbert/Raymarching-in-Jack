@@ -380,9 +380,9 @@ The following image illustrates this process. Each circle has a radius of $\text
 
 Raymarching can also be used to detect whenever a surface point is in the shadow of an object. We use the same algorithm again, but this time the ray origin is the surface point $P$ itself, and the direction is the light source. If we reach the light source before we hit another surface point, we are in the light. Otherwise, we hit something - $P$ must be in the shadow of that object!
 
-You can read more about shadow rays [here](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/ligth-and-shadows.html). Just don't forget the *shadow-acne!*[^1]
+You can read more about shadow rays [here](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/ligth-and-shadows.html). Just don't forget the *shadow-acne!*[^3]
 
-[^1]: Shadow-acne is caused by numerical precision errors: the shadow ray origin is below the surface from which the ray is cast, causing a self-intersection. A common solution is to move the shadow ray origin slightly above the surface by displacing the point in the direction of the normal vector by a slight amount. See the link provided for more.
+[^3]: Shadow-acne is caused by numerical precision errors: the shadow ray origin is below the surface from which the ray is cast, causing a self-intersection. A common solution is to move the shadow ray origin slightly above the surface by displacing the point in the direction of the normal vector by a slight amount. See the link provided for more.
 
 ## View Matrix
 
