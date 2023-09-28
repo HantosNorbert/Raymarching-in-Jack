@@ -28,7 +28,7 @@ Note that in Jack we do not have bit-shift operators. For bit-shifting the manti
 
 Why do we need normalized numbers? Because it simplifies a lot of the arithmetic functions if we know that the starting numbers are already normalized.
 
-In Jack, we can check if a number is normalized: the mantissa must start as `001...`, so it is always between $8192 \le m < 16384$.
+In Jack, we can check if a number is normalized: the mantissa must start as `001...`, so it is always between $8192$ and $16383$, inclusive.
 
 ## The `gt()` Function
 
@@ -43,7 +43,7 @@ Wikipedia has a handy article about [floating-point arithmetic](https://en.wikip
 The main steps are:
 1. Let's call the number `Bigger` which is bigger in absolute terms (ignoring the sign bit), the other will be `Smaller`.
 2. If `Smaller` represents a zero (exponent and mantissa are $0$), return with `Bigger` ($x + 0 = x$).
-3. If `Bigger` and `Smaller` is the same but with different signs, return with `0.0` ($x + -x = 0$).
+3. If `Bigger` and `Smaller` is the same but with different signs, return with $0$ ($x + -x = 0$).
 4. Denormalize `Smaller` until its exponent matches the the exponent of `Bigger`.
 5. If the signs are the same, add the two mantissas. If the signs are different, subtract the `Smaller` mantissa from the `Bigger` mantissa (this never underflows by the way). This is the result mantissa.
 6. The result has the same sign and exponent as `Bigger`.
@@ -66,7 +66,7 @@ Change the sign of the second number and do addition. Duh!
 
 ##  Multiplication of `Float316` Numbers
 
-This is gonna be a bumpy ride. At first glance it seems easy: to multiply $m_1 \cdot 2^{e_1}$ and $m_2 \cdot 2^{e_2}$, the result is simply $m_1 m_2 \cdot 2^{e_1 + e_2}$. We just have to add the mantissas and multiply the exponents!
+This is gonna be a bumpy ride. At first glance it seems easy: if we multiply $m_1 \cdot 2^{e_1}$ and $m_2 \cdot 2^{e_2}$, we get $m_1 m_2 \cdot 2^{e_1 + e_2}$. We just have to add the exponents and multiply the mantissas!
 
 The smaller caveat is that both exponents contain the extra bias of $127$. Adding them means we have double bias, so we have to subtract it once: the new exponent is $e_1 + e_2 - 127$.
 
