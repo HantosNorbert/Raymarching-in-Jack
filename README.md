@@ -127,13 +127,15 @@ The sign is a single bit: $s=0$ means the number is positive, $s=1$ means it's n
 
 The exponent can be interpreted as an unsigned integer, and to avoid negative numbers, they add a constant of $127$ to it. So, while the binary number `01111100` is $E = 124$ in decimal, it actually means an exponent of $e = -3$ To avoid confusion, I'm going to denote the exponent as either $E$ or $e$, depending on whenever I talk about the raw bit string interpreted as an integer, or the actual unbiased number it represents.
 
-The mantissa includes 23 fraction bits to the right of the binary point and an implicit leading bit. The first bit indicates whenever we have $\frac{1}{2}$, the second bit is for $\frac{1}{4}$, then $\frac{1}{8}$, $\frac{1}{16}$, and so on (the negative powers of $2$). A mantissa of `010110...` can be interpreted as $m = \frac{1}{4} + \frac{1}{16} + \frac{1}{32} + \dots$ Similarly, it can be interpreted as a decimal number as well. In that case I denote the mantissa as $M$. So a bit string of `01011000000000000000000` means $M = 2883584$ and $m = 0.34375$.
+The mantissa includes 23 fraction bits to the right of the binary point. The first bit indicates whenever we have $\frac{1}{2}$, the second bit is for $\frac{1}{4}$, then $\frac{1}{8}$, $\frac{1}{16}$, and so on (the negative powers of $2$). A mantissa of `010110...` can be interpreted as $m = \frac{1}{4} + \frac{1}{16} + \frac{1}{32} + \dots$ Similarly to the exponent, we can interpret the bit string as a decimal number as well. In that case, we denote it as $M$. So a bit string of `01011000000000000000000` means $M = 2883584$ and $m = 0.34375$.
 
 An IEEE 754 bit string encodes the following real number:
 
 $$(-1)^{s} \cdot (1+m) \cdot 2^e$$
 
-In the example image above, $s=0$, $e=-3$ (stored as $124$ in binary), $m=\frac{1}{4} = 0.25$, so the number is $(1+0.25) \cdot 2^{-3} = 0.15625$.
+In the example image above, $s=0$, $e=-3$ (with the 8 bits set to $E = 124$), $m=\frac{1}{4} = 0.25$ (with the 23 bits set to $M = 2097152$), so the number is $(1+0.25) \cdot 2^{-3} = 0.15625$.
+
+The $1$ we add to the mantissa $m$ is called the *implicit bit* or the *hidden 1*. This is a bit which is present virtually in the mantissa, but not stored in memory because its value is always 1 in a normalized number.
 
 Just to make sure you understand IEEE 754 numbers, let's see another example! Take this bit string of 32 bits:
 
@@ -143,7 +145,7 @@ Let's break this into its parts:
 
 `1 | 10000010 | 10110000000000000000000`
 
-With these settings, $s=1$, $e=130 - 127 = 3$, and $m = \frac{1}{2} + \frac{1}{8} + \frac{1}{16}  = 0.6875.$ So, the real number is: $-(1+0.6875) \cdot 2^3 = -13.5$.
+With these settings, $s=1$, $e = E - 127 = 130 - 127 = 3$, and $m = \frac{1}{2} + \frac{1}{8} + \frac{1}{16}  = 0.6875.$ So, the real number is: $-(1+0.6875) \cdot 2^3 = -13.5$.
 
 This allows us to represent a wide range of numbers, from very small to quite large ones. Keep in mind that there are infinitely many real numbers even between $0$ and $1$, so we cannot represent all of them exactly. For example, $0.1$ is actually $0.100000001490116119384765625$ if we decode the bits (which are by the way `0 | 01111011 | 10011001100110011001101`). But for our case (and for many other real world applications), this is good enough!
 
@@ -157,7 +159,7 @@ IEEE 754 is a good idea for Jack, but it requires 32 bits. We only have 16. Ther
 
 The problem is that certain operations such as multiplication requires twice as many bits for the mantissa for temporal calculations. So, even for the half-precision floating-point, that would be 20 bits, which we cannot use. So we have to do some extra tricks to make the multiplication work (see later) and break it into smaller parts. This also implies that we don't have to restrict ourselves to 10 bits: the mantissa can be stored separately in a Jack integer, with 16 bits.
 
-As we will see later, we need overflow detection, and we also have to store the "hidden 1" of IEEE 754 (the explicit bit), because we don't want to use the extra computation to deal with it constantly. We want our number to represent $m \cdot 2^e$, not $(1+m) \cdot 2^e$. So, in our implementation of the float type, the mantissa bit string always begins with `001`, and the rest of the 13 bits are the actual values we care about. We handle the exponent and the sign the same way as IEEE 754 does, but again, we store them as separate integers.
+As we will see later, we need overflow detection, and we also have to store the hidden 1 of IEEE 754 (the explicit bit), because we don't want to use the extra computation to deal with it constantly. We want our number to represent $m \cdot 2^e$, not $(1+m) \cdot 2^e$. So, in our implementation of the float type, the mantissa bit string always begins with `001`, and the rest of the 13 bits are the actual values we care about. We handle the exponent and the sign the same way as IEEE 754 does, but again, we store them as separate integers.
 
 Hence the birth of the `Float316` type (I chose the subfix `316`, because it requires "three 16-bit integers").
 
@@ -171,7 +173,7 @@ Our `Float316` representation of $-25.75$:
 
 `1 | 10000011 | 0011001110000000`
 
-Or in decimal from:
+Or in decimal from, the values of $s$, $E$, and $M$ are:
 
 `1, 131, 13184`
 
@@ -179,7 +181,7 @@ Note that in our case of the mantissa the bit worth $\frac{1}{2}$ is on the 4th 
 
 ### Few extra notes on `Float316`
 
-- The real numbers $+0$ and $-1$ are special cases, and represented as `0, 0, 0` and `1, 0, 0`, respectfully.
+- The real numbers $+0$ and $-0$ are special cases, and represented as `0, 0, 0` and `1, 0, 0`, respectfully.
 - Other special cases such are infinities, NaNs and subnormal numbers are not supported in `Float316`. We don't need them (but one can extend the class if they want to).
 - Storing a single bit sign as a 16-bit integer is quite wasteful in terms of memory, but it simplifies later calculations a lot - and for our case, that is more important than keeping the memory usage low.
 - In Jack, we actually never have to decipher what floating-point number we store in `Float316`. We don't have to print them, we just have to apply certain operations to them, and decide which encodes a bigger number, which one is negative, and so on. Though we have to able to hard-code a few constants. For example, the number $1.0$ is represented as `0, 127, 8192`.
