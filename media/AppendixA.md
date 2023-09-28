@@ -116,7 +116,7 @@ Notice that in this example, $M_2$ register no longer starts with `0 0`: we have
 
 $M_1 =$ `0 0 6 7 0 4`, $M_2 =$ `0 0 8 1 6 4`.
 
-We want to do the same with our `Float316` mantissas. We have 16 digit registers with 14 significant binary digits, so we break them into 7 digit parts first, do our magic, and keeping the $M_1$ part as the new mantissa. We throw away the $M_2$ part as truncation.
+This illustrates what we want to do with our `Float316` mantissas, except we work in binary and with more bits/digits. We have 16 digit registers with 14 significant binary digits (the first two bits are zero because we start with normalized numbers), so we break them into 7 digit parts first, do our magic, and keeping the $M_1$ part as the new mantissa. We throw away the $M_2$ part as truncation.
 
 **But what about the decimal point?**
 
