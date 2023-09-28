@@ -80,9 +80,9 @@ The biggest issue is multiplying the mantissas. Normally it would go like this: 
 
 For the sake of an example, let's say we operate on decimal numbers, and can only store 4 digits in 6 digit registers (so we can detect overflow). The number $4123$ is stored as `0 0 4 1 2 3`.
 
-We want to multiply $A = 9876$ and $B = 6789$. The result is a 8 digit number, and to store it we need two registers. Let's call them $M_1$ and $M_2$. Since the true result is $67048164$, we expect the following:
+We want to multiply $A = 9876$ and $B = 6789$. The result is a 8 digit number, and to store it we need two registers. Let's call them $Z_1$ and $Z_2$. Since the true result is $67048164$, we expect the following:
 
-**Given $A =$ `0 0 9 8 7 6` and $B =$ `0 0 6 7 8 9`, we want $M_1 =$ `0 0 6 7 0 4` and $M_2 =$ `0 0 8 1 6 4`.**
+**Given $A =$ `0 0 9 8 7 6` and $B =$ `0 0 6 7 8 9`, we want $Z_1 =$ `0 0 6 7 0 4` and $Z_2 =$ `0 0 8 1 6 4`.**
 
 First, we break $A$ and $B$ into two 2-digit parts, and store them in separate registers. Let's call $X_H$ = first two digits of a number stored in register $X$ (higher part), and $X_L$ = last two digits of the number in $X$ (lower part). Therefore, we have:
 
@@ -110,35 +110,35 @@ Multiplying a number by a power of 10 means we decimal-shift the number to the l
 
 ![multiplication](mult.png)
 
-Breaking the addition into $M_1$ and $M_2$ registers:
+Breaking the addition into $Z_1$ and $Z_2$ registers:
 
-$M_2 = S + 100 R_L + 100 Q_L = 6764 + 9200 + 2200 =$ `0 1 8 1 6 4`
+$Z_2 = S + 100 R_L + 100 Q_L = 6764 + 9200 + 2200 =$ `0 1 8 1 6 4`
 
-$M_1 = R_H + Q_H + P = 50 + 87 + 6566 =$ `0 0 6 7 0 3`
+$Z_1 = R_H + Q_H + P = 50 + 87 + 6566 =$ `0 0 6 7 0 3`
 
-Notice that in this example, $M_2$ register no longer starts with `0 0`: we have an overflow, which we want to bring from $M_2$ to $M_1$. Doing so, we get the final result:
+Notice that in this example, $Z_2$ register no longer starts with `0 0`: we have an overflow, which we want to bring from $Z_2$ to $Z_1$. Doing so, we get the final result:
 
-$M_1 =$ `0 0 6 7 0 4`, $M_2 =$ `0 0 8 1 6 4`.
+$Z_1 =$ `0 0 6 7 0 4`, $Z_2 =$ `0 0 8 1 6 4`.
 
-This illustrates what we want to do with our `Float316` mantissas, except we work in binary and with more digits/bits. We have 16 digit registers with 14 significant binary digits (the first two bits are zero because we start with normalized numbers), so we break them into 7 digit parts first, do our magic, and keeping the $M_1$ part as the new mantissa. We throw away the $M_2$ part as truncation.
+This illustrates what we want to do with our `Float316` mantissas, except we work in binary and with more digits/bits. We have 16 digit registers with 14 significant binary digits (the first two bits are zero because we start with normalized numbers), so we break them into 7 digit parts first, do our magic, and keeping the $Z_1$ part as the new mantissa. We throw away the $Z_2$ part as truncation.
 
 **But what about the decimal point?**
 
-Our mantissa contains a virtual binary point: `0011001(...)` actually means `001.1001(...)`. Let's look at our example again, but with a decimal point after the third digit (first significant digit): Let's interpret $A =$ `0 0 9 8 7 6` as $9.876$. Similarly, $B =$ `0 0 6 7 8 9` is $6.789$. After our calculations, $M_1$ register still contains `0 0 6 7 0 4`, since we do everything exactly the same way. But we cannot interpret the result as $6.704$! Instead, it should be $67.04$ (as the true value of $9.876 \cdot 6.789 = 67.048164$). The decimal point shifted by one. (Think about it why!) To fix it, we have to adjust the exponent by subtracting 1.
+Our mantissa contains a virtual binary point: `0011001(...)` actually means `001.1001(...)`. Let's look at our example again, but with a decimal point after the third digit (first significant digit): Let's interpret $A =$ `0 0 9 8 7 6` as $9.876$. Similarly, $B =$ `0 0 6 7 8 9` is $6.789$. After our calculations, $Z_1$ register still contains `0 0 6 7 0 4`, since we do everything exactly the same way. But we cannot interpret the result as $6.704$! Instead, it should be $67.04$ (as the true value of $9.876 \cdot 6.789 = 67.048164$). The decimal point shifted by one. (Think about it why!) To fix it, we have to adjust the exponent by subtracting 1.
 
-One final note: in the actual implementation of the `Float316` multiplication, we drop every calculation that is related to $M_2$, since we don't use it anyway. We lose some precision though: as we saw in the example, an overflow in $M_2$ modifies the last digit/bit of $M_1$. But we can make this sacrifice in order to speed up the computation!
+One final note: in the actual implementation of the `Float316` multiplication, we drop every calculation that is related to $Z_2$, since we don't use it anyway. We lose some precision though: as we saw in the example, an overflow in $Z_2$ modifies the last digit/bit of $Z_1$. But we can make this sacrifice in order to speed up the computation!
 
 Finally, let's sum up the steps of the multiplication!
 
 1. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
 2. If one of the numbers represents zero, return with $0$.
 3. If one of the numbers represents $\pm 1.0$, return with the other number with the new sign.
-4. The result has the exponent $e_1 + e_2 - 127 + 1$.
-5. For the mantissa:
+4. The result has the exponent $E = E_1 + E_2 - 127 + 1$.
+5. For the mantissa $M$:
     1) If $X_H$ denotes the higher 7 bits ($X / 128$), and $X_L$ is the lower 7 bits ($X ~ \\& ~ 127$) of an integer $X$, then let:
-    2) $P = m_{1H} \cdot m_{2H}$,
-    3) $Q = m_{1H} \cdot m_{2L}$,
-    4) $R = m_{1L} \cdot m_{2H}$.
+    2) $P = M_{1H} \cdot M_{2H}$,
+    3) $Q = M_{1H} \cdot M_{2L}$,
+    4) $R = M_{1L} \cdot M_{2H}$.
     5) The final mantissa is $P + Q_H + R_H$.
 6. Normalize the final number.
 
