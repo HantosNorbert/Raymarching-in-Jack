@@ -52,9 +52,9 @@ The main steps are:
 Example: add `1, 129, 10752` ($-5.25$) and `0, 127, 12288` ($1.5$).
 
 `Bigger`: `1, 129, 10752`, `Smaller`: `0, 127, 12288`.
-Sign of result: $1$, exponent of result: $129$ (encodes $e=2$).
+Sign of result: $1$, exponent of result: $E = 129$ (encodes $e=2$).
 Denormalize `Smaller`: now it becomes `0, 129, 3072` (exponent increased by $2$, mantissa halved twice).
-Signs are different: mantissa of the result is $10752 - 3072 = 7680$.
+Signs are different: mantissa of the result is $M = 10752 - 3072 = 7680$.
 Resulted number is: `1, 129, 7680`.
 After normalization: `1, 128, 15360` (exponent decreased by $1$, mantissa doubled).
 
@@ -66,9 +66,11 @@ Change the sign of the second number and do addition. Duh!
 
 ##  Multiplication of `Float316` Numbers
 
-This is gonna be a bumpy ride. At first glance it seems easy: if we multiply $m_1 \cdot 2^{e_1}$ and $m_2 \cdot 2^{e_2}$, we get $m_1 m_2 \cdot 2^{e_1 + e_2}$. We just have to add the exponents and multiply the mantissas!
+This is gonna be a bumpy ride. At first glance it seems easy: if we multiply $m_1 \cdot 2^{e_1}$ and $m_2 \cdot 2^{e_2}$, we get $m_1 m_2 \cdot 2^{e_1 + e_2}$ (again, handling the sign independently from the rest of the calculation). We just have to add the exponents and multiply the mantissas!
 
-The smaller caveat is that both exponents contain the extra bias of $127$. Adding them means we have double bias, so we have to subtract it once: the new exponent is $e_1 + e_2 - 127$.
+The smaller caveat is that both exponents contain the extra bias of $127$. Adding them means we have double bias, so we have to subtract it once:
+
+$$E = e - 127 = (e_1 + e_2) - 127 = (E_1 - 127 + E_2 - 127) - 127 = E_1 + E_2 - 127$$
 
 The sign is also easy: $(s_1 + s_2) ~ \text{mod} ~ 2$. Or, since we don't have a `mod` function, $(s_1 + s_2) ~ \\& ~ 1$.
 
