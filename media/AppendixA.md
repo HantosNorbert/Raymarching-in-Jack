@@ -146,7 +146,7 @@ If you reached this point, congratulations! This was probably the hardest part. 
 
 ##  Division of `Float316` Numbers
 
-This will be surprisingly easy after multiplication (though the algorithm itself slower!). Dividing $m_1 \cdot 2^{e_1}$ by $m_2 \cdot 2^{e_2}$ gives $\frac{m_1}{m_2} \cdot 2^{e_1 - e_2}$.
+This will be surprisingly easy after multiplication (though the algorithm itself is slower!). Dividing $m_1 \cdot 2^{e_1}$ by $m_2 \cdot 2^{e_2}$ gives $\frac{m_1}{m_2} \cdot 2^{e_1 - e_2}$.
 
 Sign is simple: $(s_1 + s_2) ~ \\& ~ 1$.
 
