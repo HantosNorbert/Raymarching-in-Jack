@@ -44,7 +44,7 @@ This is the result of my efforts to build a **raymarcher**.
 
 &nbsp;
 
-![raytrace diagram](media/raytracing_diagram.png)
+![raytrace diagram](media/raytracing_diagram.jpg)
 
 *Raytracing illustrated. Source: Wikipedia*
 
