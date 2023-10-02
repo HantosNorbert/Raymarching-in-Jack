@@ -12,9 +12,9 @@
 
 1. Donwload the essential materials from [https://www.nand2tetris.org/software](https://www.nand2tetris.org/software).
 2. Using the provided JackCompiler, compile the `Jack` folder of this project (for each .jack file it will generate the corresponding .vm file).
-3. Using the provided VMEmulator, load the Jack folder (now containing the .vm files).
-4. Don't forget to set the "Animation" to "No animate", and set the speed marker slide to "Fast".
-5. Wait about 10 hours for the image to appear. :-) You should see it building pixel-by-pixel.
+3. Using the provided VMEmulator, load the Jack folder (now containing the .vm files). Say "yes" when it asks about using the built-in OS implementation.
+4. On the top side of the VMEmulator, set the "Animate" option to "No animation", and set the speed slide to "Fast".
+5. Hit the "Run" button and wait about 10 hours for the image to appear. :-) You should see it building pixel-by-pixel.
 
 ### The Python code (with custom `Float316` type)
 
@@ -101,7 +101,7 @@ The first version was created with [Shadertoy](https://www.shadertoy.com/), an o
 
 ![grayscale](media/grayscale.png)
 
-*The grayscale prototype image created with Shadertoy. To speed up the computation for Jack/Hack, some parameters are fine-tuned but had an odd visual effect. For example, the curved horizon is due to the low visibility distance threshold*
+*The grayscale prototype image created with Shadertoy. To speed up the computation for Jack/Hack, some parameters are fine-tuned but have an odd visual effect. For example, the curved horizon is due to the low visibility distance threshold*
 
 &nbsp;
 
