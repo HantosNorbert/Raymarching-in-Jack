@@ -44,7 +44,7 @@ The main steps are:
 1. Let's call the number `Bigger` which is bigger in absolute terms (ignoring the sign bit), the other will be `Smaller`.
 2. If `Smaller` represents a zero (exponent and mantissa are $0$), return with `Bigger` ($x + 0 = x$).
 3. If `Bigger` and `Smaller` is the same but with different signs, return with $0$ ($x + -x = 0$).
-4. Denormalize `Smaller` until its exponent matches the the exponent of `Bigger`.
+4. Denormalize `Smaller` until its exponent matches the exponent of `Bigger`.
 5. If the signs are the same, add the two mantissas. If the signs are different, subtract the `Smaller` mantissa from the `Bigger` mantissa (this never underflows by the way). This is the result mantissa.
 6. The result has the same sign and exponent as `Bigger`.
 7. Normalize the result.
@@ -130,7 +130,7 @@ One final note: in the actual implementation of the `Float316` multiplication, w
 
 Finally, let's sum up the steps of the multiplication!
 
-1. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
+1. The result has the sign of $(s_1 + s_2) ~ \\& ~ 1$.
 2. If one of the numbers represents zero, return with $0$.
 3. If one of the numbers represents $\pm 1.0$, return with the other number with the new sign.
 4. The result has the exponent $E = E_1 + E_2 - 127 + 1$.
@@ -177,7 +177,7 @@ In binary we do the same with the mantissas, except we have an even easier job: 
 To sum up:
 1. If the first number represents zero, return with $0$.
 2. If the second number represents a zero, **panic**[^2].
-3. The result has the sign of $(s1 + s2) ~ \\& ~ 1$.
+3. The result has the sign of $(s_1 + s_2) ~ \\& ~ 1$.
 4. The result has the exponent $E_1 - E_2 + 127$.
 5. For the mantissa $M$:
     1) Set the bit index to $i = 13$ (the first significant bit of $M$).
