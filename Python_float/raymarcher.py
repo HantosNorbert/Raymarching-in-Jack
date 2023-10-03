@@ -96,15 +96,15 @@ def sdSphere(p: Vec3, r: float, offset: Vec3, col: float) -> Surface:
 
 
 def sdTorus(p: Vec3, r1: float, r2: float, offset: Vec3, col: float) -> Surface:
-  p = p - offset
-  d1 = length2(p.x, p.z) - r1
-  d2 = length2(d1, p.y) - r2
-  return Surface(d2, col)
+    p = p - offset
+    d1 = length2(p.x, p.z) - r1
+    d2 = length2(d1, p.y) - r2
+    return Surface(d2, col)
 
 
 def sdFloor(p: Vec3, col: float) -> Surface:
-  d = p.y + 1.0
-  return Surface(d, col)
+    d = p.y + 1.0
+    return Surface(d, col)
 
 
 def unionSDF(obj1: Surface, obj2: Surface) -> Surface:
