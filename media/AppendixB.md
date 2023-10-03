@@ -64,6 +64,26 @@ in the `Parameters.py` file.
 
 &nbsp;
 
+![result position change](result_pos_change.png)
+
+We can even change the position of the objects. The sphere was moved from $(-1.5, 0, 0)$ to $(0, 0, 0)$, and the torus from $(1.5, 0, 0)$ to $(0, -0.25, 0)$. In the Python code, we changed the lines
+
+`PARAM_spherePos = Vec3(Float316(1, 127, 12288), Float316(0, 0, 0), Float316(0, 0, 0))`
+
+`PARAM_torusPos =  Vec3(Float316(0, 127, 12288), Float316(0, 0, 0), Float316(0, 0, 0))`
+
+to
+
+`PARAM_spherePos = Vec3(Float316(0, 0, 0), Float316(0, 0, 0), Float316(0, 0, 0))`
+
+`PARAM_torusPos =  Vec3(Float316(0, 0, 0), Float316(1, 125, 8192), Float316(0, 0, 0))`
+
+in the `Parameters.py` file.
+
+&nbsp;
+
+&nbsp;
+
 ![colorful](colorful.png)
 
 A step towards reality: colors, texture and [displacement mapping](https://en.wikipedia.org/wiki/Displacement_mapping) on the sphere, reflective surface on the torus, soft shadows, fog effect. Too bad it's above the Hack machine's paygrade! See https://www.shadertoy.com/view/csVyz1 in animation.
