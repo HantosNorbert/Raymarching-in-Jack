@@ -5,6 +5,49 @@
 // ################################################################################
 
 class Main {
+    function void showText() {
+        var char key;
+        var boolean exit;
+        
+        do Output.moveCursor(1, 23);
+        do Output.printString("RAYMARCHING IN JACK");
+        do Output.moveCursor(2, 31);
+        do Output.printString("by");
+        do Output.moveCursor(3, 25);
+        do Output.printString("NORBERT HANTOS");
+        do Output.moveCursor(6, 7);
+        do Output.printString("This is a raytracer/raymarcher program that creates");
+        do Output.moveCursor(7, 19);
+        do Output.printString("a 'photo-realistic' image.");
+        do Output.moveCursor(9, 6);
+        do Output.printString("However, the entire render process takes many hours.");
+        do Output.moveCursor(11, 9);
+        do Output.printString("Either be patient, or visit the following link");
+        do Output.moveCursor(12, 7);
+        do Output.printString("to see the result, a faster Python implementation,");
+        do Output.moveCursor(13, 8);        
+        do Output.printString("and generally more information about the project.");
+        do Output.moveCursor(16, 6);
+        do Output.printString("https://github.com/HantosNorbert/Raymarching-in-Jack/");
+        do Output.moveCursor(19, 9);
+        do Output.printString("If you wish to continue, you can see the image");
+        do Output.moveCursor(20, 20);
+        do Output.printString("emerging pixel-by-pixel.");
+        do Output.moveCursor(22, 17);
+        do Output.printString("Press SPACE to begin rendering.");
+        
+        while (~exit) {
+            // wait for a key to be pressed
+            while (key = 0) { let key = Keyboard.keyPressed(); }
+            if (key = 32)  { let exit = true; }  // Space key
+            // wait for the key to be released
+            while (~(key = 0)) { let key = Keyboard.keyPressed(); }
+        }
+
+        do Screen.clearScreen();
+        return;
+    }
+    
     function void main() {
         // initialization order matters!
         do TwoToThePower.init();
@@ -17,6 +60,8 @@ class Main {
         do CalcPixel.init();
         do Dither.init();
         do ImageRenderer.init();
+        
+        do Main.showText();
         
         // take a deep breath...
         do ImageRenderer.render();        
