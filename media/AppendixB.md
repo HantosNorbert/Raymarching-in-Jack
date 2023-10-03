@@ -64,16 +64,6 @@ in the `Parameters.py` file.
 
 &nbsp;
 
-![result sd change](result_sd_change.png)
-
-"How many toruses do you want?"  "YES."
-
-This happens when we apply the infinite repetition trick on the $\text{SDF}$, see [here](https://iquilezles.org/articles/distfunctions/). The floor, the sphere, and shadow rays are turned off.
-
-&nbsp;
-
-&nbsp;
-
 ![result position change](result_pos_change.png)
 
 We can even change the position of the objects. The sphere was moved from $(-1.5, 0, 0)$ to $(0, 0, 0)$, and the torus from $(1.5, 0, 0)$ to $(0, -0.25, 0)$. In the Python code, we changed the lines
@@ -89,6 +79,16 @@ to
 `PARAM_torusPos =  Vec3(Float316(0, 0, 0), Float316(1, 125, 8192), Float316(0, 0, 0))`
 
 in the `Parameters.py` file.
+
+&nbsp;
+
+&nbsp;
+
+![result sd change](result_sd_change.png)
+
+"How many toruses do you want?"  "YES."
+
+This happens when we apply the infinite repetition trick on the $\text{SDF}$, see [here](https://iquilezles.org/articles/distfunctions/). The floor, the sphere, and shadow rays are turned off.
 
 &nbsp;
 
