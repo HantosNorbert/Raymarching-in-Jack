@@ -6,6 +6,8 @@
 
 &nbsp;
 
+Check out the [Gallery](media/AppendixB.md) for some interesting variations!
+
 ## How to run the applications
 
 ### The Jack code
