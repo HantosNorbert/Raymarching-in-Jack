@@ -443,7 +443,18 @@ But on the Hack machine, every pixel is either black or white. What we need is c
 
 ![ordered](https://upload.wikimedia.org/wikipedia/commons/e/ef/Michelangelo%27s_David_-_Bayer.png)
 
-I implemented that with an $8 \times 8$ threshold map.
+I implemented that with an $8 \times 8$ threshold map. Basically, we adjust the value of a pixel at position $(i, j)$ by adding $M[i ~ \text{mod} ~ 8, j ~ \text{mod} ~ 8]$ to it, where $M$ is the threshold map:
+
+$$M = \frac{1}{64} {\begin{pmatrix}  
+ 0 & 32 &  8 & 40 &  2 & 34 & 10 & 42 \\
+48 & 16 & 56 & 24 & 50 & 18 & 58 & 26 \\
+12 & 44 &  4 & 36 & 14 & 46 &  6 & 38 \\
+60 & 28 & 52 & 20 & 62 & 30 & 54 & 22 \\
+ 3 & 35 & 11 & 43 &  1 & 33 &  9 & 41 \\
+51 & 19 & 59 & 27 & 49 & 17 & 57 & 25 \\
+15 & 47 &  7 & 39 & 13 & 45 &  5 & 37 \\
+63 & 31 & 55 & 23 & 61 & 29 & 53 & 21
+\end{pmatrix} - 0.5$$
 
 ## Render the Image
 
