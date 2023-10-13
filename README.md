@@ -445,7 +445,7 @@ But on the Hack machine, every pixel is either black or white. What we need is c
 
 I implemented that with an $8 \times 8$ threshold map. Basically, we adjust the value of a pixel at position $(i, j)$ by adding $M[i ~ \text{mod} ~ 8, j ~ \text{mod} ~ 8]$ to it, where $M$ is the threshold map:
 
-$$M = \frac{1}{64} \begin{pmatrix}  
+$$M = \frac{1}{64} \times \begin{pmatrix}  
  0 & 32 &  8 & 40 &  2 & 34 & 10 & 42 \\
 48 & 16 & 56 & 24 & 50 & 18 & 58 & 26 \\
 12 & 44 &  4 & 36 & 14 & 46 &  6 & 38 \\
@@ -455,6 +455,8 @@ $$M = \frac{1}{64} \begin{pmatrix}
 15 & 47 &  7 & 39 & 13 & 45 &  5 & 37 \\
 63 & 31 & 55 & 23 & 61 & 29 & 53 & 21
 \end{pmatrix} - 0.5$$
+
+If the modified value of the pixel is more than $0.5$, we color it white. Otherwise, we color it black.
 
 ## Render the Image
 
