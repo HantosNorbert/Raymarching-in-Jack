@@ -50,7 +50,7 @@ The same image with ordered dithering, but with a resolution of $1920 \times 108
 
 ![result camera change](result_cam_change.png)
 
-Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$. In the Python code changes our view on the world. In the code, it means we swap the line
+Changing the camera position from $(0, 1.5, 4)$ to $(4, 3, 4)$ changes our view on the world. In the Python code, it means we swap the line
 
 `PARAM_cameraPos = Vec3(Float316(0, 0, 0), Float316(0, 127, 12288), Float316(0, 129, 8192))`
 
