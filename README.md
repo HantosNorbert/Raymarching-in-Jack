@@ -127,7 +127,7 @@ There are basically two ways to represent real numbers: in fixed point notation,
 
 The sign is a single bit: $s=0$ means the number is positive, $s=1$ means it's negative.
 
-The exponent can be interpreted as an unsigned integer, and to avoid negative numbers, they add a constant of $127$ to it. So, while the binary number `01111100` is $E = 124$ in decimal, it actually means an exponent of $e = -3$ To avoid confusion, I'm going to denote the exponent as either $E$ or $e$, depending on whenever I talk about the raw bit string interpreted as an integer, or the actual unbiased number it represents.
+The exponent can be interpreted as an unsigned integer, and to avoid negative numbers, they add a constant of $127$ to it. So, while the binary number `01111100` is $E = 124$ in decimal, it actually means an exponent of $e = -3$. To avoid confusion, I'm going to denote the exponent as either $E$ or $e$, depending on whenever I talk about the raw bit string interpreted as an integer, or the actual unbiased number it represents.
 
 The mantissa includes 23 fraction bits to the right of the binary point. The first bit indicates whenever we have $\frac{1}{2}$, the second bit is for $\frac{1}{4}$, then $\frac{1}{8}$, $\frac{1}{16}$, and so on (the negative powers of $2$). A mantissa of `010110...` can be interpreted as $m = \frac{1}{4} + \frac{1}{16} + \frac{1}{32} + \dots$ Similarly to the exponent, we can interpret the bit string as a decimal number as well. In that case, we denote it as $M$. So a bit string of `01011000000000000000000` means $M = 2883584$ and $m = 0.34375$.
 
