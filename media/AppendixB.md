@@ -40,6 +40,22 @@ The final image we produce, with an $8 \times 8$ ordered dithering.
 
 &nbsp;
 
+![result_4x4](dither_4x4.png)
+
+The same image but with a $4 \times 4$ ordered dithering.
+
+&nbsp;
+
+&nbsp;
+
+![result_2x2](dither_2x2.png)
+
+A $2 \times 2$ ordered dithering is only slightly better than a simple threshold.
+
+&nbsp;
+
+&nbsp;
+
 ![ordered dither big](ordered_dither_big.png)
 
 The same image with ordered dithering, but with a resolution of $1920 \times 1080$. Open the image separately to see in its full glory!
