@@ -34,15 +34,17 @@ Check out the [Gallery](media/AppendixB.md) for some interesting variations!
 
 ## Introduction
 
-The online course [From Nand to Tetris](https://www.nand2tetris.org/) is an excellent lecture about building a general-purpose computer system from the most basic building components: [NAND gates](https://en.wikipedia.org/wiki/NAND_gate). It is based on the book *The Elements of Computing Systems: Building a Modern Computer from First Principles* created by the same authors, and has two major parts. Part 1 is all about the hardware they call the Hack Machine; while Part 2 is about software architecture: it shows how to build a two-pass compiler, where the course introduces a high-level general-purpose, object-oriented(-ish) language called the Jack language.
+The online course [From Nand to Tetris](https://www.nand2tetris.org/) is an excellent lecture about building a general-purpose computer system from the most basic building components: [NAND gates](https://en.wikipedia.org/wiki/NAND_gate). It is based on the book *The Elements of Computing Systems: Building a Modern Computer from First Principles* created by the same authors, and has two major parts. Part 1 is all about the hardware they call the Hack Machine; while Part 2 is about software architecture: it shows how to build a two-pass compiler, where the course introduces a high-level general-purpose, object-oriented(-ish)[^1] language called the Jack language.
+
+[^1]: The Jack language is actually an object-based language, since inheritance and subtyping are not supported. However, it still uses the idea of encapsulating state and operations inside objects.
 
 Though the focus of the lectures of Part 2 is building the compiler and a simplified operating system, one of the homework assignments they give you is to develop an application of your choice in Jack.
 
 This is the result of my efforts to build a **raymarcher**.
 
-[Raymarching](https://en.wikipedia.org/wiki/Ray_marching) is a class of 3D rendering methods. It fells into the cathegory of [raytracing](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)), a family of such methods where light rays are virtually traced through a scene to determine the color of a pixel on the screen.[^1]
+[Raymarching](https://en.wikipedia.org/wiki/Ray_marching) is a class of 3D rendering methods. It fells into the cathegory of [raytracing](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)), a family of such methods where light rays are virtually traced through a scene to determine the color of a pixel on the screen.[^2]
 
-[^1]: Strictly speaking, raytracing is a technique for computing the visibility between points. It is the shader that ultimately determines the final color of a specific pixel; but they are so closely related, I call the whole package as a raytracer.
+[^2]: Strictly speaking, raytracing is a technique for computing the visibility between points. It is the shader that ultimately determines the final color of a specific pixel; but they are so closely related, I call the whole package as a raytracer.
 
 &nbsp;
 
@@ -62,9 +64,9 @@ With raytracing you can create cool looking images with different effects such a
 
 &nbsp;
 
-Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible![^2]
+Though a simple raymarcher/raytracer can be done in a few dozens lines of code in most commercial programming languages, in Jack it is a quite difficult task due to the constraints of the language. But it is surely not impossible![^3]
 
-[^2]: It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already started to work on my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but *knowing it is possible* kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
+[^3]: It is worth mentioning that this is not the first raytracing program in Jack. **Alex Quach already created such a program** (go check it out [here!](https://blog.alexqua.ch/posts/from-nand-to-raytracer/)). However, I only noticed this after I already started to work on my own raytracer. To minimize the temptation of stealing ideas, I didn't read Alex's blog during my work - but *knowing it is possible* kept me motivated the entire time. And I'm glad that in the end our solutions turned out to be so different! :-)
 
 ## Challenges in Jack/Hack
 
@@ -384,9 +386,9 @@ The following image illustrates this process. Each circle has a radius of $\text
 
 Raymarching can also be used to detect whenever a surface point is in the shadow of an object. We use the same algorithm again, but this time the ray origin is the surface point $P$ itself, and the direction is the light source. If we reach the light source before we hit another surface point, we are in the light. Otherwise, we hit something - $P$ must be in the shadow of that object!
 
-You can read more about shadow rays [here](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/ligth-and-shadows.html). Just don't forget the *shadow-acne!*[^3]
+You can read more about shadow rays [here](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/ligth-and-shadows.html). Just don't forget the *shadow-acne!*[^4]
 
-[^3]: Shadow-acne is caused by numerical precision errors: the shadow ray origin is below the surface from which the ray is cast, causing a self-intersection. A common solution is to move the shadow ray origin slightly above the surface by displacing the point in the direction of the normal vector by a slight amount. See the link provided for more.
+[^4]: Shadow-acne is caused by numerical precision errors: the shadow ray origin is below the surface from which the ray is cast, causing a self-intersection. A common solution is to move the shadow ray origin slightly above the surface by displacing the point in the direction of the normal vector by a slight amount. See the link provided for more.
 
 ## View Matrix
 
