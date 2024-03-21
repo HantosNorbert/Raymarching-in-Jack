@@ -119,7 +119,7 @@ So, let's see the gory details!
 
 There are basically two ways to represent real numbers: in fixed point notation, there are a fixed number of digits after the decimal point, whereas floating-point number allows for a varying number of digits after the decimal point. Both has its advantages and disadvantages, so after some consideration, I went with floating-points.
 
-[IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) is one of the best known representation of such numbers. It uses 32 bits to encode 3 parts: a sign (1 bit), a mantissa (8 bits), and an exponent (23 bits) in this order.
+[IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) is one of the best known representation of such numbers. It uses 32 bits to encode 3 parts: a sign (1 bit), an exponent (8 bits), and a mantissa (23 bits; also called the fraction) in this order.
 
 &nbsp;
 
