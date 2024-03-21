@@ -189,7 +189,7 @@ To sum up:
 
 ##  Floor and Modulo 2 of `Float316` Numbers
 
-The main reason we need these is for the checkerboard pattern of the floor in the final scene, so they are not super important. But their implementation is fairly simple. If you set every bit from the $n$-th position in the mantissa to zero (counting from the least significant bit being at position $0$), you will end up with an integer. And if you peek at the bit one position before $n$, you will know if it's even or odd. And what is the value of $n$? That depends on the exponent!
+The main reason we need these is for the checkerboard pattern of the floor in the final scene, so they are not super important. But their implementation is fairly simple. If you set every bit up to the $n$-th position in the mantissa to zero (counting from the least significant bit being at position $0$), you will end up with an integer. And if you peek at the bit one position before $n$, you will know if it's even or odd. And what is the value of $n$? That depends on the exponent!
 
 Go to [this handy tool](https://www.h-schmidt.net/FloatConverter/IEEE754.html) or any similar application that let you show IEEE 754 float numbers, and start to write in integers. Can you see the pattern? `Float316` works the same way, just don't forget that the mantissa is padded with `001`.
 
