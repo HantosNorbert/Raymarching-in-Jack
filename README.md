@@ -392,7 +392,9 @@ You can read more about shadow rays [here](https://www.scratchapixel.com/lessons
 
 ## View Matrix
 
-In order to cast rays, we need a ray origin and a ray direction. The ray origin is defined at some coordinates in the world. But the ray direction is trickier: the virtual screen is in front of the camera, with each pixel representing a direction - but the overall camera has a direction too. So we need to transform the direction of the ray accordingly. Hence, the view matrix.
+In order to cast rays, we need a ray origin and a ray direction for each pixel. If the camera is sitting at the origin and looks towards the negative Z direction, then it is easy: for every pixel the ray origin is the origin of the coordinate system; and the ray direction is $(u, v, -1)$ with a normalization step after, where $u$ and $v$ are based in the pixel coordinate $(x, y)$. We want the center of the screen to point towards the $(0, 0, -1)$ direction, and normlaize our window to be in the $(-1, 1)$ range horizontally, and $-0.5, 0.5$ range vertically. So, $u = (x - 0.5*512) / 256$ and $v = -(y - 0.5*256) / 256$ for our screen size of $256 \times 512$.
+
+But what if we want to move the camera and point it elsewhere. In that case, we have to transform every ray in the same way. Basically we want to define a camera origin point and a so called "look-at-point": a point in the world we aim our camera at. From that, we want to determine a transformation matrix that we're gonna use for all the original $(0, 0, 0$) ray origins and $(u, v, -1)$ ray directions. Hence, the view matrix.
 
 &nbsp;
 
@@ -402,7 +404,7 @@ In order to cast rays, we need a ray origin and a ray direction. The ray origin 
 
 &nbsp;
 
-Again, without going into the details, I just give you the result. Let's say $C$ is the camera position in the world, and $L$ is the so called "look-at-point": a point in the world we aim our camera at. We also define a **global up** direction as ${\bf G} = (0, 1, 0)$. Think of it as the direction towards the sky in the world coordinate system. Finally, let ${\bf V}_N$ denote the normalized version of some vector ${\bf V}$.
+Again, without going into the details, I just give you the result. Let's say $C$ is the camera position in the world, and $L$ is the so called "look-at-point". We also define a **global up** direction as ${\bf G} = (0, 1, 0)$. Think of it as the direction towards the sky in the world coordinate system. Finally, let ${\bf V}_N$ denote the normalized version of some vector ${\bf V}$.
 
 &nbsp;
 
