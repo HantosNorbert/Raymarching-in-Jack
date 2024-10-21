@@ -394,7 +394,7 @@ You can read more about shadow rays [here](https://www.scratchapixel.com/lessons
 
 ## View Matrix
 
-In order to cast rays, we need a ray origin and a ray direction for each pixel. If the camera is sitting at the origin and looks towards the negative Z direction, then it is easy: for every pixel the ray origin is the origin of the coordinate system; and the ray direction is $(u, v, -1)$ with a normalization step after, where $u$ and $v$ are based in the pixel coordinate $(x, y)$. We want the center of the screen to point towards the $(0, 0, -1)$ direction, and normalize our window to be in the $(-1, 1)$ range horizontally, and $(-0.5, 0.5)$ range vertically. So, $u = (x - 256) / 256$ and $v = -(y - 128) / 256$ for our screen size of $512 \times 256$.
+In order to cast rays, we need a ray origin and a ray direction for each pixel. If the camera is sitting at the origin and looks towards the negative $z$ direction, then it is easy: for every pixel the ray origin is the origin of the coordinate system; and the ray direction is $(u, v, -1)$ with a normalization step after, where $u$ and $v$ are based in the pixel coordinate $(x, y)$. We want the center of the screen to point towards the $(0, 0, -1)$ direction, and normalize our window to be in the $(-1, 1)$ range horizontally, and $(-0.5, 0.5)$ range vertically. So, $u = (x - 256) / 256$ and $v = -(y - 128) / 256$ for our screen size of $512 \times 256$.
 
 But what if we want to move the camera and point it elsewhere? In that case, we have to transform every ray in the same way. Basically we want to define a camera origin point and a so called "look-at-point": a point in the world we aim our camera at. From that, we want to determine a transformation matrix that we're gonna use for all the original $(u, v, -1)$ ray directions (re-calculating the ray origin is easy: just move them to the new camera position). Hence, the view matrix.
 
@@ -416,7 +416,7 @@ Again, without going into the details, I just give you the result. Let's say $C$
 
 &nbsp;
 
-The **forward** direction vector is ${\bf F} = (C - L)_N$. Pretty straightforward. (Pun intended.) This is the $z$ direction to our camera.
+The **forward** direction vector is ${\bf F} = (C - L)_N$. Pretty straightforward. (Pun intended.) This is the $z$ direction to our camera. Remember, the camera is looking in the direction of negative $z$ in its coordinate system.
 
 The **right** direction vector is ${\bf R} = ({\bf G} \times {\bf F})_N$. A perpendicular vector to *global up* and *forward*. This is the $x$ direction to our camera.
 
