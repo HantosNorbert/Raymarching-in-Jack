@@ -82,7 +82,7 @@ In terms of creating a raymarching/raytracing software, these are the biggest ch
 
 However, Jack has a few features that comes in handy, such as class/object definition; references to objects; static (class level), field (object level) and local variables; function calls; branching and looping; and a few more. Integer multiplication, integer division and integer square root are supported by the operating system and implemented on software side.
 
-The screen of the Hack machine (and thus what is supported by the provided operating system) is $256 \times 512$. While the resolution is acceptable, we have no way to use colors or even grayscale images. But there is a solution called [dither](https://en.wikipedia.org/wiki/Dither) which allows us to mimic a grayscale image using only binary pixels.
+The screen of the Hack machine (and thus what is supported by the provided operating system) is $512 \times 256$. While the resolution is acceptable, we have no way to use colors or even grayscale images. But there is a solution called [dither](https://en.wikipedia.org/wiki/Dither) which allows us to mimic a grayscale image using only binary pixels.
 
 ## Key Implementation Steps
 
@@ -392,7 +392,7 @@ You can read more about shadow rays [here](https://www.scratchapixel.com/lessons
 
 ## View Matrix
 
-In order to cast rays, we need a ray origin and a ray direction for each pixel. If the camera is sitting at the origin and looks towards the negative Z direction, then it is easy: for every pixel the ray origin is the origin of the coordinate system; and the ray direction is $(u, v, -1)$ with a normalization step after, where $u$ and $v$ are based in the pixel coordinate $(x, y)$. We want the center of the screen to point towards the $(0, 0, -1)$ direction, and normlaize our window to be in the $(-1, 1)$ range horizontally, and $-0.5, 0.5$ range vertically. So, $u = (x - 0.5*512) / 256$ and $v = -(y - 0.5*256) / 256$ for our screen size of $256 \times 512$.
+In order to cast rays, we need a ray origin and a ray direction for each pixel. If the camera is sitting at the origin and looks towards the negative Z direction, then it is easy: for every pixel the ray origin is the origin of the coordinate system; and the ray direction is $(u, v, -1)$ with a normalization step after, where $u$ and $v$ are based in the pixel coordinate $(x, y)$. We want the center of the screen to point towards the $(0, 0, -1)$ direction, and normalize our window to be in the $(-1, 1)$ range horizontally, and $-0.5, 0.5$ range vertically. So, $u = (x - 256) / 256$ and $v = -(y - 128) / 256$ for our screen size of $512 \times 256$.
 
 But what if we want to move the camera and point it elsewhere. In that case, we have to transform every ray in the same way. Basically we want to define a camera origin point and a so called "look-at-point": a point in the world we aim our camera at. From that, we want to determine a transformation matrix that we're gonna use for all the original $(0, 0, 0$) ray origins and $(u, v, -1)$ ray directions. Hence, the view matrix.
 
