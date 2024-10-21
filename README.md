@@ -354,6 +354,8 @@ ${\bf R} = 2({\bf L} \cdot {\bf N}) {\bf N} - {\bf L}$
 
 At every step, the result of the dot product clamped between $0.0$ and $1.0$.
 
+Note that the ambient component is direction-independent (as it mimics the light scattered all around the place), the diffuse component depends only on the angle between the light source and the surface normal (but not the viewer's position; it mimics the the diffuse reflection of rough surfaces), and the specular component depends on the angle between the reflected light source and the viewer's position (it mimics how much light is reflected directly into the viewer's eye).
+
 &nbsp;
 
 ![reflection model](media/reflections.png)
