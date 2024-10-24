@@ -468,10 +468,10 @@ If the modified value of the pixel is more than $0.5$, we color it white. Otherw
 
 Now that everything is ready and implemented, let's put together our main algorithm:
 
-We have a few parameters predefined: the camera position, the view matrix (calculated from the camera position and the look-at point), the light source position, the basic color (shade) of the objects, the $\text{SDF}$ encoding our scene, and so on. Next, for every pixel on the image, do **Step 1** first, and then **Step 2**.
+We have a few parameters predefined: the camera position, the view matrix (calculated from the camera position and the look-at point), the light source position, the basic color (shade) of the objects, the $\text{SDF}$ encoding our scene, and so on. Next, for every pixel on the image at screen coordinate $(x,y)$, do **Step 1** first, and then **Step 2**.
 
-**Step 1**: calculate the color intensity (shade) of a pixel.
-1. Calculate the normalized pixel coordinates: $u$ axis goes from $-1.0$ to $1.0$, $v$ axis goes from $-0.5$ to $0.5$; $u$ and $v$ are calculated from the pixel positions $x$ and $y$.
+**Step 1**: calculate the color intensity (shade) of the pixel.
+1. Calculate the normalized pixel coordinates: $u$ axis goes from $-1.0$ to $1.0$, $v$ axis goes from $-0.5$ to $0.5$; $u$ and $v$ are calculated from $x$ and $y$.
 2. The ray origin $R_o$ is the camera position.
 3. The ray direction $R_d$ goes from the camera center point towards the normalized pixel position in the negative $z$ direction: $R_d = (u, v, -1)_N$; $R_d$ is then multiplied by the view matrix.
 4. Use the raymarching algorithm to cast a ray from $R_o$ with the direction $R_d$: this uses our $\text{SDF}$ function to search for a surface point $P$.
@@ -482,7 +482,7 @@ We have a few parameters predefined: the camera position, the view matrix (calcu
 
 **Step 2**: dithering.
 
-1. A pixel value $v$ at screen coordinates $(x, y)$ is adjusted by the ordered dithering threshold map according to $x ~ \text{mod} ~ 8$ and $y ~ \text{mod} ~ 8$.
+1. A pixel value $v$ at screen coordinate $(x, y)$ is adjusted by the ordered dithering threshold map according to $x ~ \text{mod} ~ 8$ and $y ~ \text{mod} ~ 8$.
 3. Finally, if $v > 0.5$, we color the pixel white. Else, it's black.
 
 On the Hack emulator it looked like this:
