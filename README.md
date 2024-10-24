@@ -394,7 +394,7 @@ You can read more about shadow rays [here](https://www.scratchapixel.com/lessons
 
 ## View Matrix
 
-In order to cast rays, we need a ray origin and a ray direction for each pixel. If the camera is sitting at the origin and looks towards the negative $z$ direction, then it is easy: for every pixel the ray origin is the origin of the coordinate system; and the ray direction is $(u, v, -1)$ with a normalization step after, where $u$ and $v$ are based in the pixel coordinate $(x, y)$. We want the center of the screen to point towards the $(0, 0, -1)$ direction, and normalize our window to be in the $(-1, 1)$ range horizontally, and $(-0.5, 0.5)$ range vertically. So, $u = (x - 256) / 256$ and $v = -(y - 128) / 256$ for our screen size of $512 \times 256$.
+In order to cast rays, we need a ray origin and a ray direction for each pixel. If the camera is sitting at the origin and looks towards the negative $z$ direction, then it is easy: for every pixel the ray origin is the origin of the coordinate system; and the ray direction is $(u, v, -1)$ with a normalization step after, where $u$ and $v$ are based on the pixel coordinate $(x, y)$. We want the center of the screen to point towards the $(0, 0, -1)$ direction, and normalize our window to be in the $(-1, 1)$ range horizontally, and $(-0.5, 0.5)$ range vertically. So, $u = (x - 256) / 256$ and $v = -(y - 128) / 256$ for our screen size of $512 \times 256$.
 
 But what if we want to move the camera and point it elsewhere? In that case, we have to transform every ray in the same way. Basically we want to define a camera origin point and a so called "look-at-point": a point in the world we aim our camera at. From that, we want to determine a transformation matrix that we're gonna use for all the original $(u, v, -1)$ ray directions (re-calculating the ray origin is easy: just move them to the new camera position). Hence, the view matrix.
 
@@ -471,9 +471,9 @@ Now that everything is ready and implemented, let's put together our main algori
 We have a few parameters predefined: the camera position, the view matrix (calculated from the camera position and the look-at point), the light source position, the basic color (shade) of the objects, the $\text{SDF}$ encoding our scene, and so on. Next, for every pixel on the image, do **Step 1** first, and then **Step 2**.
 
 **Step 1**: calculate the color intensity (shade) of a pixel.
-1. Calculate the normalized pixel coordinates: $u$ axis goes from $-1.0$ to $1.0$, $y$ axis goes from $-0.5$ to $0.5$; $u$ and $v$ are calculated from the pixel positions $x$ and $y$.
+1. Calculate the normalized pixel coordinates: $u$ axis goes from $-1.0$ to $1.0$, $v$ axis goes from $-0.5$ to $0.5$; $u$ and $v$ are calculated from the pixel positions $x$ and $y$.
 2. The ray origin $R_o$ is the camera position.
-3. The ray direction $R_d$ goes from the camera center point towards the normalized pixel position $(u, v, -1)$; $R_d$ is then adjusted by the view matrix.
+3. The ray direction $R_d$ goes from the camera center point towards the normalized pixel position in the negative $z$ direction: $R_d = (u, v, -1)_N$; $R_d$ is then multiplied by the view matrix.
 4. Use the raymarching algorithm to cast a ray from $R_o$ with the direction $R_d$: this uses our $\text{SDF}$ function to search for a surface point $P$.
 5. If we didn't hit anything, the initial pixel value $v$ is a background color, and we are done here. Goto **Step 2**. Otherwise, we hit a surface, and we can ask for the object's color.
 6. Calculate the light intensity at the surface point $P$ using the Phong reflection model. This is our initial color intensity $v$ for the pixel.
